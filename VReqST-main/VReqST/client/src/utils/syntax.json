@@ -1,0 +1,16 @@
+{
+    "elements": [
+        {
+            "displayName": "If...then",
+            "editorDisplay": "if\nthen"
+        },
+        {
+            "displayName": "else",
+            "editorDisplay": "else"
+        },
+        {
+            "displayName": "else if..then",
+            "editorDisplay": "else if\nthen"
+        }
+    ]
+}

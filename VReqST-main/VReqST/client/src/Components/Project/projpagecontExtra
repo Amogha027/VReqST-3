@@ -1,0 +1,238 @@
+
+
+                    <GridItem colSpan={8}>  {/* Form box - name, decs */}
+                      <Flex py={4} alignItems={"center"} flexDir="column">
+                        <div>
+                          <Flex>
+                            Name:
+                            <FormControl
+                              paddingRight={10}
+                              paddingLeft={2}
+                            // value={rulename} onChange={(e) => { setRulename(e) }} placeholder="name"
+                            >
+                              <input
+                                value={rulename}
+                                onChange={handel_name}
+                                placeholder="  Name"
+                              ></input>
+                            </FormControl>
+                            Description:
+                            <FormControl
+                              paddingLeft={2}
+
+                            // value={description} onChange={(e) => { set_description(e) }} placeholder="description"
+                            >
+                              <input
+                                value={description}
+                                onChange={handel_description}
+                                placeholder="  Description"
+                              ></input>
+                            </FormControl>
+                          </Flex>
+                        </div>
+                      </Flex>
+                    </GridItem>
+                    <Flex>
+                    <GridItem rowSpan={4} colStart={1}> {/* Semantics box*/}
+                        <Box as="pane"
+                            bg="whitesmoke"
+                            _dark={{
+                              bg: "gray.800",
+                            }} >
+                          
+                          <Box 
+                              as="pane"
+                              zIndex="fixed"
+                              h="300px"
+                              pb="10"
+                              overflowX="hidden"
+                              overflowY="auto"
+                              bg="grey"
+                              borderColor="black"
+                              borderRightWidth="1px"
+                              w="400px"
+                            >
+                              <Flex px="4" py="5" align="center">
+                                <center>
+                                  <Text
+                                    fontSize="2xl"
+                                    ml="2"
+                                    color="white"
+                                    fontWeight="semibold"
+                                  >
+                                    Semantics
+                                  </Text>
+                                </center>
+                              </Flex>
+                              <Flex
+                                direction="column"
+                                as="nav"
+                                fontSize="md"
+                                color="white"
+                                aria-label="Main Navigation"
+                                margin={5}
+                              >
+                                {flag ? (
+                                  semantics.elements.map((p) => (
+                                    <a
+                                      onClick={() => {
+                                        setdata(data + p.editorDisplay);
+                                      }}
+                                      color="white"
+                                    >
+                                      {p.displayName}
+                                    </a>
+                                  ))
+                                ) : (
+                                  <>
+                                    <Text>No recent files...</Text>
+                                  </>
+                                )}
+                              </Flex>
+                            </Box>
+                          </Box>
+                    </GridItem>
+                          
+                    <GridItem rowSpan={6} colStart={3}> {/* Editor box*/}
+                          <Box marginRight={10} marginBottom={10}>
+                            <AceEditor
+                              fontSize={16}
+                              showPrintMargin={true}
+                              showGutter={true}
+                              highlightActiveLine={true}
+                              setOptions={{
+                                enableBasicAutocompletion: true,
+                                enableLiveAutocompletion: true,
+                                enableSnippets: false,
+                                showLineNumbers: true,
+                                tabSize: 2,
+                              }}
+                              mode="json"
+                              theme="terminal"
+                              onChange={(newvalue) => {
+                                setdata(newvalue);
+                                setDownloadable(false);
+                                fl = false;
+                              }}
+                              value={data}
+                              name="grammar-editor"
+                              wrapEnabled
+                              height={"40em"}
+                              width={"40em"}
+                            />
+                          </Box>
+                    </GridItem>
+                    <GridItem rowSpan={4} colStart={7} colEnd={8}>  {/* Conditions box*/}
+                          <Box
+                            as="pane"
+                            bg="whitesmoke"
+                            _dark={{
+                              bg: "gray.800",
+                            }}
+                          // minH="10vh"
+                          >
+                            <Box // navbar
+                              as="pane"
+                              pos="absolute"
+                              // top="150"
+                              // left="200"
+                              zIndex="fixed"
+                              h="300px"
+                              pb="10"
+                              overflowX="hidden"
+                              overflowY="auto"
+                              bg="grey"
+                              borderColor="black"
+                              borderRightWidth="1px"
+                              w="400px"
+                            >
+                              <Flex px="4" py="5" align="center">
+                                <center>
+                                  <Text
+                                    fontSize="2xl"
+                                    ml="2"
+                                    color="white"
+                                    fontWeight="semibold"
+                                  >
+                                    Conditions
+                                  </Text>
+                                </center>
+                              </Flex>
+
+                              <Flex
+                                direction="column"
+                                as="nav"
+                                fontSize="md"
+                                color="white"
+                                aria-label="Main Navigation"
+                                margin={5}
+                              >
+                                {flag ? (
+                                  rules.map((p) => (
+                                    <a
+                                      onClick={() => {
+                                        setdata(data + p);
+                                      }}
+                                      color="white"
+                                    >
+                                      {p}
+                                    </a>
+                                  ))
+                                ) : (
+                                  <>
+                                    <Text>No recent files...</Text>
+                                  </>
+                                )}
+                              </Flex>
+                            </Box>
+                          </Box>
+                    </GridItem>
+                    </Flex>
+                    <Stack py={4} direction="row">
+                          <Button
+                            colorScheme="yellow"
+                            disabled={!data || !rulename}
+                            onClick={() => {
+                              handleValidateButton();
+                              setSeed(Math.random());
+                            }}
+                          >
+                            Validate
+                          </Button>
+                          {/* <Button
+                            colorScheme="green"
+                            disabled={!downloadable}
+                            onClick={downloadTxtFile}
+                            leftIcon={<BiDownload />}
+                          >
+                            Download File
+                          </Button> */}
+                        </Stack>
+
+                        {activeStep === stepslen ? (
+                          <Flex
+                            px={4}
+                            py={4}
+                            width="100%"
+                            flexDirection="column"
+                          >
+                            <Heading fontSize="xl" textAlign="center">
+                              Woohoo! All steps completed!
+                            </Heading>
+                            <Button mx="auto" mt={6} size="sm" onClick={reset}>
+                              Reset
+                            </Button>
+                          </Flex>
+                        ) : (
+                          <Flex width="100%" justify="flex-end">
+                            <Button
+                              isDisabled={activeStep === 0}
+                              mr={4}
+                              onClick={prevStep}
+                              size="sm"
+                              variant={"outline"}
+                            >
+                              Prev
+                            </Button>
+                          </Flex>
+                        )}
