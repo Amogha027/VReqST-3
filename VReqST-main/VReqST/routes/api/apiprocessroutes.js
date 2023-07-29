@@ -344,6 +344,7 @@ const validateTokens = (tokens) => {
 //upload conditional construct
 //request body contains json data
 router.post('/upload', (req, res, next) => {
+    console.log("hi uploading");
     var stri = JSON.stringify(req.body);
     var upData = JSON.parse(stri);
     var responseJson = processUploadedFile(upData);
@@ -353,9 +354,9 @@ router.post('/upload', (req, res, next) => {
 
 //validate file
 router.post('/process', (req, res, next) => {
+    console.log("hi processing");
     console.log(req.body);
     /* parsing and lexeme logic processing */
-
     var tokens = tokenizeCode(req.body);
     console.log(tokens);
 

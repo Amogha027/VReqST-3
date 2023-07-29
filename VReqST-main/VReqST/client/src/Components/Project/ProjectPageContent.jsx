@@ -49,6 +49,8 @@ let grammarDataArray = [];
 let flag = false;
 let fl = false;
 
+// const reactAceComponent = this.refs.reactAceComponent;
+
 const tipcolors = {
   number: "orange",
   object: "green",
@@ -275,7 +277,29 @@ const ProjectPageContent = ({
   const { projectid } = useParams();
   const [rulename, setRulename] = useState("");
   const jwttoken = localStorage.getItem("jwtToken");
-  const [textPointer, setTextPointer] = useState(0);
+  const [textPointer, setTextPointer] = useState({"row": 0, "column": 0});
+
+  const [position, setPosition] = useState(0);
+  const convertPointer = (pointer, lines) => {
+    let pos = 0;
+    console.log(lines);
+    for(let i=0; i<=pointer.row - 1; i++)
+    {
+      pos += lines[i].length;
+      if(lines[i].length === 0)
+        pos+=1;
+      console.log("+",lines[i].length);
+    }
+    pos += pointer.column;
+    if(pointer.column === 0)
+      pos+=1;
+    console.log("+", pointer.column);
+    console.log(pos);
+    console.log(data);
+    console.log(data.length);
+    setPosition(pos);
+    console.log(position);
+  }
 
   // const pregrammar = async () => {
   //   const requestOptions = {
@@ -287,9 +311,9 @@ const ProjectPageContent = ({
   //   );
   // }
 
-  // document.getElementById("editor").addEventListener("click", ()=>{
-  //   setTextPointer(e.target.selectionStart);
+  // document.getElementsByName("grammar-editor")[0].addEventListener("click", ()=>{
   //   console.log("clicked");
+  //   setTextPointer(e.target.selectionStart);
   // });
   // document.getElementById("editor").addEventListener("keyup", ()=>{
   //   setTextPointer(e.target.selectionStart);
@@ -485,19 +509,19 @@ const ProjectPageContent = ({
 
     a.map((c,i)=>{
 
-      console.log(c);
+      // console.log(c);
 
       let ret1 = asset_valid(c.sourceObj, all_object_ids, 1);
       let ret2;
       if(c.targetObj[c.targetObj.length - 1] === '*' )
       {
-        console.log("yes");
+        // console.log("yes");
         ret2 = 1;
       }
       else
         ret2 = asset_valid(c.targetObj, all_object_ids, 1);
 
-      console.log("rets:", ret1, ret2);
+      // console.log("rets:", ret1, ret2);
 
       if( ret1 === -1 )
       {
@@ -511,7 +535,7 @@ const ProjectPageContent = ({
         // });
         return false;
       }
-      console.log(c.repeatactionfor.length);
+      // console.log(c.repeatactionfor.length);
       if( c.repeatactionfor !== null && c.repeatactionfor.length !== 0 && c.repeatactionfor[0] !== " ")
       {
         let repeat_assets = [];
@@ -533,11 +557,11 @@ const ProjectPageContent = ({
         if(curr_word != "" || curr_word != " " || curr_word.length != 0)
           repeat_assets.push(curr_word);
         
-        console.log(repeat_assets);
+        // console.log(repeat_assets);
 
         repeat_assets.map((word, key)=>{
           let ret = asset_valid(word, all_object_ids, 1);
-          console.log("ret", ret);
+          // console.log("ret", ret);
           if( ret === -1 )
           {
             // toast({
@@ -608,7 +632,7 @@ const ProjectPageContent = ({
   };
 
   const onValidate = async () => {
-    console.log("onValidate Entered");
+    // console.log("onValidate Entered");
     if (!isJson(data)) {
       setValidated(false);
       setDownloadable(false);
@@ -624,7 +648,7 @@ const ProjectPageContent = ({
     setDisplayErrors([]);
     errors = [];
     var myjson = JSON.parse(data);
-    console.log(myjson);
+    // console.log(myjson);
 
     // try {
     //   if (activeStep == 2) {
@@ -672,11 +696,11 @@ const ProjectPageContent = ({
     }
 
     try {
-      console.log("I am trying:", activeStep);
+      // console.log("I am trying:", activeStep);
       if (activeStep == 2) {
         try {
           {
-            console.log("Shambhaviiiiiiiiiiii");
+            // console.log("Shambhaviiiiiiiiiiii");
 
             let all_object_ids = [];
             const myobjs = JSON.parse(asset);
@@ -766,10 +790,10 @@ const ProjectPageContent = ({
           myobjs.articles.map((c,i)=>{
             all_object_ids.push(c._sid);
           })
-          console.log(all_object_ids);
+          // console.log(all_object_ids);
 
           const ret_asset = assetValidator(myjson.ObjAction, all_object_ids);
-          console.log(ret_asset);
+          // console.log(ret_asset);
           if(!ret_asset)
           {
             console.log(errors);
@@ -894,7 +918,7 @@ const ProjectPageContent = ({
 
         {
           type: "else",
-          prev: ["If", "EIf"],
+          prev: ["if", "eIf"],
           order: [["scope"]],
         },
 
@@ -948,115 +972,133 @@ const ProjectPageContent = ({
         {
           name: "If",
           type: "if",
-          conditionStart: "#",
-          conditionEnd: "#",
-          scopeStart: ":",
-          scopeEnd: "!",
+          conditionStart: "(",
+          conditionEnd: ")",
+          scopeStart: "(",
+          scopeEnd: ")",
         },
 
         {
           name: "EIf",
           type: "else-if",
-          conditionStart: "#",
-          conditionEnd: "#",
-          scopeStart: ":",
-          scopeEnd: "!",
+          conditionStart: "(",
+          conditionEnd: ")",
+          scopeStart: "(",
+          scopeEnd: ")",
           pre: ["If", "EIf"],
         },
 
         {
           name: "E",
           type: "else",
-          scopeStart: ":",
-          scopeEnd: "!",
+          scopeStart: "(",
+          scopeEnd: ")",
           pre: ["If", "EIf"],
         },
 
         {
           name: "Switch",
           type: "switch",
-          conditionStart: "#",
-          conditionEnd: "#",
+          conditionStart: "(",
+          conditionEnd: ")",
           body: "Case",
-          scopeStart: ":",
-          scopeEnd: "!",
+          scopeStart: "(",
+          scopeEnd: ")",
           "end-body": "default",
         },
 
         {
           name: "Case",
           type: "switch-case",
-          conditionStart: "#",
-          conditionEnd: "#",
-          scopeStart: ":",
-          scopeEnd: "!",
+          conditionStart: "(",
+          conditionEnd: ")",
+          scopeStart: "(",
+          scopeEnd: ")",
           parent: "Switch",
         },
 
         {
           name: "Default",
           type: "switch-case-default",
-          scopeStart: ":",
-          scopeEnd: "!",
+          scopeStart: "(",
+          scopeEnd: ")",
           parent: "Switch",
         },
 
         {
           name: "For",
           type: "for",
-          conditionStart: "#",
-          conditionEnd: "#",
+          conditionStart: "(",
+          conditionEnd: ")",
           conditionSeparator: "/",
-          scopeStart: ":",
-          scopeEnd: "!",
+          scopeStart: "(",
+          scopeEnd: ")",
         },
 
         {
           name: "While",
           type: "while",
-          conditionStart: "#",
-          conditionEnd: "#",
-          scopeStart: ":",
-          scopeEnd: "!",
+          conditionStart: "(",
+          conditionEnd: ")",
+          scopeStart: "(",
+          scopeEnd: ")",
         },
 
         {
           name: "Do",
           type: "do",
-          scopeStart: ":",
-          scopeEnd: "!",
+          scopeStart: "(",
+          scopeEnd: ")",
           next: "Do-While",
         },
 
         {
           name: "Do-While",
           type: "do-while",
-          conditionStart: "#",
-          conditionEnd: "#",
+          conditionStart: "(",
+          conditionEnd: ")",
         },
       ],
-      specialSymbols: ["#", ":", "!", "/"],
+      specialSymbols: ["#", ":", "!", "/", "(", ")"],
     });
 
-    console.log(jsonData);
+    // console.log(jsonData);
     fetch(`http://localhost:5001/api/upload`, {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
       method: "POST",
-      body: jsonData,
+      body: JSON.stringify({jsonData}),
     }).then((response) => {
+      console.log(response);
       response.json().then((val) => {
         console.log("Uploaded");
-        console.log(jsonData);
+        console.log(val);
+      })
+      .catch((err)=>{
+        console.log(err);
       });
       // console.log(`Response: ${response.json()}`)
+    })
+    .catch((err)=>{
+      console.log(err);
     });
 
+
+    console.log(code);
     fetch(`http://localhost:5001/api/process`, {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
       method: "POST",
-      body: code,
+      body: JSON.stringify({code}),
     }).then((response) => {
+      console.log(response);
       response.json().then((val) => {
         console.log("Validation response from server");
-        console.log(val);
+        console.log(val.valid);
         if (val.valid) {
           onValidate2();
         } else {
@@ -1072,7 +1114,13 @@ const ProjectPageContent = ({
 
           return;
         }
+      })
+      .catch((err)=>{
+        console.log(err);
       });
+    })
+    .catch((err)=>{
+      console.log(err);
     });
   };
 
@@ -1280,26 +1328,37 @@ const ProjectPageContent = ({
                   mode="json"
                   theme="terminal"
                   onChange={(newvalue, event) => {
+                    console.log(event);
                     setdata(newvalue);
                     console.log(data);
-                    setTextPointer(event.target.selectionStart);
-                    console.log(textPointer);
+                    // setTextPointer({"row": event.end.row, "column": event.end.column});
+                    // console.log(textPointer);
                     setDownloadable(false);
                   }}
-                  onClick={(event) => {                    
-                    setTextPointer(event.target.selectionStart);
-                    console.log(textPointer);
-                  }}
-                  onKeyup={(event) => {                    
-                    setTextPointer(event.target.selectionStart);
-                    console.log(textPointer);
-                  }}
+                  // onClick={(event) => {   
+                  //   console.log("clicked through here");     
+                  //   console.log(event);            
+                  //   // setTextPointer(event.target.selectionStart);
+                  //   // setTextPointer({"row": event.end.row, "column": event.end.column});
+                  //   console.log(textPointer);
+                  // }}
+                  // onKeyup={(event) => {   
+                  //   console.log(event);                 
+                  //   // setTextPointer(event.target.selectionStart);
+                  //   // console.log(textPointer);
+                  // }}
                   // onCursorChange={(newplace)=>{
                   //   console.log("changed text pointer");
-                  //   setTextPointer(newplace);
+                  //   // console.log(newplace.cursor.row);
+                  //   // console.log(newplace.cursor.column);
+                  //   // console.log(newplace.cursor.onChange);
+                  //   setTextPointer({"row": newplace.cursor.row, "column": newplace.cursor.column});
+                  //   // setTextPointer(newplace);
                   // }}
                   // onSelectionChange={(e)=>{
-                  //   console.log(e);
+                  //   // console.log(e.cursor.row);
+                  //   // console.log(e.cursor.column);
+                  //   setTextPointer({"row": e.cursor.row, "column": e.cursor.column});
                   // }}
                   value={data}
                   name="grammar-editor"
@@ -1578,15 +1637,24 @@ const ProjectPageContent = ({
                                   semantics.elements.map((p) => (
                                     <a
                                       onClick={() => {
-                                        var newdata_part1 = data.slice(0,textPointer);
-                                        console.log(textPointer);
+                                        console.log(position);
+                                        var newdata_part1 = data.slice(0,position);
+                                        var newdata_part2 = data.slice(position);
+                                        console.log(newdata_part1);
+                                        console.log(newdata_part2);
+                                        setdata(newdata_part1 + p.editorDisplay + newdata_part2);
+
+                                        // if(textPointer.column)
+                                        // const reactAceComponent = this.refs.reactAceComponent;
+                                        // const editor = reactAceComponent.editor;
+                                        // editor.session.insert(textPointer, p.editorDisplay);
+
                                         // var newdata_part2 = data.slice(textPointer);
                                         // var x = newdata_part1 + 'x';
                                         // console.log(x);
                                         // console.log(newdata_part1 + p.editorDisplay);
                                         // setdata(newdata_part1 + p.editorDisplay + newdata_part2);
-                                        setdata(data + p.editorDisplay);
-                                        // console.log("yo");
+                                        // setdata(data + p.editorDisplay);
                                       }}
                                       color="white"
                                     >
@@ -1613,10 +1681,35 @@ const ProjectPageContent = ({
                               mode="json"
                               theme="terminal"
                               onChange={(newvalue, event) => {
-                                setdata(newvalue);
-                                setDownloadable(false);
+                                // console.log(newvalue);
                                 fl = false;
-                                // console.log(event.target.selectionStart);
+                                // setTextPointer({"row": event.end.row, "column": event.end.column});
+                                // console.log(event);
+                                setdata(newvalue);
+                                // console.log(data);
+                                // console.log(data.length);
+                                setDownloadable(false);
+                              }}
+                              // onClick={(event) => {   
+                              //   console.log("clicked here");     
+                              //   console.log(event);            
+                              //   // setTextPointer(event.target.selectionStart);
+                              //   setTextPointer({"row": event.end.row, "column": event.end.column});
+                              //   console.log(textPointer);
+                              //   // convertPointer(textPointer, )
+                              // }}
+                              onCursorChange={(newplace)=>{
+                                // console.log("changed text pointer");
+                                // console.log(newplace);
+                                // setTextPointer({"row": newplace.cursor.row, "column": newplace.cursor.column});
+                                convertPointer({"row":newplace.cursor.row, "column": newplace.cursor.column}, newplace.cursor.document.$lines);
+                                // console.log(textPointer);
+                                // console.log(position);
+                              }}
+                              onSelectionChange={(e)=>{
+                                // console.log(e);
+                                // setTextPointer({"row": e.cursor.row, "column": e.cursor.column});
+                                convertPointer({"row": e.cursor.row, "column": e.cursor.column}, e.doc.$lines);
                               }}
                               value={data}
                               name="grammar-editor"
@@ -1653,7 +1746,7 @@ const ProjectPageContent = ({
                                     color="white"
                                     fontWeight="semibold"
                                   >
-                                    Conditions
+                                    Assets and Actions
                                   </Text>
                                 </center>
                               </Flex>
@@ -1670,7 +1763,10 @@ const ProjectPageContent = ({
                                   rules.map((p) => (
                                     <a
                                       onClick={() => {
-                                        setdata(data + p);
+                                        var newdata_part1 = data.slice(0,position);
+                                        var newdata_part2 = data.slice(position);
+                                        setdata(newdata_part1 + p + newdata_part2);
+                                        // setdata(data + p);
                                       }}
                                       color="white"
                                     >
@@ -1902,7 +1998,7 @@ const ProjectPageContent = ({
                                     color="white"
                                     fontWeight="semibold"
                                   >
-                                    Conditions
+                                    Behaviours
                                   </Text>
                                 </center>
                               </Flex>

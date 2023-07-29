@@ -17,7 +17,7 @@ function replaceAll(str, find, replace) {
 const processUploadedFile = (upData) => {
 
     for (var i=0; i<upData.constructs.length; ++i) {
-        map_constructs.set(upData.constructs[i].name, upData.constructs[i]);
+        map_constructs.set(upData.constructs[i].type, upData.constructs[i]);
     }
         
     for (var i=0; i<upData.types.length; ++i) {
@@ -106,6 +106,8 @@ const processUploadedFile = (upData) => {
 }
 
 const tokenizeCode = (code) => {
+
+    console.log(code);
     var n = code.length;
     var lineNumber = 1;
     var tokens = [];
@@ -130,13 +132,16 @@ const tokenizeCode = (code) => {
         if(!specialChar){
             currWord+=code[i];
             if(map_constructs.has(currWord)){
+                console.log("yo");
                 if(i+1 == n){
                     tokensAndLine.push([currWord, lineNumber]);
                     tokens.push(currWord);
+                    currWord = "";
                 }else{
                     if(code[i+1] == " " || code[i+1] == "\n"){
                         tokens.push(currWord);
                         tokensAndLine.push([currWord, lineNumber]);
+                        currWord = "";
                     } 
                     else{
                         for(const j in specialSymbols){
@@ -169,13 +174,61 @@ const tokenizeCode = (code) => {
         }
 
     }
-    console.log(tokensAndLine);
+    // console.log(tokensAndLine);
     // return tokens;
+    return tokensAndLine;
+}
+
+const tokenizeCode2 = (code) => {
+
+    var n = code.length;
+    var lineNumber = 1;
+    var tokens = [];
+    var tokensAndLine = [];
+    var currWord = "";
+
+    for(var i=0; i<n; i++) 
+    {
+        if(code[i] == " ")
+        {
+            if(currWord != "")
+            {
+                tokens.push(currWord);
+                tokensAndLine.push([currWord, lineNumber]);
+                currWord = "";
+            }
+            
+            if(code[i] == '\n')
+                lineNumber++;
+
+            continue;
+        }
+
+        if(code[i] == '(' || code[i] == ')' || code[i] == ':')
+        {
+            if(currWord != "")
+            {
+                tokens.push(currWord);
+                tokensAndLine.push([currWord, lineNumber]);
+                currWord = "";
+            }
+            tokens.push(code[i]);
+            tokensAndLine.push([code[i], lineNumber]);
+        }
+        
+        else
+        {
+            currWord += code[i];
+        }
+
+    }
+
     return tokensAndLine;
 }
 
 function evaluate(order, construct, tokens, index){
     var typeToEvaluate = order[0];
+    console.log(typeToEvaluate);
     if(typeToEvaluate == "condition"){
         var children = [];
         if(order.length == 2){
@@ -196,6 +249,9 @@ function evaluate(order, construct, tokens, index){
 
         for(; (i<tokens.length && j<expect.length) ; i++, j++){
             cnt++;
+            // console.log(tokens[i][0]);
+            // console.log("comparing with");
+            // console.log(expect[j]);
             if(tokens[i][0] != expect[j]) return [-1, tokens[i][1]];
         }
 
@@ -264,9 +320,64 @@ function evaluate(order, construct, tokens, index){
     }
 }
 
+const validateTokens2 = (tokensAndLine) => {
+
+    if(tokensAndLine.length == 0) 
+        return [true,0];
+
+    var n = tokensAndLine.length;
+    var prevToken = "";
+    var expectNext = [];
+    var constructs_nest = [];
+
+    for(var i=0; i<n; i++)
+    {
+        var currTokenandLine = tokensAndLine[i]
+        var currToken = currTokenandLine[0];
+        var construct_index = 0;
+
+        if(map_constructs.has(currToken))
+        {
+            var construct = map_constructs.get(currToken);
+            constructs_nest.push(construct);
+            construct_index++;
+
+            var typeDetails = map_types.get(type);
+
+            if(typeDetails.hasOwnProperty("prev") )
+            {
+                if(!typeDetails.prev.includes(constructs_nest[construct_index-1]))
+                {
+                    return [false, currTokenandLine[1]];
+                }
+            }
+
+            var order = typeDetails.order;
+            var orderLen = order.length;
+            var j = [];
+
+            if(orderLen >= 1){
+                j = evaluate(order[0], construct, tokensAndLine, i+1);
+                
+                if(j[0]==-1) return [false, j[1]];
+                i = j[0]-1;
+            }
+            
+            if(orderLen == 2){
+               var k = evaluate(order[1], construct, tokensAndLine, j[0]);
+               if(k[0]==-1) return [false, k[1]];
+               i = k[0]-1;
+            }            
+        }
+    }
+
+    return [true, -1];
+}
+
 const validateTokens = (tokens) => {
 
-    if(tokens.length == 0) return true;
+    if(tokens.length == 0) 
+        return [true,0];
 
     var n = tokens.length;
     prevToken = "";
@@ -291,6 +402,7 @@ const validateTokens = (tokens) => {
         }
 
         if(map_constructs.has(currToken)){
+            console.log(currToken);
             var construct = map_constructs.get(currToken);
             var type = construct.type;
             var typeDetails = map_types.get(type);
@@ -313,14 +425,20 @@ const validateTokens = (tokens) => {
             var j = [];
 
             if(orderLen >= 1){
+                // to evaluate condition
                 j = evaluate(order[0], construct, tokens, i+1);
-                
+                console.log(j[0]);
                 if(j[0]==-1) return [false, j[1]];
                 i = j[0]-1;
             }
+
+            // console.log(tokens[j[0]]);
+            // if(tokens[j[0]][0] == construct.)
             
             if(orderLen == 2){
+                // to evaluate scope
                var k = evaluate(order[1], construct, tokens, j[0]);
+               console.log(k[0]);
                if(k[0]==-1) return [false, k[1]];
                i = k[0]-1;
             }
@@ -344,17 +462,26 @@ const validateTokens = (tokens) => {
 //upload conditional construct
 //request body contains json data
 router.post('/upload', (req, res, next) => {
-    var upData = JSON.parse(req.body);
+
+    console.log("hi uploading from here");
+    var stri = JSON.stringify(req.body);
+    var upData2 = JSON.parse(stri);
+    var upData_string = upData2.jsonData;
+    var upData = JSON.parse(upData_string);
+
     var responseJson = processUploadedFile(upData);
-    console.log(responseJson)
+    // console.log(responseJson);
     res.status(200).json(responseJson);
 })
 
 //validate file
 router.post('/process', (req, res, next) => {
-    console.log(req.body);
+    console.log("hi processing from here");
+    // console.log(req.body);
     /* parsing and lexeme logic processing */
-    var tokens = tokenizeCode(req.body);
+    // var trial = tokenizeCode2(req.body.code);
+    // console.log(trial);
+    var tokens = tokenizeCode(req.body.code);
     console.log(tokens);
 
     var [valid, lineNumber] = validateTokens(tokens);
