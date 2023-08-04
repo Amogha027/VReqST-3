@@ -266,7 +266,7 @@ const ProjectPageContent = ({
   // const [grammarData, setGrammarData] = useState({});
   const [grammarbundle, setGrammarbundle] = useState({});
   const [displayErrors, setDisplayErrors] = useState([]);
-  const [valid_rule_list, setvalid_rule] = useState([]);
+  const [valid_rule_list, setvalid_rule_list] = useState([]);
 
   const [downloadable, setDownloadable] = useState(false);
   let [val, setValue] = React.useState("");
@@ -280,6 +280,7 @@ const ProjectPageContent = ({
   const [textPointer, setTextPointer] = useState({"row": 0, "column": 0});
 
   const [position, setPosition] = useState(0);
+  const [savebutton, setSavebutton] = useState(false);
   const convertPointer = (pointer, lines) => {
     let pos = 0;
     console.log(lines);
@@ -300,34 +301,6 @@ const ProjectPageContent = ({
     setPosition(pos);
     console.log(position);
   }
-
-  // const pregrammar = async () => {
-  //   const requestOptions = {
-  //     headers: { "Content-Type": "application/json", token: jwttoken },
-  //   };
-  //   const res = await Axios.get(
-  //     `http://localhost:5002/api/project/${projectid}/grammarName`,
-  //     requestOptions
-  //   );
-  // }
-
-  // document.getElementsByName("grammar-editor")[0].addEventListener("click", ()=>{
-  //   console.log("clicked");
-  //   setTextPointer(e.target.selectionStart);
-  // });
-  // document.getElementById("editor").addEventListener("keyup", ()=>{
-  //   setTextPointer(e.target.selectionStart);
-  //   console.lod("keyuped");
-  // });
-  // document.getElementsByTagName("AceEditor")[0].addEventListener("keyup", ()=>{
-  //   setTextPointer(e.target.selectionStart);
-  // });
-  // document.getElementsByTagName("AceEditor")[0].addEventListener("click", ()=>{
-  //   setTextPointer(e.target.selectionStart);
-  // });
-
-  // var editor = ace.edit("editor");
-  // console.log(editor.session.getLength());
 
   const getfiles = async () => {
     let url = "";
@@ -625,8 +598,25 @@ const ProjectPageContent = ({
     valid_rule.push({
       rulename: rulename,
       data_name: data,
-      description: description,
+      description: description
     });
+
+    setSavebutton(true);
+
+    // fetch('http://localhost:5002/api/upload-custom-rule', {
+    //   headers: {
+    //     'Accept': 'application/json, text/plain, */*',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     rulename: rulename,
+    //     data_name: data,
+    //     description: description
+    //   })      
+    // }).then((response)=>{
+    //   console.log(response);
+    // })
 
     console.log(valid_rule);
   };
@@ -918,13 +908,13 @@ const ProjectPageContent = ({
 
         {
           type: "else",
-          prev: ["if", "eIf"],
+          prev: ["if", "else-if"],
           order: [["scope"]],
         },
 
         {
           type: "else-if",
-          prev: ["If", "EIf"],
+          prev: ["if", "else-if"],
           order: [["condition"], ["scope"]],
         },
 
@@ -959,18 +949,18 @@ const ProjectPageContent = ({
         {
           type: "do",
           order: [["scope"]],
-          next: ["Do-While"],
+          next: ["do-while"],
         },
 
         {
           type: "do-while",
           order: [["condition"]],
-          prev: ["Do"],
+          prev: ["do"],
         },
       ],
       constructs: [
         {
-          name: "If",
+          name: "if",
           type: "if",
           conditionStart: "(",
           conditionEnd: ")",
@@ -979,25 +969,25 @@ const ProjectPageContent = ({
         },
 
         {
-          name: "EIf",
+          name: "else-if",
           type: "else-if",
           conditionStart: "(",
           conditionEnd: ")",
           scopeStart: "(",
           scopeEnd: ")",
-          pre: ["If", "EIf"],
+          pre: ["if", "else-if"],
         },
 
         {
-          name: "E",
+          name: "else",
           type: "else",
           scopeStart: "(",
           scopeEnd: ")",
-          pre: ["If", "EIf"],
+          pre: ["if", "else-if"],
         },
 
         {
-          name: "Switch",
+          name: "switch",
           type: "switch",
           conditionStart: "(",
           conditionEnd: ")",
@@ -1014,7 +1004,7 @@ const ProjectPageContent = ({
           conditionEnd: ")",
           scopeStart: "(",
           scopeEnd: ")",
-          parent: "Switch",
+          parent: "switch",
         },
 
         {
@@ -1022,11 +1012,11 @@ const ProjectPageContent = ({
           type: "switch-case-default",
           scopeStart: "(",
           scopeEnd: ")",
-          parent: "Switch",
+          parent: "switch",
         },
 
         {
-          name: "For",
+          name: "for",
           type: "for",
           conditionStart: "(",
           conditionEnd: ")",
@@ -1036,7 +1026,7 @@ const ProjectPageContent = ({
         },
 
         {
-          name: "While",
+          name: "while",
           type: "while",
           conditionStart: "(",
           conditionEnd: ")",
@@ -1045,15 +1035,15 @@ const ProjectPageContent = ({
         },
 
         {
-          name: "Do",
+          name: "do",
           type: "do",
           scopeStart: "(",
           scopeEnd: ")",
-          next: "Do-While",
+          next: "do-while",
         },
 
         {
-          name: "Do-While",
+          name: "do-while",
           type: "do-while",
           conditionStart: "(",
           conditionEnd: ")",
@@ -1128,6 +1118,56 @@ const ProjectPageContent = ({
     console.log("Showing");
     showValidateHandler(true);
   };
+
+  const saveButton = async () => {
+    console.log("saving");
+    try{
+      const res = await Axios.post(
+        "http://localhost:5002/api/custom/upload-custom-rule", {
+          headers: {
+            "Content-Type": "application/json", 
+            token: jwttoken 
+          },
+          data: {
+            project_id: projectid,
+            rulename: rulename,
+            data_name: data,
+            description: description
+          }
+        }
+      );
+      toast({
+        title: "Behaviour Added",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      
+    } catch(err){
+      console.log(err);
+    }
+
+    console.log("fetching behaviours");
+    try{
+      const res = await Axios.post(
+        "http://localhost:5002/api/custom/get-custom-rules", {
+          headers: {
+            "Content-Type": "application/json", 
+            token: jwttoken 
+          },
+          data: {
+            project_id: projectid
+          }
+        }
+      );
+      console.log(res.data);
+      setvalid_rule_list(res.data);
+      
+    } catch(err){
+      console.log(err);
+    }
+  }
 
   const onNextStep = async () => {
     if (!isJson(data) && activeStep !== 3) {
@@ -1556,7 +1596,7 @@ const ProjectPageContent = ({
           <Tabs isFitted variant="enclosed" marginTop={10}>
             <TabList mb="1em">
               <Tab>Write</Tab>
-              <Tab>Read</Tab>
+              <Tab >Read</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -1577,6 +1617,7 @@ const ProjectPageContent = ({
                                 value={rulename}
                                 onChange={handel_name}
                                 placeholder="  Name"
+                                autoFocus
                               ></input>
                             </FormControl>
                             Description:
@@ -1596,75 +1637,7 @@ const ProjectPageContent = ({
                         
                         <Flex flexDir="row" paddingTop={10} paddingLeft={20} marginLeft={20}>
                           {/* All three boxes inside this */}
-                          <Box as="pane"
-                            bg="pink"
-                            _dark={{
-                              bg: "gray.800",
-                            }} 
-                            h="40em"
-                            w="20em"
-                            >
                           
-                          <Box 
-                              as="pane"
-                              zIndex="fixed"
-                              h="300px"
-                              overflowX="hidden"
-                              overflowY="auto"
-                              w="400px"
-                            >
-                              <Flex px="4" py="5" align="center">
-                                <center>
-                                  <Text
-                                    fontSize="2xl"
-                                    ml="2"
-                                    color="black"
-                                    fontWeight="semibold"
-                                  >
-                                    Semantics
-                                  </Text>
-                                </center>
-                              </Flex>
-                              <Flex
-                                direction="column"
-                                as="nav"
-                                fontSize="md"
-                                color="black"
-                                aria-label="Main Navigation"
-                                margin={5}
-                              >
-                                {
-                                  semantics.elements.map((p) => (
-                                    <a
-                                      onClick={() => {
-                                        console.log(position);
-                                        var newdata_part1 = data.slice(0,position);
-                                        var newdata_part2 = data.slice(position);
-                                        console.log(newdata_part1);
-                                        console.log(newdata_part2);
-                                        setdata(newdata_part1 + p.editorDisplay + newdata_part2);
-
-                                        // if(textPointer.column)
-                                        // const reactAceComponent = this.refs.reactAceComponent;
-                                        // const editor = reactAceComponent.editor;
-                                        // editor.session.insert(textPointer, p.editorDisplay);
-
-                                        // var newdata_part2 = data.slice(textPointer);
-                                        // var x = newdata_part1 + 'x';
-                                        // console.log(x);
-                                        // console.log(newdata_part1 + p.editorDisplay);
-                                        // setdata(newdata_part1 + p.editorDisplay + newdata_part2);
-                                        // setdata(data + p.editorDisplay);
-                                      }}
-                                      color="white"
-                                    >
-                                      <span>{p.displayName}</span>
-                                    </a>
-                                  ))
-                                }
-                              </Flex>
-                            </Box>
-                          </Box>
                           <Flex marginLeft={10} marginRight={10} marginBottom={10}>
                             <AceEditor
                               fontSize={16}
@@ -1725,7 +1698,7 @@ const ProjectPageContent = ({
                             _dark={{
                               bg: "gray.800",
                             }}
-                            h="20em"
+                            h="40em"
                             w="24em"
                           >
                             <Box // navbar
@@ -1738,7 +1711,7 @@ const ProjectPageContent = ({
                               bg="grey"
                               w="400px"
                             >
-                              <Flex px="4" py="5" align="center">
+                              <Flex px="4" pb="3" pt="5" align="center">
                                 <center>
                                   <Text
                                     fontSize="2xl"
@@ -1746,7 +1719,7 @@ const ProjectPageContent = ({
                                     color="white"
                                     fontWeight="semibold"
                                   >
-                                    Assets and Actions
+                                    Actions
                                   </Text>
                                 </center>
                               </Flex>
@@ -1754,10 +1727,12 @@ const ProjectPageContent = ({
                               <Flex
                                 direction="column"
                                 as="nav"
-                                fontSize="md"
+                                fontSize="lg"
                                 color="white"
                                 aria-label="Main Navigation"
                                 margin={5}
+                                marginTop={2}
+                                marginLeft={7}
                               >
                                 {flag ? (
                                   rules.map((p) => (
@@ -1780,6 +1755,80 @@ const ProjectPageContent = ({
                                 )}
                               </Flex>
                             </Box>
+                            <Box as="pane"
+                            // bg="#D69E2E"
+                            bg="black"
+                            // colorScheme="#D69E2E"
+                            _dark={{
+                              bg: "gray.800",
+                            }} 
+                            h="40em"
+                            w="13em"
+                            >
+                          
+                          <Box 
+                              as="pane"
+                              zIndex="fixed"
+                              h="300px"
+                              overflowX="hidden"
+                              overflowY="auto"
+                              w="400px"
+                              colorScheme="yellow"
+                            >
+                              <Flex px="4" pb="3" pt="5" align="center">
+                                <center>
+                                  <Text
+                                    fontSize="2xl"
+                                    ml="2"
+                                    color="white"
+                                    fontWeight="semibold"
+                                  >
+                                    Semantics
+                                  </Text>
+                                </center>
+                              </Flex>
+                              <Flex
+                                direction="column"
+                                as="nav"
+                                fontSize="lg"
+                                color="white"
+                                aria-label="Main Navigation"
+                                margin={5}
+                                marginTop={2}
+                                marginLeft={7}
+                              >
+                                {
+                                  semantics.elements.map((p) => (
+                                    <a
+                                      onClick={() => {
+                                        console.log(position);
+                                        var newdata_part1 = data.slice(0,position);
+                                        var newdata_part2 = data.slice(position);
+                                        console.log(newdata_part1);
+                                        console.log(newdata_part2);
+                                        setdata(newdata_part1 + p.editorDisplay + newdata_part2);
+
+                                        // if(textPointer.column)
+                                        // const reactAceComponent = this.refs.reactAceComponent;
+                                        // const editor = reactAceComponent.editor;
+                                        // editor.session.insert(textPointer, p.editorDisplay);
+
+                                        // var newdata_part2 = data.slice(textPointer);
+                                        // var x = newdata_part1 + 'x';
+                                        // console.log(x);
+                                        // console.log(newdata_part1 + p.editorDisplay);
+                                        // setdata(newdata_part1 + p.editorDisplay + newdata_part2);
+                                        // setdata(data + p.editorDisplay);
+                                      }}
+                                      color="white"
+                                    >
+                                      <span>{p.displayName}</span>
+                                    </a>
+                                  ))
+                                }
+                              </Flex>
+                            </Box>
+                          </Box>
                           </Box>
                         </Flex>
 
@@ -1793,6 +1842,15 @@ const ProjectPageContent = ({
                             }}
                           >
                             Validate
+                          </Button>
+                          <Button
+                            colorScheme="green"
+                            disabled={!data || !rulename || !savebutton}
+                            onClick={() => {
+                              saveButton();
+                            }}
+                          >
+                            Save
                           </Button>
                         </Stack>
 
@@ -2012,8 +2070,8 @@ const ProjectPageContent = ({
                                 margin={5}
                               >
                                 <>
-                                  {valid_rule.length > 0 ? (
-                                    valid_rule.map((p) => (
+                                  {valid_rule_list.length > 0 ? (
+                                    valid_rule_list.map((p) => (
                                       <a
                                         // key={p.rulename}
                                         onClick={() => {

@@ -5,6 +5,7 @@ const usersRouter = require("./routes/api/users");
 const JsonRouter = require("./routes/api/json");
 const apiprocessor = require("./routes/api/apiprocessroutes")
 const ProjectRouter = require("./routes/api/project");
+const CustomRulesRouter = require("./routes/api/customRules");
 const config = require("config");
 var cors = require("cors");
 const app = express();
@@ -37,7 +38,8 @@ require("./config/passport")(passport);
 app.use("/api/users", usersRouter);
 app.use("/api/json", JsonRouter);
 app.use("/api/project", ProjectRouter);
-app.use("/api",apiprocessor)
+app.use("/api",apiprocessor);
+app.use("/api/custom", CustomRulesRouter);
 
 const port = process.env.PORT || 5002;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));

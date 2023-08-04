@@ -492,4 +492,11 @@ router.post('/process', (req, res, next) => {
     })
 })
 
+router.post('/upload-custom-rule', (req, res, next) => {
+    console.log(req.body);
+    res.status(200).json({
+        "body": "hi"
+    })
+})
+
 module.exports = router

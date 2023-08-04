@@ -12,23 +12,18 @@
         },
         {
             "type": "else-if",
-            "displayName": "else if",
-            "editorDisplay": "else if () ()"
+            "displayName": "else-if",
+            "editorDisplay": "else-if () ()"
         },
         {
             "type": "for",
             "displayName": "for",
-            "editorDisplay": "for () ()"
+            "editorDisplay": "for ( / / ) ()"
         },
         {
             "type": "while",
             "displayName": "while",
             "editorDisplay": "while () ()"
-        },
-        {
-            "type": "switch",
-            "displayName": "switch",
-            "editorDisplay": "switch () \ncase ()"
         },
         {
             "type": "do while",
@@ -44,13 +39,13 @@
   
         {
           "type": "else",
-          "prev": ["if", "eIf"],
+          "prev": ["if", "else-if"],
           "order": [["scope"]]
         },
   
         {
           "type": "else-if",
-          "prev": ["If", "EIf"],
+          "prev": ["if", "else-if"],
           "order": [["condition"], ["scope"]]
         },
   
@@ -85,18 +80,18 @@
         {
           "type": "do",
           "order": [["scope"]],
-          "next": ["Do-While"]
+          "next": ["do-while"]
         },
   
         {
           "type": "do-while",
           "order": [["condition"]],
-          "prev": ["Do"]
+          "prev": ["do"]
         }
     ],
     "constructs": [
       {
-        "name": "If",
+        "name": "if",
         "type": "if",
         "conditionStart": "(",
         "conditionEnd": ")",
@@ -105,25 +100,25 @@
       },
 
       {
-        "name": "EIf",
+        "name": "else-if",
         "type": "else-if",
         "conditionStart": "(",
         "conditionEnd": ")",
         "scopeStart": "(",
         "scopeEnd": ")",
-        "pre": ["If", "EIf"]
+        "pre": ["if", "else-if"]
       },
 
       {
-        "name": "E",
+        "name": "else",
         "type": "else",
         "scopeStart": "(",
         "scopeEnd": ")",
-        "pre": ["If", "EIf"]
+        "pre": ["if", "else-if"]
       },
 
       {
-        "name": "Switch",
+        "name": "switch",
         "type": "switch",
         "conditionStart": "#",
         "conditionEnd": "#",
@@ -140,7 +135,7 @@
         "conditionEnd": "#",
         "scopeStart": ":",
         "scopeEnd": "!",
-        "parent": "Switch"
+        "parent": "switch"
       },
   
     {
@@ -148,11 +143,11 @@
       "type": "switch-case-default",
       "scopeStart": ":",
       "scopeEnd": "!",
-      "parent": "Switch"
+      "parent": "switch"
     },
 
     {
-      "name": "For",
+      "name": "for",
       "type": "for",
       "conditionStart": "(",
       "conditionEnd": ")",
@@ -162,7 +157,7 @@
     },
 
     {
-      "name": "While",
+      "name": "while",
       "type": "while",
       "conditionStart": "(",
       "conditionEnd": ")",
@@ -171,15 +166,15 @@
     },
 
     {
-      "name": "Do",
+      "name": "do",
       "type": "do",
       "scopeStart": ":",
       "scopeEnd": "!",
-      "next": "Do-While"
+      "next": "do-while"
     },
 
     {
-      "name": "Do-While",
+      "name": "do-while",
       "type": "do-while",
       "conditionStart": "#",
       "conditionEnd": "#"
