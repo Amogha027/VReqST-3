@@ -1144,13 +1144,8 @@ const ProjectPageContent = ({
         position: "top-right",
       });
       
-    } catch(err){
-      console.log(err);
-    }
-
-    console.log("fetching behaviours");
-    try{
-      const res = await Axios.post(
+      console.log("fetching behaviours");
+      const res_rules = await Axios.post(
         "http://localhost:5002/api/custom/get-custom-rules", {
           headers: {
             "Content-Type": "application/json", 
@@ -1161,8 +1156,8 @@ const ProjectPageContent = ({
           }
         }
       );
-      console.log(res.data);
-      setvalid_rule_list(res.data);
+      console.log(res_rules.data);
+      setvalid_rule_list(res_rules.data);
       
     } catch(err){
       console.log(err);
