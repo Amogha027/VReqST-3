@@ -1366,35 +1366,8 @@ const ProjectPageContent = ({
                     console.log(event);
                     setdata(newvalue);
                     console.log(data);
-                    // setTextPointer({"row": event.end.row, "column": event.end.column});
-                    // console.log(textPointer);
                     setDownloadable(false);
                   }}
-                  // onClick={(event) => {   
-                  //   console.log("clicked through here");     
-                  //   console.log(event);            
-                  //   // setTextPointer(event.target.selectionStart);
-                  //   // setTextPointer({"row": event.end.row, "column": event.end.column});
-                  //   console.log(textPointer);
-                  // }}
-                  // onKeyup={(event) => {   
-                  //   console.log(event);                 
-                  //   // setTextPointer(event.target.selectionStart);
-                  //   // console.log(textPointer);
-                  // }}
-                  // onCursorChange={(newplace)=>{
-                  //   console.log("changed text pointer");
-                  //   // console.log(newplace.cursor.row);
-                  //   // console.log(newplace.cursor.column);
-                  //   // console.log(newplace.cursor.onChange);
-                  //   setTextPointer({"row": newplace.cursor.row, "column": newplace.cursor.column});
-                  //   // setTextPointer(newplace);
-                  // }}
-                  // onSelectionChange={(e)=>{
-                  //   // console.log(e.cursor.row);
-                  //   // console.log(e.cursor.column);
-                  //   setTextPointer({"row": e.cursor.row, "column": e.cursor.column});
-                  // }}
                   value={data}
                   name="grammar-editor"
                   wrapEnabled
@@ -1590,7 +1563,7 @@ const ProjectPageContent = ({
         <>
           <Tabs isFitted variant="enclosed" marginTop={10}>
             <TabList mb="1em">
-              <Tab>Write</Tab>
+              <Tab >Write</Tab>
               <Tab >Read</Tab>
             </TabList>
             <TabPanels>
@@ -2137,7 +2110,7 @@ const ProjectPageContent = ({
                                 isClosable: true,
                                 position: "top-right",
                               });
-                              console.log(data);
+                              // console.log(data);
                             }}
                             disabled={!perdata}
                             isLoading={submitting}
