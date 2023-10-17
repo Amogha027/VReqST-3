@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import ProjectPageContent from "./ProjectPageContent";
+import {backend} from "../../server_urls"
 
 const steps = [
   { label: "Step 1", description: "Scene JSON" },
@@ -40,7 +41,7 @@ const ProjectPage = () => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await Axios.get(
-        `http://localhost:5002/api/project/${projectid}`,
+        backend + `/api/project/${projectid}`,
         requestOptions
       );
 

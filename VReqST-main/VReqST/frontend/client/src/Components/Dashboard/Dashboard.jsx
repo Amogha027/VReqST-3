@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import Axios from "axios";
 import FileRow from "../MyFiles/FileRow";
 import { Link } from "react-router-dom";
+import { backend } from "../../server_urls";
 
 const Dashboard = ({ auth }) => {
   const date = new Date();
@@ -50,7 +51,7 @@ const Dashboard = ({ auth }) => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await Axios.get(
-        "http://localhost:5002/api/project/recent",
+        backend + "/api/project/recent",
         requestOptions
       );
 
@@ -74,7 +75,7 @@ const Dashboard = ({ auth }) => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await Axios.get(
-        "http://localhost:5002/api/json/recent",
+        backend + "/api/json/recent",
         requestOptions
       );
 

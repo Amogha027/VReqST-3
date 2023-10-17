@@ -14,6 +14,7 @@ import axios from "axios";
 import FileRow from "../MyFiles/FileRow";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import {backend} from "../../server_urls"
 
 const AllFiles = ({ auth }) => {
   const [data, setdata] = useState([]);
@@ -27,7 +28,8 @@ const AllFiles = ({ auth }) => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await axios.get(
-        "http://localhost:5002/api/json/all",
+        backend + "/api/json/all",
+        // "http://localhost:5002/api/json/all",
         requestOptions
       );
 

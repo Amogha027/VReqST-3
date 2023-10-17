@@ -37,6 +37,7 @@ import { FaExclamationCircle } from "react-icons/fa";
 import { BiDownload } from "react-icons/bi";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
+import {validation_server, backend} from "../../server_urls"
 
 import isJson from "../../utils/checkjson";
 import e from "cors";
@@ -303,9 +304,9 @@ const ProjectPageContent = ({
   }
 
   const getfiles = async () => {
-    let url = "";
+    let url = backend;
     // console.log("hey");
-    url = `http://localhost:5002/api/json/timeline`;
+    url = url + `/api/json/timeline`;
     // if (activeStep === 0) url = `http://localhost:5002/api/json/scene`;
     // else if (activeStep === 1) url = `http://localhost:5002/api/json/scene`;
     // else if (activeStep === 2) url = `http://localhost:5002/api/json/scene`;
@@ -322,7 +323,7 @@ const ProjectPageContent = ({
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res2 = await Axios.get(
-        `http://localhost:5002/api/project/${projectid}/grammarName`,
+        backend + `/api/project/${projectid}/grammarName`,
         requestOption
       );
       console.log(res2.data.grammarName);
@@ -1053,7 +1054,8 @@ const ProjectPageContent = ({
     });
 
     // console.log(jsonData);
-    fetch(`http://localhost:5001/api/upload`, {
+    // fetch(`http://localhost:5001/api/upload`, {
+    fetch(validation_server + '/api/upload', {
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
@@ -1077,7 +1079,8 @@ const ProjectPageContent = ({
 
 
     console.log(code);
-    fetch(`http://localhost:5001/api/process`, {
+    fetch(validation_server + '/api/process', {
+    // fetch(`http://localhost:5001/api/process`, {
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
@@ -1123,7 +1126,7 @@ const ProjectPageContent = ({
     console.log("saving");
     try{
       const res = await Axios.post(
-        "http://localhost:5002/api/custom/upload-custom-rule", {
+        backend + "/api/custom/upload-custom-rule", {
           headers: {
             "Content-Type": "application/json", 
             token: jwttoken 
@@ -1146,7 +1149,7 @@ const ProjectPageContent = ({
       
       console.log("fetching behaviours");
       const res_rules = await Axios.post(
-        "http://localhost:5002/api/custom/get-custom-rules", {
+        backend + "/api/custom/get-custom-rules", {
           headers: {
             "Content-Type": "application/json", 
             token: jwttoken 
@@ -1177,18 +1180,18 @@ const ProjectPageContent = ({
       return;
     }
     setSubmitting(true);
-    let url = "";
+    let url = backend;
     if (activeStep === 0)
-      url = `http://localhost:5002/api/project/${projectid}/scene`;
+      url = url + `/api/project/${projectid}/scene`;
     else if (activeStep === 1)
-      url = `http://localhost:5002/api/project/${projectid}/asset`;
+      url = url + `/api/project/${projectid}/asset`;
     else if (activeStep === 2)
-      url = `http://localhost:5002/api/project/${projectid}/action`;
+      url = url + `/api/project/${projectid}/action`;
     else if (activeStep === 3) {
-      url = `http://localhost:5002/api/project/${projectid}/custom`;
+      url = url + `/api/project/${projectid}/custom`;
     }
     else if (activeStep === 4)
-      url = `http://localhost:5002/api/project/${projectid}/timeline`;
+      url = url + `/api/project/${projectid}/timeline`;
     try {
       const requestOptions = {
         headers: { "Content-Type": "application/json", token: jwttoken },
@@ -1241,18 +1244,18 @@ const ProjectPageContent = ({
       return;
     }
     setSubmitting(true);
-    let url = "";
+    let url = backend;
     if (activeStep === 0)
-      url = `http://localhost:5002/api/project/${projectid}/scene`;
+      url = url + `/api/project/${projectid}/scene`;
     else if (activeStep === 1)
-      url = `http://localhost:5002/api/project/${projectid}/asset`;
+      url = url + `/api/project/${projectid}/asset`;
     else if (activeStep === 2)
-      url = `http://localhost:5002/api/project/${projectid}/action`;
+      url = url + `/api/project/${projectid}/action`;
     else if (activeStep === 3) {
-      url = `http://localhost:5002/api/project/${projectid}/custom`;
+      url = url + `/api/project/${projectid}/custom`;
     }
     else if (activeStep === 4)
-      url = `http://localhost:5002/api/project/${projectid}/timeline`;
+      url = url + `/api/project/${projectid}/timeline`;
     try {
       const requestOptions = {
         headers: { "Content-Type": "application/json", token: jwttoken },

@@ -24,6 +24,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-terminal";
 import { FaSave } from "react-icons/fa";
 import { Link, useHistory } from "react-router-dom";
+import {backend} from "../../server_urls"
 
 import isJson from "../../utils/checkjson";
 import { ChevronRightIcon } from "@chakra-ui/icons";
@@ -56,7 +57,8 @@ const AddFile = () => {
 
 
       await axios.post(
-        "http://localhost:5002/api/json/upload",
+        backend + "/api/json/upload",
+        // "http://localhost:5002/api/json/upload",
         { name: filename, private: privateFile },
         requestOptions
       );
