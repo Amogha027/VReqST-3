@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const { body, validationResult } = require("express-validator");
 
-const validateLoginInput = require("../../../client/validation/login");
+const validateLoginInput = require("../../validation/login");
 
 // Load User model
 const User = require("../../models/User");
