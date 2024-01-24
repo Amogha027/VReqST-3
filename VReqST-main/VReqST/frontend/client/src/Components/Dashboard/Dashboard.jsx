@@ -123,7 +123,7 @@ const Dashboard = ({ auth }) => {
                   zIndex: -1,
                 }}
               >
-                Hello,{" "}
+                Hey, Hello,{" "}
               </Text>
               <Text color={"blue.400"} as={"span"}>
                 {auth.user.name.split(" ")[0]}! 👋
