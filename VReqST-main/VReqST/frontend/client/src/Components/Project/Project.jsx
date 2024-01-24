@@ -20,13 +20,14 @@ import {
   Center,
   Image,
   List,
-  Select
+  Select,
+  MenuItem
 } from "@chakra-ui/react";
 import axios from "axios";
+import { backend } from "../../server_urls";
 
 import ProjectRow from "./ProjectRow";
 import { FaPlus } from "react-icons/fa";
-import {backend} from "../../server_urls"
 
 const Project = () => {
   const [data, setdata] = useState([]);
@@ -51,6 +52,8 @@ const Project = () => {
         requestOptions
       );
       setdata((olddata) => [...olddata, res.data]);
+      setProjectName("")
+      setGrammarName("")
       onClose();
       setSubmitLoading(false);
       toast({
@@ -80,6 +83,7 @@ const Project = () => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await axios.get(
+        // "http://localhost:5002/api/project/my",
         backend + "/api/project/my",
         requestOptions
       );
@@ -100,6 +104,7 @@ const Project = () => {
 
   const getfiles = async () => {
     const jwttoken = localStorage.getItem("jwtToken");
+    // let url = `http://localhost:5002/api/json/timeline`;
     let url = backend + `/api/json/timeline`;
     try {
       const requestOptions = {
@@ -131,6 +136,10 @@ const Project = () => {
     };
     f();
   }, []);
+
+  const handleGrammar = (e) => {
+    setGrammarName(e.target.value)
+  }
 
   return loading ? (
     <>
@@ -168,6 +177,7 @@ const Project = () => {
                 owner={row.ownerid.name}
                 projid={row._id}
                 isFinished={row.isFinished}
+                grammarName={row.grammarName}
                 scene={row.scene}
                 asset={row.asset}
                 action={row.action}
@@ -196,35 +206,23 @@ const Project = () => {
                 onChange={(e) => setProjectName(e.target.value)}
               />
             </FormControl>
-            {/* <Select placeholder="Select File">
-              {
-                files.map((p) =>
-                (
-                  <a key={p.name} value={p.name} onClick={() => {
-                    setGrammarName(p.name)
-                    console.log(p.name);
-                  }}>
+            <FormControl isRequired>
+              <FormLabel>Model Template Validator</FormLabel>
+              <Select value={grammarName} onChange={handleGrammar}>
+                <option value="">Select</option>
+                {files.map((p, index) => (
+                  <option key={index} value={p.name}>
                     {p.name}
-                  </a>
-                ))
-              }
-            </Select> */}
-            <List>
-            {files.map((p) => (
-              <option key={p.name} value={p.name} onClick={() => {
-                setGrammarName(p.name)
-                console.log(grammarName);
-              }} color="white" >
-                {p.name}
-              </option>
-            ))}
-            </List>
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
           <ModalFooter>
             <Stack spacing={2} direction="row">
               <Button
                 onClick={onCreate}
-                disabled={submitLoading || !projectName||!grammarName}
+                disabled={submitLoading || !projectName || !grammarName}
                 isLoading={submitLoading}
                 loadingText="Creating"
                 colorScheme={"whatsapp"}

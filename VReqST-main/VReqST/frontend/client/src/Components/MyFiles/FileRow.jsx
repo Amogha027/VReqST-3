@@ -18,14 +18,14 @@ import {
 } from "@chakra-ui/react";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import {backend} from "../../server_urls"
+import { backend } from "../../server_urls";
 
 function FileRow(props) {
-  const { name, organization, owner, jsonid, data, setdata, dash, own } = props;
+  const { name, organization, owner, jsonid, isprivate, data, setdata, show, dash, own } = props;
   const toast = useToast();
   const textColor = useColorModeValue("gray.700", "white");
   const bgColor = useColorModeValue("#F8F9FA", !dash ? "gray.800" : "gray.600");
-  const nameColor = useColorModeValue("gray.500", "white");
+  const nameColor = useColorModeValue("gray.800", "white");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
   const [loading, setLoading] = useState(false);
@@ -38,6 +38,7 @@ function FileRow(props) {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       await axios.delete(
+        // `http://localhost:5002/api/json/${jsonid}`,
         backend + `/api/json/${jsonid}`,
         requestOptions
       );
@@ -73,18 +74,26 @@ function FileRow(props) {
           </Text>
           {!dash && (
             <>
-              <Text color="gray.400" fontSize="sm" fontWeight="semibold">
+              <Text color="gray.500" fontSize="sm" fontWeight="semibold">
                 Owner Name:{" "}
-                <Text as="span" color="gray.500">
+                <Text as="span" color="gray.600">
                   {owner}
                 </Text>
               </Text>
-              <Text color="gray.400" fontSize="sm" fontWeight="semibold">
+              <Text color="gray.500" fontSize="sm" fontWeight="semibold">
                 Organization:{" "}
-                <Text as="span" color="gray.500">
+                <Text as="span" color="gray.600">
                   {organization}
                 </Text>
               </Text>
+              { show && (
+                <Text color="gray.500" fontSize="sm" fontWeight="semibold">
+                  Private File:{" "}
+                  <Text as="span" color="gray.600">
+                    {isprivate ? 'True' : 'False'}
+                  </Text>
+                </Text>
+              )}
             </>
           )}
         </Flex>
@@ -145,7 +154,7 @@ function FileRow(props) {
           <AlertDialogOverlay>
             <AlertDialogContent>
               <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Delete JSON File
+                Delete Validator
               </AlertDialogHeader>
 
               <AlertDialogBody>

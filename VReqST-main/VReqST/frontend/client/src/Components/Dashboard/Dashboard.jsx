@@ -51,6 +51,7 @@ const Dashboard = ({ auth }) => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await Axios.get(
+        // "http://localhost:5002/api/project/recent",
         backend + "/api/project/recent",
         requestOptions
       );
@@ -75,6 +76,7 @@ const Dashboard = ({ auth }) => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await Axios.get(
+        // "http://localhost:5002/api/json/recent",
         backend + "/api/json/recent",
         requestOptions
       );
@@ -123,7 +125,7 @@ const Dashboard = ({ auth }) => {
                   zIndex: -1,
                 }}
               >
-                Hey, Hello,{" "}
+                Hello,{" "}
               </Text>
               <Text color={"blue.400"} as={"span"}>
                 {auth.user.name.split(" ")[0]}! 👋
@@ -183,8 +185,8 @@ const Dashboard = ({ auth }) => {
               ))
             ) : (
               <>
-                <Text>No recent projects...</Text>
-                <Link to='/project'>Create project</Link>
+                <Text>No recent projects!</Text>
+                <CLink as={Link} to="/projects">Create project</CLink>
               </>
             )}
           </Box>
@@ -216,7 +218,7 @@ const Dashboard = ({ auth }) => {
           }}
         >
           <Heading pt={5} pl={5} fontSize='2xl'>
-            Recent Files
+            Recent Validators
           </Heading>
           <Box p={5}>
             {recentFiles.length > 0 ? (
@@ -227,10 +229,8 @@ const Dashboard = ({ auth }) => {
               ))
             ) : (
               <>
-                <Text>No recent files...</Text>
-                <CLink as={Link} to='/myfiles'>
-                  Add File
-                </CLink>
+                <Text>No recent Validators!</Text>
+                <CLink as={Link} to='/myfiles'>Add Validator</CLink>
               </>
             )}
           </Box>

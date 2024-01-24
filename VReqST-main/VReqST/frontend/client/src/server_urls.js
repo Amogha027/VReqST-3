@@ -1,2 +1,2 @@
-export const validation_server = "https://vreqst-validation-server.onrender.com"
-export const backend = "https://vreqst-backend.onrender.com"
+export const validation_server = "https://validation-server-9ce3.onrender.com"
+export const backend = "https://backend-o48d.onrender.com"

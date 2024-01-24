@@ -2,10 +2,11 @@ import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types"; // Register User
-import {backend} from "../../server_urls"
+import { backend } from "../../server_urls";
 
 export const registerUser = (userData, history) => (dispatch) => {
   axios
+    // .post("http://localhost:5002/api/users/register", userData)
     .post(backend + "/api/users/register", userData)
     .then((res) => history.push("/login")) // re-direct to login on successful register
     .catch((err) =>
@@ -17,6 +18,7 @@ export const registerUser = (userData, history) => (dispatch) => {
 }; // Login - get user token
 export const loginUser = (userData) => (dispatch) => {
   axios
+    // .post("http://localhost:5002/api/users/login", userData)
     .post(backend + "/api/users/login", userData)
     .then((res) => {
       // Save to localStorage// Set token to localStorage

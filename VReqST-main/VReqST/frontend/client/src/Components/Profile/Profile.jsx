@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import {backend} from "../../server_urls"
+import { backend } from "../../server_urls";
 
 const Profile = (props) => {
   const toast = useToast();
@@ -31,6 +31,7 @@ const Profile = (props) => {
           headers: { "Content-Type": "application/json", token: jwttoken },
         };
         const res = await axios.get(
+          // "http://localhost:5002/api/users/me",
           backend + "/api/users/me",
           requestOptions
         );

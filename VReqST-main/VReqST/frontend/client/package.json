@@ -19,6 +19,8 @@
     "jszip": "^3.10.1",
     "jwt-decode": "^2.2.0",
     "react": "^16.14.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^16.14.0",
     "react-icons": "^3.11.0",
     "react-redux": "^7.2.9",
@@ -30,11 +32,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cross-env CI=false react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://vreqst-backend.onrender.com",
+  "proxy": "https://backend-o48d.onrender.com",
   "eslintConfig": {
     "extends": "react-app"
   },

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -20,7 +21,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
-import React from "react";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { connect } from "react-redux";
@@ -30,7 +30,14 @@ import { logoutUser } from "../../redux/actions/authActions";
 import SocialButton from "./SocialButton";
 
 const Sidebar = ({ children, auth, logoutUser }) => {
+  const [year, setYear] = useState('')
   const sidebar = useDisclosure();
+
+  useEffect(() => {
+    const currentYear = new Date().getFullYear()
+    setYear(currentYear)
+  }, []);
+
   return (
     <Box
       as="section"
@@ -157,7 +164,7 @@ const Sidebar = ({ children, auth, logoutUser }) => {
           >
             <center>
               <Flex pl={{ base: "90px", md: "180px" }}>
-                © 2022 Software Engineering Research Center, IIIT Hyderabad. All rights reserved
+                ©{year} Software Engineering Research Center, IIIT Hyderabad. All rights reserved
               </Flex>
             </center>
             <Stack direction={"row"} spacing={6} justify="flex-end">

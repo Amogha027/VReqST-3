@@ -18,6 +18,7 @@ function ProjectRow(props) {
     owner,
     projid,
     isFinished,
+    grammarName,
     action,
     asset,
     scene,
@@ -86,6 +87,14 @@ function ProjectRow(props) {
               Organization:{" "}
               <Text as="span" color="gray.600">
                 {organization}
+              </Text>
+            </Text>
+          )}
+          {grammarName && (
+            <Text color="gray.500" fontSize="sm" fontWeight="semibold">
+              Validator Name:{" "}
+              <Text as="span" color="gray.600">
+                {grammarName}
               </Text>
             </Text>
           )}

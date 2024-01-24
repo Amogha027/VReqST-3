@@ -1,10 +1,12 @@
 import {
   Box,
   Button,
+  Divider,
   Flex,
   Grid,
   GridItem,
   Heading,
+  Input,
   List,
   ListIcon,
   ListItem,
@@ -29,19 +31,23 @@ import {
   TabPanel,
   FormControl,
   Textarea,
+  VStack
 } from "@chakra-ui/react";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import AceEditor from "react-ace";
-import { FaExclamationCircle } from "react-icons/fa";
+import { FaExclamationCircle, FaFileAlt } from "react-icons/fa";
 import { BiDownload } from "react-icons/bi";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
-import {validation_server, backend} from "../../server_urls"
+import { useDrop } from 'react-dnd';
+import { validation_server, backend } from "../../server_urls";
 
 import isJson from "../../utils/checkjson";
 import e from "cors";
 import semantics from "../../utils/syntax.json";
+import Behaviour from "./Behaviour";
+import { Link } from "react-router-dom";
 
 let errors = [];
 let rules = [];
@@ -49,8 +55,6 @@ let valid_rule = [];
 let grammarDataArray = [];
 let flag = false;
 let fl = false;
-
-// const reactAceComponent = this.refs.reactAceComponent;
 
 const tipcolors = {
   number: "orange",
@@ -61,11 +65,8 @@ const tipcolors = {
 };
 
 const jsonValidator = (grammar, validating) => {
-
-  console.log(grammar);
   const keys = Object.keys(grammar);
   const keys22 = Object.keys(validating);
-
 
   const grammarArray = Object.keys(grammar).filter(
     (value) => !Object.keys(validating).includes(value)
@@ -78,8 +79,7 @@ const jsonValidator = (grammar, validating) => {
   extraEntries.map((en) => {
     let app = 1;
 
-    for (let i = 0; i < keys.length; i++) 
-    {
+    for (let i = 0; i < keys.length; i++) {
       if (keys[i] === en || grammar[keys[i]].root === en || grammar[keys[i]].proot === en) 
         app = 0;
     }
@@ -99,7 +99,6 @@ const jsonValidator = (grammar, validating) => {
       errors.push(
         `"${en}" is a mandatory field! Please add the field with ${grammar[en].typeof} type`
       );
-
     }
   })
 
@@ -110,7 +109,6 @@ const jsonValidator = (grammar, validating) => {
       for (let i = 0; i < a.length; i++) {
         let c = a[i];
         if (c.hasOwnProperty(grammar[key].root)) {
-
           if (typeof c[grammar[key].root][key] === grammar[key].typeof) {
           }
           else {
@@ -152,13 +150,10 @@ const jsonValidator = (grammar, validating) => {
             }
           }
         }
-
       }
-
     }
     else {
       if (grammar[key].root === 'null' || grammar[key].root === 'undefined' || (!grammar[key].hasOwnProperty('root'))) {
-
         if (typeof validating[key] === "undefined") {
           continue;
         }
@@ -179,7 +174,7 @@ const jsonValidator = (grammar, validating) => {
           );
         }
         else {
-          //alert("sucess");
+          // alert("sucess");
         }
 
         if (
@@ -192,7 +187,6 @@ const jsonValidator = (grammar, validating) => {
         }
       }
       else {
-
         let a = grammar[key].root;
         if (false) {
           for (let i = 0; i < validating[a].length; i++) {
@@ -233,16 +227,12 @@ const jsonValidator = (grammar, validating) => {
     }
   }
 
-
-
   if (errors.length > 0) {
     console.log(errors);
     return true;
   }
-
   return false;
 };
-
 
 const ProjectPageContent = ({
   stepslen,
@@ -258,81 +248,87 @@ const ProjectPageContent = ({
   custom,
 }) => {
   const toast = useToast();
+  const { projectid } = useParams();
+  const jwttoken = localStorage.getItem("jwtToken");
+
+  let [val, setValue] = React.useState("");
   const [files, setfiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [data, setdata] = useState("");
   const [grammarid, setGrammarid] = useState("");
   const [validated, setValidated] = useState(false);
-  // const [grammarData, setGrammarData] = useState({});
   const [grammarbundle, setGrammarbundle] = useState({});
   const [displayErrors, setDisplayErrors] = useState([]);
-  const [valid_rule_list, setvalid_rule_list] = useState([]);
+  const [rule_list, setRuleList] = useState([]);
 
   const [downloadable, setDownloadable] = useState(false);
-  let [val, setValue] = React.useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [description, set_description] = useState("");
-  const [perdata, set_perdata] = useState("");
+  const [description, setDescription] = useState("");
+  const [perdata, setPerdata] = useState("");
   const [seed, setSeed] = useState(0);
-  const { projectid } = useParams();
   const [rulename, setRulename] = useState("");
-  const jwttoken = localStorage.getItem("jwtToken");
   const [textPointer, setTextPointer] = useState({"row": 0, "column": 0});
 
   const [position, setPosition] = useState(0);
   const [savebutton, setSavebutton] = useState(false);
+  const [rule, setRule] = useState({});
+  const [logic, setLogic] = useState("");
+  const [board, setBoard] = useState([]);
+  const [reorder, setReorder] = useState(false);
+
+	const [{ isOver, canDrop }, drop] = useDrop(() => ({
+		accept: "behaviour",
+		drop: (item) => setBoard((board) => !board.includes(item.obj) ? [...board, item.obj] : board),
+		collect: (monitor) => ({
+			isOver: monitor.isOver(),
+			canDrop: monitor.canDrop(),
+		})
+	}));
+
+	const handleReorder = (dragIndex, hoverIndex) => {
+		const dragged = board[dragIndex];
+		const newBoard = [...board];
+		newBoard.splice(dragIndex, 1);
+		newBoard.splice(hoverIndex, 0, dragged);
+		setBoard(newBoard);
+	}
+
   const convertPointer = (pointer, lines) => {
     let pos = 0;
-    console.log(lines);
-    for(let i=0; i<=pointer.row - 1; i++)
-    {
+    for(let i=0; i<=pointer.row - 1; i++) {
       pos += lines[i].length;
       if(lines[i].length === 0)
         pos+=1;
-      console.log("+",lines[i].length);
     }
     pos += pointer.column;
     if(pointer.column === 0)
       pos+=1;
-    console.log("+", pointer.column);
-    console.log(pos);
-    console.log(data);
-    console.log(data.length);
     setPosition(pos);
-    console.log(position);
   }
 
-  const getfiles = async () => {
-    let url = backend;
-    // console.log("hey");
-    url = url + `/api/json/timeline`;
-    // if (activeStep === 0) url = `http://localhost:5002/api/json/scene`;
-    // else if (activeStep === 1) url = `http://localhost:5002/api/json/scene`;
-    // else if (activeStep === 2) url = `http://localhost:5002/api/json/scene`;
-    // else if (activeStep === 3) url = `http://localhost:5002/api/json/scene`;
-    // else if (activeStep === 4) url = `http://localhost:5002/api/json/scene`;
+  const getFiles = async () => {
     try {
       const requestOptions = {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
-      const res = await Axios.get(url, requestOptions);
-      // console.log(res);
-      ////////////////////////
+      const res = await Axios.get(
+        // `http://localhost:5002/api/json/timeline`,
+        backend + "/api/json/timeline",
+        requestOptions
+      );
+
       const requestOption = {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res2 = await Axios.get(
+        // `http://localhost:5002/api/project/${projectid}/grammarName`,
         backend + `/api/project/${projectid}/grammarName`,
         requestOption
       );
-      console.log(res2.data.grammarName);
       setfiles(res.data);
-      // console.log(res.data);
-      // console.log(files);
-      res.data.map((p) => {
-        // console.log(p.name);
 
+      res.data.map((p) => {
         if (p.name == res2.data.grammarName) {
           if (grammarDataArray.length != 5) {
             grammarDataArray.push(p.scene);
@@ -341,11 +337,8 @@ const ProjectPageContent = ({
             grammarDataArray.push(p.custom);
             grammarDataArray.push(p.timeline);
           }
-          // console.log(grammarDataArray);
         }
       })
-
-      // setfiles(res.data);
     } catch (error) {
       toast({
         title: "Something went wrong 1",  //Goes wrong
@@ -358,21 +351,30 @@ const ProjectPageContent = ({
     }
   };
 
-  useEffect(() => {
-    const f = async () => {
-      setLoading(true);
-      await getfiles();
-      setLoading(false);
-    };
+  const getRules = async () => {
+    const res_rules = await Axios.post(
+      // "http://localhost:5002/api/custom/get-custom-rules",
+      backend + "/api/custom/get-custom-rules",
+      {
+        headers: {
+          "Content-Type": "application/json", 
+          token: jwttoken 
+        },
+        data: {
+          project_id: projectid
+        }
+      }
+    );
+    setRuleList(res_rules.data);
+  }
 
-    f();
-  }, []);
-
   useEffect(() => {
-    getfiles();
+    setLoading(true);
+    getFiles();
+    getRules();
     if (activeStep == 0) {
       setdata(scene);
-      getfiles();
+      getFiles();
       fl = false;
       if (isJson(scene)) {
         setDownloadable(true);
@@ -393,7 +395,7 @@ const ProjectPageContent = ({
       }
     }
     if (activeStep == 3) {
-      setdata(custom);
+      // setdata(custom);
       fl = false
       if (isJson(custom)) {
         setDownloadable(true);
@@ -406,7 +408,9 @@ const ProjectPageContent = ({
         setDownloadable(true);
       }
     }
+    setLoading(false);
   }, []);
+  
   const downloadTxtFile = () => {
     if (data === "" || !isJson(data)) {
       toast({
@@ -439,32 +443,27 @@ const ProjectPageContent = ({
     document.body.removeChild(downlink);
     URL.revokeObjectURL(href);
   };
+
   let handleInputChange = (e) => {
     let inputValue = e.target.value;
     setValue(inputValue);
   };
 
   let asset_valid = (asset, asset_list, flag) => {
-
     // if flag is zero, dont print any errors
     let valid_obj = false;
 
     asset_list.map(((d,j)=>{
-
-      // console.log(asset, d);
       if(asset === d)
         valid_obj = true;
-
       // if(c.targetObj == d)
       //   valid_target = true;
-            
     }))
 
-    if( valid_obj === false )
-    {
+    if(valid_obj === false) {
       setValidated(false);
       setDownloadable(false);
-      if(flag){
+      if (flag) {
         toast({
           title:
             "Object "+ asset +" is not listed in Asset JSON. Only assets present in Asset JSON are valid."+asset+"  "+asset_list,
@@ -480,78 +479,41 @@ const ProjectPageContent = ({
   }
 
   let assetValidator = (a, all_object_ids) => {
-
     a.map((c,i)=>{
-
-      // console.log(c);
-
       let ret1 = asset_valid(c.sourceObj, all_object_ids, 1);
       let ret2;
-      if(c.targetObj[c.targetObj.length - 1] === '*' )
-      {
-        // console.log("yes");
+      if (c.targetObj[c.targetObj.length - 1] === '*') {
         ret2 = 1;
-      }
-      else
+      } else
         ret2 = asset_valid(c.targetObj, all_object_ids, 1);
 
-      // console.log("rets:", ret1, ret2);
-
-      if( ret1 === -1 )
-      {
-        // toast({
-        //   title:
-        //     "Source object should be a part of Asset JSON.",
-        //   status: "warning",
-        //   duration: 5000,
-        //   isClosable: true,
-        //   position: "top-right",
-        // });
+      if(ret1 === -1) {
         return false;
       }
-      // console.log(c.repeatactionfor.length);
-      if( c.repeatactionfor !== null && c.repeatactionfor.length !== 0 && c.repeatactionfor[0] !== " ")
-      {
+
+      if (c.repeatactionfor !== null && c.repeatactionfor.length !== 0 && c.repeatactionfor[0] !== " ") {
         let repeat_assets = [];
         let curr_word = "";
         Array.from(c.repeatactionfor).map((char, key)=>{
-          if(char === ',' || char === ' ')
-          {
-            if(curr_word !== "" && curr_word !== " " && curr_word.length !== 0 )
-            {
+          if (char === ',' || char === ' ') {
+            if(curr_word !== "" && curr_word !== " " && curr_word.length !== 0) {
               repeat_assets.push(curr_word);
               curr_word = "";
             }
-          }
-          else
-          {
+          } else
             curr_word = curr_word + char;
-          }
         })
         if(curr_word != "" || curr_word != " " || curr_word.length != 0)
           repeat_assets.push(curr_word);
         
-        // console.log(repeat_assets);
-
         repeat_assets.map((word, key)=>{
           let ret = asset_valid(word, all_object_ids, 1);
-          // console.log("ret", ret);
-          if( ret === -1 )
-          {
-            // toast({
-            //   title:
-            //     "Objects in repeatactionfor must be a part of Asset JSON.",
-            //   status: "warning",
-            //   duration: 5000,
-            //   isClosable: true,
-            //   position: "top-right",
-            // });
+          if ( ret === -1) {
             return false;
           }
         })
 
-        if(ret2 === -1 && c.targetObj[c.targetObj.length - 1] !=="*")
-        {
+        if (ret2 === -1 && c.targetObj[c.targetObj.length - 1] !== "*") {
           toast({
             title:
               "Please update the Target Object according to the reccomendations in the document.",
@@ -561,11 +523,8 @@ const ProjectPageContent = ({
             position: "top-right",
           });
           return false;
-        }
-        else
-        {
-          if(asset_valid(c.targetObj, repeat_assets, 0) === 1)
-          {
+        } else {
+          if(asset_valid(c.targetObj, repeat_assets, 0) === 1) {
             toast({
               title:
                 "Target object should not be a part of repeatactionfor.",
@@ -579,12 +538,10 @@ const ProjectPageContent = ({
         }
       }
     })
-
     return true;
   }
 
   let onValidate2 = async () => {
-
     toast({
       title: "Validation successfull",
       status: "success",
@@ -593,37 +550,17 @@ const ProjectPageContent = ({
       position: "top-right",
     });
 
-    console.log("output");
-    setDownloadable(true);
-
     valid_rule.push({
       rulename: rulename,
       data_name: data,
       description: description
     });
 
+    setDownloadable(true);
     setSavebutton(true);
-
-    // fetch('http://localhost:5002/api/upload-custom-rule', {
-    //   headers: {
-    //     'Accept': 'application/json, text/plain, */*',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     rulename: rulename,
-    //     data_name: data,
-    //     description: description
-    //   })      
-    // }).then((response)=>{
-    //   console.log(response);
-    // })
-
-    console.log(valid_rule);
   };
 
   const onValidate = async () => {
-    // console.log("onValidate Entered");
     if (!isJson(data)) {
       setValidated(false);
       setDownloadable(false);
@@ -759,7 +696,7 @@ const ProjectPageContent = ({
       console.log(e);
     }
     if (grammarDataArray.length === 0) {
-      await getfiles();
+      await getFiles();
     }
 
 
@@ -836,7 +773,7 @@ const ProjectPageContent = ({
     catch (e) {
       console.log(e);
       toast({
-        title: "There are errors in the entered JSON, please check them outkljljulij!",
+        title: "There are errors in the entered JSON, please check them out!",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -845,60 +782,7 @@ const ProjectPageContent = ({
     }
   };
 
-  // const onChangeFile = async (e) => {
-  //   setGrammarid(e.target.value);
-  //   if (!e.target.value) {
-  //     setGrammarData({});
-  //     return;
-  //   }
-  //   try {
-  //     const requestOptions = {
-  //       headers: { "Content-Type": "application/json", token: jwttoken },
-  //     };
-  //     const res = await Axios.get(
-  //       `http://localhost:5002/api/json/${e.target.value}`,
-  //       requestOptions
-  //     );
-  //     const grammarjson = JSON.parse(res.data.data);
-  //     setGrammarData(grammarjson);
-  //   } catch (error) {
-  //     toast({
-  //       title: "Something went wrong 4",
-  //       status: "error",
-  //       duration: 10000,
-  //       isClosable: true,
-  //       position: "top",
-  //     });
-  //     console.log(error);
-  //   }
-  // };
-
-  // const onChangeFile = async (e) => {
-  //   setGrammarid(e.target.value);
-  //   if (!e.target.value) {
-  //     // setGrammarData({});
-  //     return;
-  //   }
-  //   try {
-  //     //   if(activeStep==0) setGrammarData
-  //     //   if(activeStep==0) setGrammarData(grammarbundle.scene)
-  //     //  else if(activeStep==1) setGrammarData(grammarbundle.asset)
-  //     //  else if(activeStep==2) setGrammarData(grammarbundle.action)
-  //     //  else if(activeStep==3) setGrammarData(grammarbundle.custom)
-  //     //  else if(activeStep==4) setGrammarData(grammarbundle.timeline)
-  //   } catch (error) {
-  //     toast({
-  //       title: "Something went wrong 4",
-  //       status: "error",
-  //       duration: 10000,
-  //       isClosable: true,
-  //       position: "top",
-  //     });
-  //     console.log(error);
-  //   }
-  // };
   const showValidateHandler = async () => {
-    console.log(data);
     let code = data;
     let jsonData = JSON.stringify({
       types: [
@@ -1053,7 +937,6 @@ const ProjectPageContent = ({
       specialSymbols: ["#", ":", "!", "/", "(", ")"],
     });
 
-    // console.log(jsonData);
     // fetch(`http://localhost:5001/api/upload`, {
     fetch(validation_server + '/api/upload', {
       headers: {
@@ -1063,7 +946,6 @@ const ProjectPageContent = ({
       method: "POST",
       body: JSON.stringify({jsonData}),
     }).then((response) => {
-      console.log(response);
       response.json().then((val) => {
         console.log("Uploaded");
         console.log(val);
@@ -1071,16 +953,13 @@ const ProjectPageContent = ({
       .catch((err)=>{
         console.log(err);
       });
-      // console.log(`Response: ${response.json()}`)
     })
     .catch((err)=>{
       console.log(err);
     });
 
-
-    console.log(code);
-    fetch(validation_server + '/api/process', {
     // fetch(`http://localhost:5001/api/process`, {
+    fetch(validation_server + '/api/process', {
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
@@ -1088,10 +967,7 @@ const ProjectPageContent = ({
       method: "POST",
       body: JSON.stringify({code}),
     }).then((response) => {
-      console.log(response);
       response.json().then((val) => {
-        console.log("Validation response from server");
-        console.log(val.valid);
         if (val.valid) {
           onValidate2();
         } else {
@@ -1104,7 +980,6 @@ const ProjectPageContent = ({
             isClosable: true,
             position: "top-right",
           });
-
           return;
         }
       })
@@ -1118,14 +993,14 @@ const ProjectPageContent = ({
   };
 
   const handleValidateButton = () => {
-    console.log("Showing");
     showValidateHandler(true);
+    setValidated(true);
   };
 
   const saveButton = async () => {
-    console.log("saving");
     try{
       const res = await Axios.post(
+        // "http://localhost:5002/api/custom/upload-custom-rule", {
         backend + "/api/custom/upload-custom-rule", {
           headers: {
             "Content-Type": "application/json", 
@@ -1134,7 +1009,7 @@ const ProjectPageContent = ({
           data: {
             project_id: projectid,
             rulename: rulename,
-            data_name: data,
+            data_name: btoa(data),
             description: description
           }
         }
@@ -1146,28 +1021,33 @@ const ProjectPageContent = ({
         isClosable: true,
         position: "top-right",
       });
-      
-      console.log("fetching behaviours");
-      const res_rules = await Axios.post(
-        backend + "/api/custom/get-custom-rules", {
-          headers: {
-            "Content-Type": "application/json", 
-            token: jwttoken 
-          },
-          data: {
-            project_id: projectid
-          }
-        }
-      );
-      console.log(res_rules.data);
-      setvalid_rule_list(res_rules.data);
-      
+
+      setRuleList([...rule_list, {
+        project_id: projectid,
+        rulename: rulename,
+        data_name: btoa(data),
+        description: description
+      }]);
+
+      setdata('');
+      setRulename('');
+      setDescription('');
+      setValidated(false);
     } catch(err){
       console.log(err);
     }
   }
 
+  const flushWrite = () => {
+    console.log('flushed everything!');
+    setValidated(false);
+    setdata('');
+    setRulename('');
+    setDescription('');
+  }
+
   const onNextStep = async () => {
+    console.log(data);
     if (!isJson(data) && activeStep !== 3) {
       setValidated(false);
       toast({
@@ -1187,9 +1067,8 @@ const ProjectPageContent = ({
       url = url + `/api/project/${projectid}/asset`;
     else if (activeStep === 2)
       url = url + `/api/project/${projectid}/action`;
-    else if (activeStep === 3) {
+    else if (activeStep === 3)
       url = url + `/api/project/${projectid}/custom`;
-    }
     else if (activeStep === 4)
       url = url + `/api/project/${projectid}/timeline`;
     try {
@@ -1216,19 +1095,15 @@ const ProjectPageContent = ({
       console.log(error);
     }
     setSubmitting(false);
-    // if (activeStep == 2) {
-    //   activeStep = 3;
-    //   return;
-    // }
-
     nextStep();
   };
+
   const handel_name = (e) => {
     setRulename(e.target.value);
   };
 
   const handel_description = (e) => {
-    set_description(e.target.value);
+    setDescription(e.target.value);
   };
 
   const onFinish = async () => {
@@ -1251,9 +1126,8 @@ const ProjectPageContent = ({
       url = url + `/api/project/${projectid}/asset`;
     else if (activeStep === 2)
       url = url + `/api/project/${projectid}/action`;
-    else if (activeStep === 3) {
+    else if (activeStep === 3)
       url = url + `/api/project/${projectid}/custom`;
-    }
     else if (activeStep === 4)
       url = url + `/api/project/${projectid}/timeline`;
     try {
@@ -1271,7 +1145,7 @@ const ProjectPageContent = ({
       });
     } catch (error) {
       toast({
-        title: "Something went wrong 2",
+        title: "Something went wrong",
         status: "error",
         duration: 10000,
         isClosable: true,
@@ -1282,6 +1156,49 @@ const ProjectPageContent = ({
     setSubmitting(false);
     onOpen();
   };
+
+  const saveCustom = () => {
+    let str = '';
+    board.map((p) => {
+      if (str.length > 0) {
+        str +=
+        `,{"rulename":"${p.rulename
+        }", "description":"${p.description
+        }","logic": "${btoa(
+          p.data_name
+        )}"}\n`
+      } else {
+        str +=
+        `{"rulename":"${p.rulename
+        }", "description":"${p.description
+        }","logic": "${btoa(
+          p.data_name
+        )}"}\n`
+      }
+    });
+
+    if (!fl) {
+      for (let i = 0; i < rules.length; i++) {
+        rules[i] = `"` + rules[i] + `"`;
+      }
+      fl = true;
+    }
+    setdata(
+      `{"objects_used":[${rules}],"rules":[${str}]}`
+    );
+    toast({
+      title:
+        "JSON is saved, click Next to continue",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "top-right",
+    });
+    setReorder(false);
+    setDownloadable(true);
+    setBoard([]);
+    console.log(`{"objects_used":[${rules}],"rules":[${str}]}`);
+  }
 
   return loading ? (
     <>
@@ -1306,50 +1223,10 @@ const ProjectPageContent = ({
         <Grid templateColumns="repeat(6, 1fr)" gap={4}>
           <GridItem rowSpan={3} colSpan={1}>
             <Flex flexDir={"column"} pr={20} pt={120}>
-              {/* {Object.keys(grammarData).length > 0 ? (
-              <>
-                {Object.keys(grammarData).map((e, i) => (
-                  <Tooltip key={i} label={grammarData[e]["%comment%"]}>
-                    <CustomCard
-                      colorScheme={tipcolors[grammarData[e].typeof]}
-                      variant={
-                        grammarData[e].req === "mandatory" ? "solid" : "outline"
-                      }
-                      cursor="pointer"
-                    >
-                      {e}: {grammarData[e].typeof}
-                    </CustomCard>
-                  </Tooltip>
-                ))}
-              </>
-            ) : (
-              <Flex
-                flexDir={"row"}
-                alignItems="center"
-                minH="60vh"
-                justifyContent={"center"}
-                pl="50px"
-              >
-                Please select a grammar file to validate
-              </Flex>
-            )} */}
             </Flex>
           </GridItem>
           <GridItem rowSpan={3} colSpan={3}>
             <Flex py={4} alignItems={"center"} flexDir="column">
-              {/* <Select
-              placeholder="Select Grammar File"
-              py={4}
-              maxW={80}
-              // onChange={onChangeFile}
-              defaultValue={grammarid}
-            > */}
-              {/* {files.map((file) => (
-                <option key={file._id} value={file._id}>
-                  {file.scene}
-                </option>
-              ))} */}
-              {/* </Select> */}
               <Flex marginTop={20} marginBottom={10}>
                 <AceEditor
                   fontSize={16}
@@ -1366,9 +1243,7 @@ const ProjectPageContent = ({
                   mode="json"
                   theme="terminal"
                   onChange={(newvalue, event) => {
-                    console.log(event);
                     setdata(newvalue);
-                    console.log(data);
                     setDownloadable(false);
                   }}
                   value={data}
@@ -1384,7 +1259,7 @@ const ProjectPageContent = ({
                   disabled={!data}
                   onClick={onValidate}
                 >
-                  Validate_
+                  Validate
                 </Button>
                 <Button
                   colorScheme="green"
@@ -1416,7 +1291,6 @@ const ProjectPageContent = ({
                   >
                     Prev
                   </Button>
-
                   {activeStep === stepslen - 1 ? (
                     <Button
                       size="sm"
@@ -1444,6 +1318,7 @@ const ProjectPageContent = ({
               )}
             </Flex>
           </GridItem>
+          {/* for errors */}
           <GridItem rowSpan={3} colSpan={2} pt={120}>
             <Flex flexDir={"column"} pl={20}>
               {displayErrors.length > 0 ? (
@@ -1478,7 +1353,6 @@ const ProjectPageContent = ({
                         </>
                       );
                     }
-
                     if (splitarr.length === 7 || splitarr.length === 8) {
                       splitarr.map((m, i) => i !== 0 && (str = str + " " + m));
                       Val = () => (
@@ -1496,7 +1370,6 @@ const ProjectPageContent = ({
                         </>
                       );
                     }
-
                     if (splitarr.length === 11) {
                       splitarr.map(
                         (m, i) => i !== 0 && i !== 10 && (str = str + " " + m)
@@ -1523,7 +1396,6 @@ const ProjectPageContent = ({
                         </>
                       );
                     }
-
                     return (
                       <ListItem key={i}>
                         <ListIcon as={FaExclamationCircle} color="red.500" />
@@ -1554,20 +1426,20 @@ const ProjectPageContent = ({
                 </Box>
               </ModalBody>
               <ModalFooter>
-                <Button onClick={() => {
-                  onClose();
-                  // history.push("/projects");
-                }}>Close</Button>
+                <Button>
+                  <Flex as={Link} to="/projects">Close</Flex>
+                </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
         </Grid>
       ) : (
         <>
-          <Tabs isFitted variant="enclosed" marginTop={10}>
+          <Tabs isFitted variant="unstyled" marginTop={10}>
             <TabList mb="1em">
-              <Tab >Write</Tab>
-              <Tab >Read</Tab>
+              <Tab _selected={{ color: 'white', bg: 'blue.300' }}>Author Custom Behaviour</Tab>
+              <Tab _selected={{ color: 'white', bg: 'blue.300' }}>View Authored Custom Behaviours</Tab>
+              <Tab _selected={{ color: 'white', bg: 'blue.300' }}>Publish</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -1575,40 +1447,92 @@ const ProjectPageContent = ({
                   <Grid templateColumns="repeat(8, 1fr)" gap={2}>
                     <GridItem rowSpan={8} colStart={1} colEnd={8}>
                       <Flex py={4} alignItems={"center"} flexDir="column">
-                        
-                        <div>
+                        <Text fontSize='xl'>Author your custom behaviours below.</Text>
+                        <Flex flexDir="row" marginTop={10}>
+                          <Text fontSize='lg'>Behaviour Name:</Text>
                           <Flex>
-                            Name:
                             <FormControl
                               paddingRight={10}
                               paddingLeft={2}
-                            // value={rulename} onChange={(e) => { setRulename(e) }} placeholder="name"
                             >
-                              <input
+                              <Input
                                 value={rulename}
                                 onChange={handel_name}
-                                placeholder="  Name"
-                                autoFocus
-                              ></input>
-                            </FormControl>
-                            Description:
-                            <FormControl
-                              paddingLeft={2}
-
-                            // value={description} onChange={(e) => { set_description(e) }} placeholder="description"
-                            >
-                              <input
-                                value={description}
-                                onChange={handel_description}
-                                placeholder="  Description"
-                              ></input>
+                                placeholder="Name"
+                                size="sm"
+                              ></Input>
                             </FormControl>
                           </Flex>
-                        </div>
-                        
-                        <Flex flexDir="row" paddingTop={10} paddingLeft={20} marginLeft={20}>
-                          {/* All three boxes inside this */}
-                          
+                          <Text fontSize='lg'>Behaviour Description:</Text>
+                          <Flex>
+                            <FormControl
+                              paddingLeft={2}
+                            >
+                              <Input
+                                value={description}
+                                onChange={handel_description}
+                                placeholder="Description"
+                                size="sm"
+                              ></Input>
+                            </FormControl>
+                          </Flex>
+                        </Flex>
+                        <Flex flexDir="row" paddingTop={10} paddingLeft={35} marginLeft={20}>
+                          <Box
+                            as="pane"
+                            bg="grey"
+                            _dark={{
+                              bg: "gray.800",
+                            }}
+                            h="32em"
+                            w="12em"
+                          >
+                            <Box 
+                              as="pane"
+                              zIndex="fixed"
+                              h="300px"
+                              overflowX="hidden"
+                              overflowY="auto"
+                              w="400px"
+                              colorScheme="yellow"
+                            >
+                              <Flex px="4" pb="3" pt="5" align="center">
+                                  <Text
+                                    fontSize="2xl"
+                                    ml="2"
+                                    color="white"
+                                    fontWeight="semibold"
+                                  >
+                                    Code Constructs
+                                  </Text>
+                              </Flex>
+                              <Flex
+                                direction="column"
+                                as="nav"
+                                fontSize="lg"
+                                color="white"
+                                aria-label="Main Navigation"
+                                margin={5}
+                                marginTop={2}
+                                marginLeft={7}
+                              >
+                                { semantics.elements.map((p) => (
+                                    <a
+                                      onClick={() => {
+                                        console.log(position);
+                                        var newdata_part1 = data.slice(0,position);
+                                        var newdata_part2 = data.slice(position);
+                                        setdata(newdata_part1 + p.editorDisplay + newdata_part2);
+                                      }}
+                                      color="white"
+                                    >
+                                      <span>{p.displayName}</span>
+                                    </a>
+                                  ))
+                                }
+                              </Flex>
+                            </Box>
+                          </Box>
                           <Flex marginLeft={10} marginRight={10} marginBottom={10}>
                             <AceEditor
                               fontSize={16}
@@ -1625,34 +1549,14 @@ const ProjectPageContent = ({
                               mode="json"
                               theme="terminal"
                               onChange={(newvalue, event) => {
-                                // console.log(newvalue);
                                 fl = false;
-                                // setTextPointer({"row": event.end.row, "column": event.end.column});
-                                // console.log(event);
                                 setdata(newvalue);
-                                // console.log(data);
-                                // console.log(data.length);
                                 setDownloadable(false);
                               }}
-                              // onClick={(event) => {   
-                              //   console.log("clicked here");     
-                              //   console.log(event);            
-                              //   // setTextPointer(event.target.selectionStart);
-                              //   setTextPointer({"row": event.end.row, "column": event.end.column});
-                              //   console.log(textPointer);
-                              //   // convertPointer(textPointer, )
-                              // }}
                               onCursorChange={(newplace)=>{
-                                // console.log("changed text pointer");
-                                // console.log(newplace);
-                                // setTextPointer({"row": newplace.cursor.row, "column": newplace.cursor.column});
                                 convertPointer({"row":newplace.cursor.row, "column": newplace.cursor.column}, newplace.cursor.document.$lines);
-                                // console.log(textPointer);
-                                // console.log(position);
                               }}
                               onSelectionChange={(e)=>{
-                                // console.log(e);
-                                // setTextPointer({"row": e.cursor.row, "column": e.cursor.column});
                                 convertPointer({"row": e.cursor.row, "column": e.cursor.column}, e.doc.$lines);
                               }}
                               value={data}
@@ -1669,8 +1573,8 @@ const ProjectPageContent = ({
                             _dark={{
                               bg: "gray.800",
                             }}
-                            h="40em"
-                            w="24em"
+                            h="32em"
+                            w="18em"
                           >
                             <Box // navbar
                               as="pane"
@@ -1683,18 +1587,15 @@ const ProjectPageContent = ({
                               w="400px"
                             >
                               <Flex px="4" pb="3" pt="5" align="center">
-                                <center>
                                   <Text
                                     fontSize="2xl"
                                     ml="2"
                                     color="white"
                                     fontWeight="semibold"
                                   >
-                                    Actions
+                                    Action-Responses
                                   </Text>
-                                </center>
                               </Flex>
-
                               <Flex
                                 direction="column"
                                 as="nav"
@@ -1712,7 +1613,6 @@ const ProjectPageContent = ({
                                         var newdata_part1 = data.slice(0,position);
                                         var newdata_part2 = data.slice(position);
                                         setdata(newdata_part1 + p + newdata_part2);
-                                        // setdata(data + p);
                                       }}
                                       color="white"
                                     >
@@ -1726,87 +1626,12 @@ const ProjectPageContent = ({
                                 )}
                               </Flex>
                             </Box>
-                            <Box as="pane"
-                            // bg="#D69E2E"
-                            bg="black"
-                            // colorScheme="#D69E2E"
-                            _dark={{
-                              bg: "gray.800",
-                            }} 
-                            h="40em"
-                            w="13em"
-                            >
-                          
-                          <Box 
-                              as="pane"
-                              zIndex="fixed"
-                              h="300px"
-                              overflowX="hidden"
-                              overflowY="auto"
-                              w="400px"
-                              colorScheme="yellow"
-                            >
-                              <Flex px="4" pb="3" pt="5" align="center">
-                                <center>
-                                  <Text
-                                    fontSize="2xl"
-                                    ml="2"
-                                    color="white"
-                                    fontWeight="semibold"
-                                  >
-                                    Semantics
-                                  </Text>
-                                </center>
-                              </Flex>
-                              <Flex
-                                direction="column"
-                                as="nav"
-                                fontSize="lg"
-                                color="white"
-                                aria-label="Main Navigation"
-                                margin={5}
-                                marginTop={2}
-                                marginLeft={7}
-                              >
-                                {
-                                  semantics.elements.map((p) => (
-                                    <a
-                                      onClick={() => {
-                                        console.log(position);
-                                        var newdata_part1 = data.slice(0,position);
-                                        var newdata_part2 = data.slice(position);
-                                        console.log(newdata_part1);
-                                        console.log(newdata_part2);
-                                        setdata(newdata_part1 + p.editorDisplay + newdata_part2);
-
-                                        // if(textPointer.column)
-                                        // const reactAceComponent = this.refs.reactAceComponent;
-                                        // const editor = reactAceComponent.editor;
-                                        // editor.session.insert(textPointer, p.editorDisplay);
-
-                                        // var newdata_part2 = data.slice(textPointer);
-                                        // var x = newdata_part1 + 'x';
-                                        // console.log(x);
-                                        // console.log(newdata_part1 + p.editorDisplay);
-                                        // setdata(newdata_part1 + p.editorDisplay + newdata_part2);
-                                        // setdata(data + p.editorDisplay);
-                                      }}
-                                      color="white"
-                                    >
-                                      <span>{p.displayName}</span>
-                                    </a>
-                                  ))
-                                }
-                              </Flex>
-                            </Box>
-                          </Box>
                           </Box>
                         </Flex>
-
                         <Stack py={4} direction="row">
                           <Button
                             colorScheme="yellow"
-                            disabled={!data || !rulename}
+                            disabled={!(data && rulename && description)}
                             onClick={() => {
                               handleValidateButton();
                               setSeed(Math.random());
@@ -1816,15 +1641,23 @@ const ProjectPageContent = ({
                           </Button>
                           <Button
                             colorScheme="green"
-                            disabled={!data || !rulename || !savebutton}
+                            disabled={!validated}
                             onClick={() => {
                               saveButton();
                             }}
                           >
                             Save
                           </Button>
+                          <Button
+                            colorScheme="red"
+                            disabled={!(data || rulename || description)}
+                            onClick={() => {
+                              flushWrite();
+                            }}
+                          >
+                            Flush
+                          </Button>
                         </Stack>
-
                         {activeStep === stepslen ? (
                           <Flex
                             px={4}
@@ -1852,14 +1685,9 @@ const ProjectPageContent = ({
                             </Button>
                           </Flex>
                         )}
-                      
                       </Flex>
                     </GridItem>
-
-
-
-                      
-                    {/* </GridItem> */}
+                    {/* for errors */}
                     <GridItem rowSpan={3} colSpan={2} pt={120}>
                       <Flex flexDir={"column"} pl={20}>
                         {displayErrors.length > 0 ? (
@@ -1968,70 +1796,75 @@ const ProjectPageContent = ({
               </TabPanel>
               <TabPanel> 
                 <div>
-                  <Grid templateColumns="repeat(6, 1fr)" gap={4} marginTop={20}>
-                    <GridItem rowSpan={3} colStart={2} colEnd={5}>
+                  <Grid templateColumns="repeat(6, 1fr)" gap={2}>
+                    <GridItem rowSpan={8} colStart={1} colEnd={8}>
                       <Flex py={4} alignItems={"center"} flexDir="column">
-
-                        <Flex>
-                          <Flex marginRight={10} marginBottom={10}>
-                            <AceEditor
-                              fontSize={16}
-                              showPrintMargin={true}
-                              showGutter={true}
-                              highlightActiveLine={true}
-                              setOptions={{
-                                enableBasicAutocompletion: true,
-                                enableLiveAutocompletion: true,
-                                enableSnippets: false,
-                                showLineNumbers: true,
-                                tabSize: 2,
-                              }}
-                              mode="json"
-                              theme="terminal"
-                              value={perdata}
-                              name="grammar-editor"
-                              wrapEnabled
-                              height={"40em"}
-                              width={"40em"}
-                              readOnly={true}
-                            />
-                          </Flex>
+                        <Text fontSize='xl'>Choose a custom behaviour to view the behaviour logic.</Text>
+                        <Flex flexDir="row" paddingTop={10} paddingLeft={35} marginLeft={20}>
+                          <Stack direction="column" marginRight={10}>
+                            <Flex>
+                              <Text fontSize='lg'>Behaviour Name: {rule.rulename}</Text>
+                            </Flex>
+                            <Flex paddingTop={2}>
+                              <Text fontSize='lg'>Behaviour Description: {rule.description}</Text>
+                            </Flex>
+                            <Flex paddingTop={2}>
+                              <Text fontSize='lg'>Behaviour Logic:</Text>
+                            </Flex>
+                            <Flex paddingLeft={12}>
+                              <AceEditor
+                                fontSize={20}
+                                showPrintMargin={true}
+                                showGutter={true}
+                                highlightActiveLine={true}
+                                setOptions={{
+                                  enableBasicAutocompletion: true,
+                                  enableLiveAutocompletion: true,
+                                  enableSnippets: false,
+                                  showLineNumbers: true,
+                                  tabSize: 2,
+                                }}
+                                mode="json"
+                                theme="terminal"
+                                // value={(rule.data_name != null ? atob(rule.data_name) : rule.data_name)}
+                                value={logic}
+                                name="grammar-editor"
+                                wrapEnabled
+                                height={"28em"}
+                                width={"32em"}
+                                readOnly={true}
+                              />
+                            </Flex>
+                          </Stack>
                           <Box
                             as="pane"
-                            bg="whitesmoke"
+                            bg="grey"
                             _dark={{
                               bg: "gray.800",
                             }}
-                          // minH="10vh"
+                            h="36em"
+                            w="18em"
                           >
                             <Box // navbar
                               as="pane"
-                              pos="absolute"
-                              // top="250"
-                              // right="20"
                               zIndex="fixed"
                               h="300px"
                               pb="10"
                               overflowX="hidden"
                               overflowY="auto"
                               bg="grey"
-                              borderColor="black"
-                              borderRightWidth="1px"
                               w="400px"
                             >
-                              <Flex px="4" py="5" align="center">
-                                <center>
-                                  <Text
-                                    fontSize="2xl"
-                                    ml="2"
-                                    color="white"
-                                    fontWeight="semibold"
-                                  >
-                                    Behaviours
-                                  </Text>
-                                </center>
+                              <Flex px="4" pb="3" pt="5" align="center">
+                                <Text
+                                  fontSize="2xl"
+                                  ml="2"
+                                  color="white"
+                                  fontWeight="semibold"
+                                >
+                                  Custom Behaviours
+                                </Text>
                               </Flex>
-
                               <Flex
                                 direction="column"
                                 as="nav"
@@ -2040,107 +1873,167 @@ const ProjectPageContent = ({
                                 aria-label="Main Navigation"
                                 margin={5}
                               >
-                                <>
-                                  {valid_rule_list.length > 0 ? (
-                                    valid_rule_list.map((p) => (
+                                {rule_list.length > 0 ? (
+                                  rule_list.map((p) => (
+                                    <Text fontSize='xl'>
                                       <a
-                                        // key={p.rulename}
                                         onClick={() => {
-                                          if (perdata.length > 0) {
-                                            set_perdata(
-                                              perdata +
-                                              `,{"rulename":"${p.rulename
-                                              }", "description":"${p.description
-                                              }","logic": "${btoa(
-                                                p.data_name
-                                              )}"}\n`
-                                            );
-                                          } else {
-                                            set_perdata(
-                                              perdata +
-                                              `{"rulename":"${p.rulename
-                                              }", "description":"${p.description
-                                              }","logic": "${btoa(
-                                                p.data_name
-                                              )}"}\n`
-                                            );
-                                          }
+                                          setRule(p);
+                                          setLogic(p.data_name);
                                         }}
                                         color="white"
                                       >
                                         {p.rulename}
                                       </a>
-
-                                      // console.log(p.rulename)
-                                    ))
-                                  ) : (
-                                    // console.log("jjhghguyg")
-                                    <>
-                                      <Text>No recent files...</Text>
-                                    </>
-
-                                  )}
-
-                                </>
+                                    </Text>
+                                  ))
+                                ) : (
+                                  <>
+                                    <Text>No recent files!</Text>
+                                  </>
+                                )}
                               </Flex>
                             </Box>
                           </Box>
                         </Flex>
-
-
-                        <Stack py={4} direction="row">
+                        <Flex marginTop={10}>
                           <Button
-                            // paddingLeft={-2}
-                            colorScheme="yellow"
-                            onClick={() => {
-                              // perdata.slice(0,perdata.length -1)
-
-                              if (!fl) {
-                                console.log(typeof rules[0]);
-                                for (let i = 0; i < rules.length; i++) {
-                                  rules[i] = `"` + rules[i] + `"`;
-                                }
-                                fl = true;
-                              }
-                              setdata(
-                                `{"objects_used":[${rules}],"rules":[${perdata}]}`
-                              );
-                              toast({
-                                title:
-                                  "JSON is validated, click next to continue",
-                                status: "success",
-                                duration: 5000,
-                                isClosable: true,
-                                position: "top-right",
-                              });
-                              // console.log(data);
-                            }}
-                            disabled={!perdata}
-                            isLoading={submitting}
-                          >
-                            Validate
-                          </Button>
-
-                          <Button
-                            onClick={() => {
-                              set_perdata("");
-                              // fl = false;
-                            }}
-                            // disabled={!validated || !grammarid}
-                            isLoading={submitting}
                             colorScheme="red"
-                          // variant={"outline"}
+                            disabled={!rule.rulename}
+                            onClick={() => {
+                              setRule({});
+                              setLogic("");
+                            }}
                           >
                             Flush
                           </Button>
+                        </Flex>
+                      </Flex>
+                    </GridItem>
+                  </Grid>
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div>
+                  <Grid templateColumns="repeat(6, 1fr)" gap={2}>
+                    <GridItem rowSpan={8} colStart={1} colEnd={8}>
+                      <Flex py={4} alignItems={"center"} flexDir={"column"}>
+                        <Text fontSize='xl'>Select and Publish final custom behaviours.</Text>
+                        <Text>Drag and drop custom behaviours from the behaviour section. Organise them
+                          in an order. On saving, the underlying specification will be published.
+                        </Text>
+                        <Flex flexDir="row" paddingTop={10} paddingLeft={35} marginLeft={20}>
+                          {/* 1. space to hold items: pending */}
+                          <Flex paddingTop={10} marginRight={20}>
+                            {/* <DropArea /> */}
+                            {board.length > 0 ? (
+                              <Box
+                                ref={drop}
+                                width={600}
+                                height={700}
+                                border='1px solid'
+                                position='relative'
+                                maxHeight={700}
+                                overflowY='auto'
+                                justifyContent='center'
+                              >
+                                <Stack
+                                  py={4}
+                                  direction="column"
+                                  paddingLeft={5}
+                                  paddingRight={5}
+                                >
+                                  {board.map((p, index) => (
+                                    <Button
+                                      backgroundColor='blue.200'
+                                      height={10}
+                                      width='auto'
+                                      draggable
+                                      onDragStart={(e) => {
+                                        if (reorder) {
+                                      	  e.dataTransfer.setData('text/plain', index);
+                                        }
+                                      }}
+                                      onDragOver={(e) => {
+                                      	e.preventDefault();
+                                      }}
+                                      onDrop={(e) => {
+                                        if (reorder) {
+                                          const dragIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+                                          console.log(dragIndex);
+                                          const hoverIndex = index;
+                                          if (dragIndex != hoverIndex) {
+                                            handleReorder(dragIndex, hoverIndex);
+                                          }
+                                        }
+                                      }}
+                                    >
+                                      <Text fontSize='xl'>{p.rulename}</Text>
+                                    </Button>
+                                  ))}
+                                </Stack>
+                              </Box>
+                            ) : (
+                              <Box
+                                ref={drop}
+                                width={600}
+                                height={700}
+                                border='1px solid'
+                                position='relative'
+                                justifyContent='center'
+                                alignItems='center'
+                              >
+                                <Text
+                                  textAlign="center"
+                                >Drop Here</Text>
+                              </Box>
+                            )}
+                          </Flex>
+                          {/* 2. behaviours to select: done */}
+                          <Stack
+                            py={4}
+                            direction="column"
+                            maxHeight={800}
+                            overflowY='auto'
+                          >
+                            <Flex align="center">
+                              <Text fontSize="2xl">Custom Behaviours</Text>
+                            </Flex>
+                            {rule_list.length > 0 ? (
+                              rule_list.map((p) => {
+                                return <Behaviour obj={p} reorder={reorder}/>
+                              })
+                            ) : (
+                              <>
+                                <Text fontSize='xl'>No recent files!</Text>
+                              </>
+                            )}
+                          </Stack>
+                        </Flex>
+                        <Stack py={4} direction="row" marginTop={10}>
                           <Button
-                            onClick={() => setSeed(Math.random())}
-                            // disabled={!validated || !grammarid}
+                            colorScheme="yellow"
+                            onClick={() => {setReorder(true)}}
+                            disabled={board.length === 0}
+                            isLoading={submitting}
+                          >
+                            Reorder
+                          </Button>
+                          <Button
+                            onClick={saveCustom}
+                            disabled={!reorder}
                             isLoading={submitting}
                             colorScheme="green"
-                          // variant={"outline"}
                           >
-                            Update
+                            Save
+                          </Button>
+                          <Button
+                            onClick={() => {setBoard([]); setReorder(false)}}
+                            disabled={board.length === 0}
+                            isLoading={submitting}
+                            colorScheme="red"
+                          >
+                            Flush
                           </Button>
                           <Button
                             colorScheme="green"
@@ -2151,11 +2044,11 @@ const ProjectPageContent = ({
                             Download File
                           </Button>
                         </Stack>
-                        <Flex width="100%" justify="flex-end">
+                        <Flex width="70%" justify="flex-end">
                           <Button
                             size="sm"
                             onClick={onNextStep}
-                            // disabled={!validated || !grammarid}
+                            disabled={board.length}
                             isLoading={submitting}
                             colorScheme="yellow"
                             variant={"outline"}

@@ -46,10 +46,10 @@ const SidebarContent = (props) => (
             Projects
           </NavItem>
           <NavItem icon={BsFiles} to="/myfiles" color="white">
-            My Files
+            My Validators
           </NavItem>
           <NavItem icon={VscFiles} to="/allfiles" color="white">
-            All Files
+            All Validators
           </NavItem>
         </>
       ) : (

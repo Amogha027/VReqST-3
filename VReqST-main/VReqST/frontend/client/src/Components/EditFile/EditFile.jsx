@@ -24,57 +24,141 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-terminal";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaTimes } from "react-icons/fa";
 import { useHistory, useParams, Link } from "react-router-dom";
-import {backend} from "../../server_urls"
+import { backend } from "../../server_urls";
 
 import isJson from "../../utils/checkjson";
 import { check } from "express-validator";
-var a = 0, b = 0, c = 0, d = 0;
+
+const scenefile = require("../default/scene.txt")
+const assetfile = require("../default/asset.txt")
+const actionfile = require("../default/action.txt")
+const timelinefile = require("../default/timeline.txt")
+
 const EditFile = () => {
   const [filename, setfilename] = useState("");
   const [data, setdata] = useState("");
   const [loading, setLoading] = useState(false);
-  const [grammarfor, setGrammarfor] = React.useState("scene");
+  const [grammarfor, setGrammarfor] = useState("");
   const [privateFile, setPrivateFile] = useState(false);
   const [flag, setflag] = useState(false);
+  const [isSaved, setSaved] = useState(true);
+
+  const [scenedef, setScenedef] = useState('');
+  const [assetdef, setAssetdef] = useState('');
+  const [actiondef, setActiondef] = useState('');
+  const [timelinedef, setTimelinedef] = useState('');
+
+  const [scenedata, setSceneData] = useState('');
+  const [assetdata, setAssetData] = useState('');
+  const [actiondata, setActionData] = useState('');
+  const [timelinedata, setTimelineData] = useState('');
 
   const history = useHistory();
   const toast = useToast();
   let { fileid } = useParams();
 
-
   const fetchdata = async () => {
     const jwttoken = localStorage.getItem("jwtToken");
-    setLoading(true);
     try {
       const requestOptions = {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await axios.get(
+        // `http://localhost:5002/api/json/${fileid}`,
         backend + `/api/json/${fileid}`,
         requestOptions
       );
 
-      setdata(res.data.data);
+      if (res.data.scene != null) setSceneData(res.data.scene);
+      if (res.data.asset != null) setAssetData(res.data.asset);
+      if (res.data.action != null) setActionData(res.data.action);
+      if (res.data.timeline != null) setTimelineData(res.data.timeline);
+
       setfilename(res.data.name);
       setGrammarfor(res.data.grammarfor);
       setPrivateFile(res.data.private);
-      setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const fetchDefault = async () => {
+    try {
+      const response1 = await fetch(scenefile);
+      if (!response1.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      const data1 = await response1.text();
+      setScenedef(data1);
+
+      const response2 = await fetch(assetfile);
+      if (!response2.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      const data2 = await response2.text();
+      setAssetdef(data2);
+
+      const response3 = await fetch(actionfile);
+      if (!response3.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      const data3 = await response3.text();
+      setActiondef(data3);
+
+      const response4 = await fetch(timelinefile);
+      if (!response4.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      const data4 = await response4.text();
+      setTimelinedef(data4);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
   useEffect(() => {
+    setLoading(true)
     fetchdata();
+    fetchDefault();
+    setLoading(false);
   }, []);
 
   function onChange(newValue) {
     setdata(newValue);
-    console.log("heleo");
+    setSaved(false);
   }
 
-  const submitform = async () => {
+  const handleGrammar = (value) => {
+    setflag(false);
+    setGrammarfor(value);
+    if (value == "scene") setdata(scenedata);
+    if (value == "asset") setdata(assetdata);
+    if (value == "action") setdata(actiondata);
+    if (value == "timeline") setdata(timelinedata);
+  }
+
+  const handleSwitch = () => {
+    setSaved(false);
+    if (!flag) {
+      if (grammarfor == "scene") setdata(scenedef);
+      if (grammarfor == "asset") setdata(assetdef);
+      if (grammarfor == "action") setdata(actiondef);
+      if (grammarfor == "timeline") setdata(timelinedef);
+      setflag(true)
+    }
+    else {
+      // setdata("");
+      if (grammarfor == "scene") setdata(scenedata);
+      if (grammarfor == "asset") setdata(assetdata);
+      if (grammarfor == "action") setdata(actiondata);
+      if (grammarfor == "timeline") setdata(timelinedata);
+      setflag(false)
+    }
+  }
+
+  const saveFiles = async () => {
     if (!isJson(data)) {
       toast({
         title: "JSON Syntax is not correct",
@@ -88,21 +172,30 @@ const EditFile = () => {
 
     const jwttoken = localStorage.getItem("jwtToken");
     setLoading(true);
-    // console.log("start ");
-    // console.log(data);
-    // console.log(filename);
-    // console.log(grammarfor);
+
     try {
       const requestOptions = {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
-      console.log(privateFile);
+
       let url = backend;
-      if (grammarfor == "scene") { url = url + `/api/json/${fileid}/scene`; }
-      if (grammarfor == "action") { url = url + `/api/json/${fileid}/action`; }
-      if (grammarfor == "asset") { url = url + `/api/json/${fileid}/asset`; }
-      if (grammarfor == "custom") { url = url + `/api/json/${fileid}/custom`; }
-      if (grammarfor == "timeline") { url = url + `/api/json/${fileid}/timeline`; }
+      if (grammarfor == "scene") {
+        url = url + `/api/json/${fileid}/scene`;
+        setSceneData(data);
+      }
+      if (grammarfor == "action") {
+        url = url + `/api/json/${fileid}/action`;
+        setActionData(data);
+      }
+      if (grammarfor == "asset") {
+        url = url + `/api/json/${fileid}/asset`;
+        setAssetData(data);
+      }
+      if (grammarfor == "timeline") {
+        url = url + `/api/json/${fileid}/timeline`;
+        setTimelineData(data);
+      }
+      setSaved(true);
 
       await axios.patch(
         url,
@@ -122,7 +215,7 @@ const EditFile = () => {
       console.log(error);
     }
     setflag(false);
-  };
+  }
 
   return loading ? (
     <>
@@ -151,7 +244,7 @@ const EditFile = () => {
       >
         <BreadcrumbItem>
           <BreadcrumbLink as={Link} to="/myfiles">
-            My Files
+            My Validators
           </BreadcrumbLink>
         </BreadcrumbItem>
 
@@ -175,23 +268,12 @@ const EditFile = () => {
           mb={5}
         >
           <Flex justifyContent="center" flexDir={"column"}>
-            <Box p="2">
-              <Input
-                colorScheme="yellow"
-                placeholder="File Name"
-                isRequired
-                onChange={(e) => setfilename(e.target.value)}
-                value={filename}
-              />
-            </Box>
-            <RadioGroup onChange={setGrammarfor} value={grammarfor} py={2}>
+            <RadioGroup onChange={handleGrammar} value={grammarfor} py={2}>
               <Stack direction="row">
-                <Radio value="scene">Scene</Radio>
-                <Radio value="asset">Asset</Radio>
-                <Radio value="action">Action</Radio>
-                {/* <Radio value="custom">Custom</Radio> */}
-                <Radio value="timeline">Timeline</Radio>
-
+                <Radio isReadOnly={!isSaved} value="scene">Scene</Radio>
+                <Radio isReadOnly={!isSaved} value="asset">Asset</Radio>
+                <Radio isReadOnly={!isSaved} value="action">Action</Radio>
+                <Radio isReadOnly={!isSaved} value="timeline">Timeline</Radio>
               </Stack>
             </RadioGroup>
             <FormControl display="flex" justifyContent="center" pb={2}>
@@ -201,1146 +283,8 @@ const EditFile = () => {
               <Switch
                 id="public-file"
                 defaultChecked={false}
-                onChange={() => {
-                  if (!flag) {
-                    if (grammarfor === "scene") {
-                      onChange(`{
-                      "_scenename":{
-                         "req":"mandatory",
-                         "typeof":"string",
-                         "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                      "_sid":{
-                         "req":"mandatory",
-                         "typeof":"string",
-                         "repeat":"notallow",
-                         "%comment%":"A fillable Unique Identifier of the scene"
-                      },
-                      "_slabel":{
-                         "req":"optional",
-                         "typeof":"string",
-                         "repeat":"notallow",
-                         "%comment%":"A fillable Optional text field for scene description in 200 words"
-                      },
-                     "#pid":{
-                        "req":"mandatory",
-                        "root":"_playarea",
-                        "typeof":"string",
-                        "%comment%":"pid"
-                     },
-                     "#length_uplayarea":{
-                        "req":"mandatory",
-                        "root":"_playarea",
-                        "typeof":"string",
-                        "repeat":"notallow",
-                        "%comment%":"pid"
-                     },
-                     "#breadth_uplayarea":{
-                        "req":"mandatory",
-                        "root":"_playarea",
-                        "typeof":"string",
-                        "repeat":"notallow",
-                        "%comment%":"pid"
-                     },
-                     "#height_uplayarea":{
-                        "req":"mandatory",
-                        "root":"_playarea",
-                        "typeof":"string",
-                        "repeat":"notallow",
-                        "%comment%":"pid"
-                     },
-                     
-                     "#x_scenecenter":{
-                        "req":"mandatory",
-                        "root":"_playarea",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"pid"
-                     },
-                     "#y_scenecenter":{
-                        "req":"mandatory",
-                        "root":"_playarea",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"pid"
-                     },
-                     "#z_scenecenter":{
-                        "req":"mandatory",
-                        "root":"_playarea",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"pid"
-                     },
-                     
-                      
-                          "IsSceneObject":{
-                        "root":"_camera",
-                         "req":"mandatory",
-                         "typeof":"boolean",
-                         "repeat":"notallow",
-                         "%comment%":"true for yes, false for no. This is to set initial camera in the scene. Additional attributes include IsSceneObject which holds boolean value and trackingorigin holds string value i.e. either floor (physical real-world ground) or +/- height from the physical real-world ground. Example: 5+floor"
-                      },
-                        "trackingorigin":{
-                        "root":"_camera",
-                         "req":"mandatory",
-                         "typeof":"string",
-                         "repeat":"notallow",
-                         "%comment%":"true for yes, false for no. This is to set initial camera in the scene. Additional attributes include IsSceneObject which holds boolean value and trackingorigin holds string value i.e. either floor (physical real-world ground) or +/- height from the physical real-world ground. Example: 5+floor"
-                      },
-                      "#x_initialcamerapos":{
-                        "root":"_initialcamerapos",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"allow",
-                        "%comment%":"emo"
-                      },
-                      "#y_initialcamerapos":{
-                        "root":"_initialcamerapos",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"allow",
-                        "%comment%":"emo"
-                      },
-                      "#z_initialcamerapos":{
-                        "root":"_initialcamerapos",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"allow",
-                        "%comment%":"emo"
-                      },
-                  
-                      "#x_viewport":{
-                        "root":"_viewport",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"allow",
-                        "%comment%":"emo"
-                      },
-                      "#y_viewport":{
-                        "root":"_viewport",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"allow",
-                        "%comment%":"emo"
-                      },
-                      "#w_viewport":{
-                        "root":"_viewport",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"allow",
-                        "%comment%":"emo"
-                      },
-                      "#h_viewport":{
-                        "root":"_viewport",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"allow",
-                        "%comment%":"emo"
-                      },
-                     
-                     "near_cp":{
-                        "root":"_clippingplane",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"Used to represent near clipping plane with value ranging from 0.0 to 1000000"
-                     },
-                  
-                     "far_cp":{
-                        "root":"_clippingplane",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"Used to represent far clipping plane with value ranging from 0.0 to 1000000"
-                     },
-                  
-                      "_horizon":{
-                         "req":"mandatory",
-                         "typeof":"boolean",
-                         "repeat":"notallow",
-                         "%comment%":"true for yes, false for no. This is to set horizon sun to map the terrian with real world"
-                      },
-                      "_dof":{
-                         "req":"mandatory",
-                         "typeof":"number",
-                         "repeat":"notallow",
-                         "%comment%":"accepts two values 3 and 6. Throw errors for the rest of the values"
-                      },
-                      "_skybox":{
-                         "req":"mandatory",
-                         "typeof":"number",
-                         "repeat":"notallow",
-                         "%comment%":"accepts two values 3 and 6. Throw errors for the rest of the values"
-                      },
-                     
-                     "type":{
-                        "root":"_controllers",
-                        "req":"mandatory",
-                        "typeof":"string",
-                        "repeat":"notallow",
-                        "%comment%":"type"
-                     },
-                     "raycast":{
-                        "root":"_controllers",
-                        "req":"mandatory",
-                        "typeof":"boolean",
-                        "repeat":"notallow",
-                        "%comment%":"type"
-                     },
-                     "raydistance":{
-                        "root":"_controllers",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"type"
-                     },
-                     "raythinkness":{
-                        "root":"_controllers",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"type"
-                     },
-                     "raycolor":{
-                        "root":"_controllers",
-                        "req":"mandatory",
-                        "typeof":"string",
-                        "repeat":"notallow",
-                        "%comment%":"type"
-                     },
-                     "raytype":{
-                        "root":"_controllers",
-                        "req":"mandatory",
-                        "typeof":"string",
-                        "repeat":"notallow",
-                        "%comment%":"type"
-                     },
-                     "value":{
-                        "root":"_gravity",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "%comment%":"value of earth gravity"
-                     },
-                      "_interaction":{
-                         "req":"mandatory",
-                         "typeof":"boolean",
-                         "repeat":"notallow",
-                         "%comment%":"This describes the interaction capacity in the scene."
-                      },
-                     "#value":{
-                        "root":"_nestedscene",
-                        "req":"mandatory",
-                        "typeof":"boolean",
-                        "repeat":"notallow",
-                        "%comment%":"value"
-                     },
-                     "#scenecount":{
-                        "root":"_nestedscene",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"value"
-                     },
-                     "#sid_order":{
-                        "root":"_nestedscene",
-                        "req":"mandatory",
-                        "typeof":"number",
-                        "repeat":"notallow",
-                        "%comment%":"value"
-                     },
-                      "_audio":{
-                         "req":"mandatory",
-                         "typeof":"boolean",
-                         "repeat":"notallow",
-                         "%comment%":"true for spatial audio, false for no spatial audio"
-                      },
-                      "_timeline":{
-                         "req":"mandatory",
-                         "typeof":"boolean",
-                         "repeat":"notallow",
-                         "%comment%":"true for timed scene with dynamic events, false for a static scene with static events"
-                      },
-                      "_Opttxt1":{
-                         "req":"optional",
-                         "typeof":"string",
-                         "repeat":"notallow",
-                         "%comment%":"For user optional text"
-                      },
-                      "@context_mock":{
-                         "req":"optional",
-                         "typeof":"string",
-                         "repeat":"notallow",
-                         "%comment%":"For external reference URLs like figma screens or other resource links"
-                      },
-                       "usertype":{
-                         "req":"mandatory",
-                         "typeof":"object",
-                         "repeat":"notallow",
-                         "%comment%":"Defines the scene as Single user or Multi-user scene along with additional values like uplayarea to define the length, breadth and height of the user along with initialupos value in x,y,z coordinates"
-                      },
-                      "type":{
-                    "root": "usertype",
-                     "req":"mandatory",
-                      "typeof":"string",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      },
-                   "#length_uplayarea":{
-                    "root": "uplayarea",
-                     "proot":"usertype", 
-                     "req":"mandatory",
-                      "typeof":"number",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      },
-                      "#breadth_uplayarea":{
-                    "root": "uplayarea",
-                     "proot":"usertype", 
-                     "req":"mandatory",
-                      "typeof":"number",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      },
-                      "#height_uplayarea":{
-                        "root": "uplayarea",
-                         "proot":"usertype", 
-                         "req":"mandatory",
-                          "typeof":"number",
-                          "repeat":"allow",
-                          "%comment%":"asdfasdf"
-                          },
-                      "#x_initialupos":{
-                    "root": "initialupos",
-                     "proot":"usertype", 
-                     "req":"mandatory",
-                      "typeof":"number",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      },
-                      "#y_initialupos":{
-                    "root": "initialupos",
-                     "proot":"usertype", 
-                     "req":"mandatory",
-                      "typeof":"number",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      },
-                      "#z_initialupos":{
-                    "root": "initialupos",
-                     "proot":"usertype", 
-                     "req":"mandatory",
-                      "typeof":"number",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      },
-                        "#x_uplayareacenter":{
-                    "root": "uplayareacenter",
-                     "proot":"usertype", 
-                     "req":"mandatory",
-                      "typeof":"number",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      },
-                      "#y_uplayareacenter":{
-                    "root": "uplayareacenter",
-                     "proot":"usertype", 
-                     "req":"mandatory",
-                      "typeof":"number",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      },
-                      "#z_uplayareacenter":{
-                    "root": "uplayareacenter",
-                     "proot":"usertype", 
-                     "req":"mandatory",
-                      "typeof":"number",
-                      "repeat":"allow",
-                      "%comment%":"asdfasdf"
-                      }
-                   }`)
-                    }
-                    else if (grammarfor === "asset") {
-                      onChange(`{
-                      "articles": {
-                          "req": "mandatory",
-                          "typeof": "object",
-                          "repeat": "notallow",
-                          "%comment%": "ooann"
-                      },
-                      "_objectname": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "_sid": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "_slabel": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "_IsHidden": {
-                          "req": "mandatory",
-                          "typeof": "number",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "_enumcount": {
-                          "req": "mandatory",
-                          "typeof": "number",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "_Is3DObject": {
-                          "req": "mandatory",
-                          "typeof": "number",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "HasChild": {
-                          "req": "mandatory",
-                          "typeof": "number",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "shape": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "dradii": {
-                          "req": "mandatory",
-                          "typeof": "number",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "dimension",
-                          "%comment%": "ooann"
-                      },
-                      "dvolumn": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "dimension",
-                          "%comment%": "ooann"
-                      },
-                      "dlength": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "dimension",
-                          "%comment%": "ooann"
-                      },
-                      "dbreadth": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "dimension",
-                          "%comment%": "ooann"
-                      },
-                      "dheigth": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "dimension",
-                          "%comment%": "ooann"
-                      },
-                      "IsText": {
-                          "req": "mandatory",
-                          "typeof": "boolean",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "IsText3D": {
-                          "req": "mandatory",
-                          "typeof": "boolean",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "CastShadow": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "lighting",
-                          "%comment%": "ooann"
-                      },
-                      "ReceiveShadow": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "lighting",
-                          "%comment%": "ooann"
-                      },
-                      "ContributeGlobalIlumination": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "lighting",
-                          "%comment%": "ooann"
-                      },
-                      "IsIlluminate": {
-                          "req": "mandatory",
-                          "typeof": "boolean",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "ooann"
-                      },
-                      "#x_initialpos": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_initalpos",
-                          "%comment%": "ooann"
-                      },
-                      "#y_initialpos": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_initalpos",
-                          "%comment%": "ooann"
-                      },
-                      "#z_initialpos": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_initalpos",
-                          "%comment%": "ooann"
-                      },
-                      "#x_initialrotation": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_initalrotation",
-                          "%comment%": "ooann"
-                      },
-                      "#y_initialrotation": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_initalrotation",
-                          "%comment%": "ooann"
-                      },
-                      "#z_initialrotation": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_initalrotation",
-                          "%comment%": "ooann"
-                      },
-                      "#x_objectscale": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_objectscale",
-                          "%comment%": "ooann"
-                      },
-                      "#y_objectscale": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_objectscale",
-                          "%comment%": "ooann"
-                      },
-                      "#z_objectscale": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Transform_objectscale",
-                          "%comment%": "ooann"
-                      },
-                      "#distfactorx": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "repeattransform",
-                          "%comment%": "ooann"
-                      },
-                      "#distfactory": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "repeattransform",
-                          "%comment%": "ooann"
-                      },
-                      "#distfactorz": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "repeattransform",
-                          "%comment%": "ooann"
-                      },
-                  
-                      "XRGrabInteractable": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Interaction",
-                          "%comment%": "ooann"
-                      },
-                      "XRInteractionMaskLayer": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Interaction",
-                          "%comment%": "ooann"
-                      },
-                      "TrackPosition": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Interaction",
-                          "%comment%": "ooann"
-                      },
-                      "TrackRotation": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Interaction",
-                          "%comment%": "ooann"
-                      },
-                      "Throw_Detach": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Interaction",
-                          "%comment%": "ooann"
-                      },
-                      "forcegravity": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Interaction",
-                          "%comment%": "ooann"
-                      },
-                      "velocity": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Interaction",
-                          "%comment%": "ooann"
-                      },
-                      "angularvelocity": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "proot": "articles",
-                          "root": "Interaction",
-                          "%comment%": "ooann"
-                      },
-                      "Smoothing": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "uuhjefbj"
-                      },
-                      "Smoothing_duration": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "repeat": "allow",
-                          "root": "articles",
-                          "%comment%": "uuhjefbj"
-                      },
-                      "#rotate_x": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "attachtransform",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "#rotate_y": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "attachtransform",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "#rotate_z": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "attachtransform",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "#pos_x": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "attachtransform",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "#pos_y": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "attachtransform",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "#pos_z": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "attachtransform",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "value": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "XRRigidObject",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "mass": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "XRRigidObject",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "dragfriction": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "XRRigidObject",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "angulardrag": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "XRRigidObject",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "Isgravityenable": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "XRRigidObject",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "IsKinematic": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "XRRigidObject",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "CanInterpolate": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "XRRigidObject",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "CollisionPolling": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "proot": "articles",
-                          "root": "XRRigidObject",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_hasaudio": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_type": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_src": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_volume": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_PlayInloop": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_IsSurround": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_Dopplerlevel": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_spread": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_mindist": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "aud_maxdist": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "_Opttxt1": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      },
-                      "@context_img_source": {
-                          "req": "mandatory",
-                          "typeof": "string",
-                          "root": "articles",
-                          "repeat": "allow",
-                          "%comment%": "gehdwib"
-                      }
-                  }`)
-                    }
-                    else if (grammarfor === "action") {
-                      onChange(`{
-
-                      "ObjAction":{
-                          "req":"mandatory",
-                          "typeof":"object",
-                           "repeat":"notallow",
-                           "%comment%":"Mention your VR Scene name here"
-                          },
-                        
-                      "actresid":{
-                          "req":"mandatory",
-                           "root":"ObjAction",
-                          "typeof":"string",
-                           "repeat":"allow",
-                           "%comment%":"Mention your VR Scene name here"
-                          },	
-                        
-                      "sourceObj":{
-                          "req":"mandatory",
-                        "root":"ObjAction",
-                          "typeof":"string",
-                           "repeat":"allow",
-                           "%comment%":"Mention your VR Scene name here"
-                          },	
-                      
-                      "targetObj":{
-                          "req":"mandatory",
-                        "root":"ObjAction",
-                          "typeof":"string",
-                           "repeat":"allow",
-                           "%comment%":"Mention your VR Scene name here"
-                          },	
-                      
-                      
-                      "IsCollision":{
-                          "req":"mandatory",
-                        "root":"ObjAction",
-                          "typeof":"boolean",
-                           "repeat":"allow",
-                           "%comment%":"Mention your VR Scene name here"
-                          },	
-                      
-                      "response":{
-                          "req":"mandatory",
-                        "root":"ObjAction",
-                          "typeof":"string",
-                           "repeat":"allow",
-                           "%comment%":"Mention your VR Scene name here"
-                          },		
-                        
-                        "comment":{
-                          "req":"mandatory",
-                          "root":"ObjAction",
-                          "typeof":"string",
-                           "repeat":"allow",
-                           "%comment%":"Mention your VR Scene name here"
-                          },
-                      
-                      "Syncronous":{
-                          "req":"mandatory",
-                        "root":"ObjAction",
-                          "typeof":"boolean",
-                           "repeat":"allow",
-                           "%comment%":"Mention your VR Scene name here"
-                          },
-                        
-                        "repeatactionfor":{
-                          "req":"mandatory",
-                          "root":"ObjAction",
-                          "typeof":"string",
-                           "repeat":"allow",
-                           "%comment%":"Mention your VR Scene name here"
-                          }
-                      
-                      
-                      
-                      }	
-                        `)
-                    }
-                    else if (grammarfor === "timeline") {
-                      onChange(`{
-                      "tsyncid":{
-                        "root": "animate_trigSync",
-                         "req":"mandatory",
-                         "typeof":"number",
-                         "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     "tsOntrigger":{
-                        "root": "animate_trigSync",
-                         "req":"optional",
-                         "typeof":"boolean",
-                        "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                      "SyncObjList":{
-                        "root": "animate_trigSync",
-                         "req":"optional",
-                         "typeof":"object",
-                         "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     "tSyncNote":{
-                        "root": "animate_trigSync",
-                         "req":"optional",
-                         "typeof":"string",
-                        "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     
-                       "ntsyncid":{
-                        "root": "animate_nontrigSync",
-                         "req":"mandatory",
-                         "typeof":"number",
-                          "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     "ntsOntrigger":{
-                        "root": "animate_nontrigSync",
-                         "req":"optional",
-                         "typeof":"boolean",
-                        "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                      "ntSyncObjList":{
-                        "root": "animate_nontrigSync",
-                         "req":"optional",
-                         "typeof":"object",
-                         "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     "ntSyncNote":{
-                        "root": "animate_nontrigSync",
-                         "req":"optional",
-                         "typeof":"string",
-                        "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     
-                     
-                    
-                        "tasyncid":{
-                        "root": "animate_trigAsync",
-                         "req":"mandatory",
-                         "typeof":"number",
-                           "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     "taOntrigger":{
-                        "root": "animate_trigAsync",
-                         "req":"optional",
-                         "typeof":"boolean",
-                        "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                      "AsyncObjList":{
-                        "root": "animate_trigAsync",
-                         "req":"optional",
-                         "typeof":"object",
-                         "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     "tAsyncNote":{
-                        "root": "animate_trigAsync",
-                         "req":"optional",
-                         "typeof":"string",
-                        "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     
-                       "ntasyncid":{
-                        "root": "animate_nontrigAsync",
-                         "req":"mandatory",
-                         "typeof":"number",
-                          "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     "ntaOntrigger":{
-                        "root": "animate_nontrigAsync",
-                         "req":"optional",
-                         "typeof":"boolean",
-                        "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                      "ntAsyncObjList":{
-                        "root": "animate_nontrigAsync",
-                         "req":"optional",
-                         "typeof":"object",
-                         "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                     "ntAsyncNote":{
-                        "root": "animate_nontrigAsync",
-                         "req":"optional",
-                         "typeof":"string",
-                        "repeat":"notallow",
-                         "%comment%":"Mention your VR Scene name here"
-                      },
-                      
-                      "routine":{
-                         "repeat":"notallow",
-                         "req":"mandatory",
-                        "typeof":"object",
-                          "%comment%":"Mention your VR Scene name here"
-                      },
-                      
-                     
-                     "routeid":{
-                       "root": "routine",
-                       "req":"mandatory",
-                       "typeof":"number",
-                        "repeat":"allow",
-                        "%comment%":"Mention your VR Scene name here"
-                       
-                     },
-                      "starttime":{
-                       "root": "routine",
-                       "req":"optional",
-                       "typeof":"string",
-                         "repeat":"allow",
-                        "%comment%":"Mention your VR Scene name here"
-                       
-                     },
-                      "endtime":{
-                       "root": "routine",
-                       "req":"optional",
-                       "typeof":"string",
-                         "repeat":"allow",
-                        "%comment%":"Mention your VR Scene name here"
-                       
-                     },
-                       "order":{
-                       "root": "routine",
-                       "req":"optional",
-                       "typeof":"object",
-                          "repeat":"allow",
-                        "%comment%":"Mention your VR Scene name here"
-                       
-                     }
-                     
-                     
-                   }`)
-                    }
-
-                    setflag(true)
-                  }
-                  else {
-                    onChange(" ");
-                    setflag(false)
-                  }
-
-
-                  //   editor.setOptions({
-                  //     readOnly: true,
-                  //     highlightActiveLine: false,
-                  //     highlightGutterLine: false
-                  // })
-                }}
+                isChecked={flag}
+                onChange={handleSwitch}
               />
             </FormControl>
           </Flex>
@@ -1374,30 +318,23 @@ const EditFile = () => {
           <Button
             leftIcon={<FaSave />}
             colorScheme="yellow"
-            disabled={!filename || !data}
-            onClick={() => {
-              submitform()
-              if (grammarfor == "scene") { a = 1 };
-              if (grammarfor == "asset") { b = 1 };
-              if (grammarfor == "action") { c = 1 };
-              if (grammarfor == "timeline") { d = 1 };
-
-            }}
+            // disabled={!filename || !data}
+            disabled={isSaved}
+            onClick={() => {saveFiles()}}
             isLoading={loading}
           >
-            Save File
+            Save Validator
           </Button>
           <Button
-            leftIcon={<FaSave />}
+            leftIcon={<FaTimes />}
             colorScheme="yellow"
-            disabled={!(a & b & c & d)}
+            disabled={!isSaved}
             onClick={() => {
               history.push("/myfiles");
-
             }}
             isLoading={loading}
           >
-            submit
+            Exit
           </Button>
         </Center>
       </Flex>

@@ -14,7 +14,7 @@ import axios from "axios";
 import FileRow from "../MyFiles/FileRow";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {backend} from "../../server_urls"
+import { backend } from "../../server_urls";
 
 const AllFiles = ({ auth }) => {
   const [data, setdata] = useState([]);
@@ -28,8 +28,8 @@ const AllFiles = ({ auth }) => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await axios.get(
-        backend + "/api/json/all",
         // "http://localhost:5002/api/json/all",
+        backend + "/api/json/all",
         requestOptions
       );
 
@@ -74,7 +74,7 @@ const AllFiles = ({ auth }) => {
   ) : (
     <Box minH="85vh" backgroundColor={"whitesmoke"}>
       <Flex justifyContent={"space-between"} mx={"60px"} py={"30px"}>
-        <Heading>All Grammar Files</Heading>
+        <Heading>All Model Template Validators</Heading>
       </Flex>
       <Flex direction="column" mx={"60px"}>
         {data.length > 0 ? (
@@ -87,6 +87,7 @@ const AllFiles = ({ auth }) => {
                   name={row.name}
                   organization={row.ownerid.organization}
                   owner={row.ownerid.name}
+                  show={false}
                 />
               );
             })

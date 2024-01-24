@@ -24,7 +24,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-terminal";
 import { FaSave } from "react-icons/fa";
 import { Link, useHistory } from "react-router-dom";
-import {backend} from "../../server_urls"
+import { backend } from "../../server_urls";
 
 import isJson from "../../utils/checkjson";
 import { ChevronRightIcon } from "@chakra-ui/icons";
@@ -57,8 +57,8 @@ const AddFile = () => {
 
 
       await axios.post(
-        backend + "/api/json/upload",
         // "http://localhost:5002/api/json/upload",
+        backend + "/api/json/upload",
         { name: filename, private: privateFile },
         requestOptions
       );
@@ -86,12 +86,12 @@ const AddFile = () => {
       >
         <BreadcrumbItem>
           <BreadcrumbLink as={Link} to="/myfiles">
-            My Files
+            My Validators
           </BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink>Add File</BreadcrumbLink>
+          <BreadcrumbLink>Add Validator</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Flex
@@ -114,7 +114,7 @@ const AddFile = () => {
             <Box p="2">
               <Input
                 colorScheme="yellow"
-                placeholder="File Name"
+                placeholder="Validator Name"
                 isRequired
                 onChange={(e) => setfilename(e.target.value)}
                 value={filename}
@@ -161,8 +161,9 @@ const AddFile = () => {
             colorScheme="yellow"
             onClick={submitform}
             isLoading={loading}
+            isDisabled={!filename}
           >
-            Create File
+            Create Validator
           </Button>
         </Center>
       </Flex>

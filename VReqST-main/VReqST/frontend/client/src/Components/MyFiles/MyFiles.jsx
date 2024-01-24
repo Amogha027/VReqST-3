@@ -11,9 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { backend } from "../../server_urls";
 
 import FileRow from "./FileRow";
-import {backend} from "../../server_urls"
 
 const MyFiles = () => {
   const [data, setdata] = useState([]);
@@ -27,6 +27,7 @@ const MyFiles = () => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await axios.get(
+        // "http://localhost:5002/api/json/my",
         backend + "/api/json/my",
         requestOptions
       );
@@ -72,14 +73,15 @@ const MyFiles = () => {
   ) : (
     <Box minH="85vh">
       <Flex justifyContent={"space-between"} mx={"60px"} py={"30px"}>
-        <Heading>My Files</Heading>
+        <Heading>My Validators</Heading>
         <Button colorScheme="gray" as={Link} to="/myfiles/new" border="1px">
-          Add Files
+          Add Validator
         </Button>
       </Flex>
       <Flex direction="column" mx={"60px"}>
         {data.length > 0 ? (
           data.map((row) => {
+            console.log(row);
             return (
               <FileRow
                 key={row._id}
@@ -87,8 +89,10 @@ const MyFiles = () => {
                 organization={row.ownerid.organization}
                 owner={row.ownerid.name}
                 jsonid={row._id}
+                isprivate={row.private}
                 data={data}
                 setdata={setdata}
+                show={true}
                 own
               />
             );

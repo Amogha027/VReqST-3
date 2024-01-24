@@ -11,16 +11,18 @@ import Axios from "axios";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { backend } from "../../server_urls";
 
 import ProjectPageContent from "./ProjectPageContent";
-import {backend} from "../../server_urls"
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const steps = [
-  { label: "Step 1", description: "Scene JSON" },
-  { label: "Step 2", description: "Asset JSON" },
-  { label: "Step 3", description: "Action JSON" },
-  { label: "Step 4", description: "Custom JSON" },
-  { label: "Step 5", description: "Timeline JSON" },
+  { label: "Step 1", description: "Scene Model Template" },
+  { label: "Step 2", description: "Article Model Template" },
+  { label: "Step 3", description: "Action-Response Model Template" },
+  { label: "Step 4", description: "Custom Behaviour Editor" },
+  { label: "Step 5", description: "Timeline Model Template" },
 ];
 
 const ProjectPage = () => {
@@ -41,12 +43,14 @@ const ProjectPage = () => {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
       const res = await Axios.get(
+        // `http://localhost:5002/api/project/${projectid}`,
         backend + `/api/project/${projectid}`,
         requestOptions
       );
 
       setcurrProject(res.data);
       setStep(res.data.step);
+      // console.log(res.data.stModel Template
     } catch (error) {
       toast({
         title: "Something went wrong",
@@ -58,6 +62,12 @@ const ProjectPage = () => {
       console.log(error);
     }
   };
+
+  const handleStep = (step) => {
+    if (step <= activeStep) {
+      setStep(step);
+    }
+  }
 
   useEffect(() => {
     const f = async () => {
@@ -113,7 +123,7 @@ const ProjectPage = () => {
           <Steps
             colorScheme="yellow"
             activeStep={activeStep}
-            onClickStep={(step) => setStep(step)}
+            onClickStep={handleStep}
           >
             {steps.map(({ label, description }) => (
               <Step
@@ -122,20 +132,21 @@ const ProjectPage = () => {
                 key={label}
                 description={description}
               >
-                <ProjectPageContent
-                  projectname={currProject.name}
-                  nextStep={nextStep}
-                  prevStep={prevStep}
-                  reset={reset}
-                  activeStep={activeStep}
-                  stepslen={steps.length}
-                  scene={currProject.scene}
-                  action={currProject.action}
-                  asset={currProject.asset}
-                  custom={currProject.custom}
-                  timeline={currProject.timeline}
-
-                />
+                <DndProvider backend={HTML5Backend}>
+                  <ProjectPageContent
+                    projectname={currProject.name}
+                    nextStep={nextStep}
+                    prevStep={prevStep}
+                    reset={reset}
+                    activeStep={activeStep}
+                    stepslen={steps.length}
+                    scene={currProject.scene}
+                    action={currProject.action}
+                    asset={currProject.asset}
+                    custom={currProject.custom}
+                    timeline={currProject.timeline}
+                  />
+                </DndProvider>
               </Step>
             ))}
           </Steps>
