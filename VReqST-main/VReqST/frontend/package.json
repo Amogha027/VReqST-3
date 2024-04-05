@@ -1,6 +1,7 @@
 {
   "name": "jsonvalidator",
   "version": "1.0.0",
+  "homepage": "https://amogha027.github.io/vreqst",
   "description": "Validates JSON using grammar",
   "main": "server.js",
   "scripts": {
