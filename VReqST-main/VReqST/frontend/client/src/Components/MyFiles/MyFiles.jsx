@@ -81,7 +81,6 @@ const MyFiles = () => {
       <Flex direction="column" mx={"60px"}>
         {data.length > 0 ? (
           data.map((row) => {
-            console.log(row);
             return (
               <FileRow
                 key={row._id}

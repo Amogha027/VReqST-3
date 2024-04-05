@@ -73,6 +73,16 @@ const AddFile = () => {
       });
     } catch (error) {
       console.log(error);
+      if (error.response.data.message == 'JSON file with this name already exists') {
+        toast({
+          title: "File with this name already exists",
+          status: "error",
+          duration: 10000,
+          isClosable: true,
+          position: "top",
+        });
+        setLoading(false);
+      }
     }
   };
 

@@ -19,9 +19,7 @@ import {
   Heading,
   Center,
   Image,
-  List,
   Select,
-  MenuItem
 } from "@chakra-ui/react";
 import axios from "axios";
 import { backend } from "../../server_urls";

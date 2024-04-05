@@ -1,7 +1,7 @@
 import {
   Box,
   Button,
-  Divider,
+  // Divider,
   Flex,
   Grid,
   GridItem,
@@ -16,12 +16,12 @@ import {
   ModalContent,
   ModalFooter,
   ModalOverlay,
-  Select,
+  // Select,
   Spinner,
   Stack,
   Tag,
   Text,
-  Tooltip,
+  // Tooltip,
   useDisclosure,
   useToast,
   Tabs,
@@ -30,13 +30,13 @@ import {
   Tab,
   TabPanel,
   FormControl,
-  Textarea,
-  VStack
+  // Textarea,
+  // VStack
 } from "@chakra-ui/react";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import AceEditor from "react-ace";
-import { FaExclamationCircle, FaFileAlt } from "react-icons/fa";
+import { FaExclamationCircle } from "react-icons/fa";
 import { BiDownload } from "react-icons/bi";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
@@ -129,7 +129,7 @@ const jsonValidator = (grammar, validating) => {
     else if (grammar[key].hasOwnProperty('repeat') && grammar[key].repeat === "allow") {
       let a = grammar[key].root;
       var obje = Object.keys(validating);
-      let found = obje.indexOf(a);
+      // let found = obje.indexOf(a);
 
       if (typeof validating[a] === "object") {
         for (let i = 0; i < validating[a].length; i++) {
@@ -261,6 +261,9 @@ const ProjectPageContent = ({
   const [grammarbundle, setGrammarbundle] = useState({});
   const [displayErrors, setDisplayErrors] = useState([]);
   const [rule_list, setRuleList] = useState([]);
+  const [names, setNames] = useState([]);
+  const [arr, setArr] = useState([]);
+  const [idx, setIdx] = useState(0);
 
   const [downloadable, setDownloadable] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -329,8 +332,8 @@ const ProjectPageContent = ({
       setfiles(res.data);
 
       res.data.map((p) => {
-        if (p.name == res2.data.grammarName) {
-          if (grammarDataArray.length != 5) {
+        if (p.name === res2.data.grammarName) {
+          if (grammarDataArray.length !== 5) {
             grammarDataArray.push(p.scene);
             grammarDataArray.push(p.asset);
             grammarDataArray.push(p.action);
@@ -341,7 +344,7 @@ const ProjectPageContent = ({
       })
     } catch (error) {
       toast({
-        title: "Something went wrong 1",  //Goes wrong
+        title: "Something went wrong",  //Goes wrong
         status: "error",
         duration: 10000,
         isClosable: true,
@@ -372,36 +375,65 @@ const ProjectPageContent = ({
     setLoading(true);
     getFiles();
     getRules();
-    if (activeStep == 0) {
+    if (activeStep === 0) {
       setdata(scene);
-      getFiles();
       fl = false;
       if (isJson(scene)) {
         setDownloadable(true);
       }
     }
-    if (activeStep == 1) {
-      setdata(asset);
+    if (activeStep === 1) {
+      if (asset === '') {
+        setNames([]);
+        setArr([]);
+        setdata('');
+      } else {
+        const myobjs = JSON.parse(asset);
+        let all_names = []
+        let tarr = myobjs.articles
+        myobjs.articles.map((c,i)=>{
+          all_names.push(c._objectname);
+        })
+        setNames(all_names);
+        setArr(tarr);
+        setdata(JSON.stringify(tarr[idx], null, '\t'));
+      }
+      // setdata(asset);
       fl = false;
       if (isJson(asset)) {
         setDownloadable(true);
       }
     }
-    if (activeStep == 2) {
-      setdata(action);
+    if (activeStep === 2) {
+      if (action === '') {
+        setNames([]);
+        setArr([]);
+        setdata('');
+      } else {
+        let myobjs = JSON.parse(action);
+        let all_names = []
+        let tarr = myobjs.ObjAction
+        myobjs.ObjAction.map((c,i)=>{
+          all_names.push(c.actresid);
+        })
+        setNames(all_names);
+        setArr(tarr);
+        setdata(JSON.stringify(tarr[idx], null, '\t'));
+      }
+      // setdata(action)
       fl = false;
       if (isJson(action)) {
         setDownloadable(true);
       }
     }
-    if (activeStep == 3) {
+    if (activeStep === 3) {
       // setdata(custom);
       fl = false
       if (isJson(custom)) {
         setDownloadable(true);
       }
     }
-    if (activeStep == 4) {
+    if (activeStep === 4) {
       setdata(timeline);
       fl = false;
       if (isJson(timeline)) {
@@ -503,7 +535,7 @@ const ProjectPageContent = ({
           } else
             curr_word = curr_word + char;
         })
-        if(curr_word != "" || curr_word != " " || curr_word.length != 0)
+        if(curr_word !== "" || curr_word !== " " || curr_word.length !== 0)
           repeat_assets.push(curr_word);
         
         repeat_assets.map((word, key)=>{
@@ -543,7 +575,7 @@ const ProjectPageContent = ({
 
   let onValidate2 = async () => {
     toast({
-      title: "Validation successfull",
+      title: "Validation successful",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -561,7 +593,24 @@ const ProjectPageContent = ({
   };
 
   const onValidate = async () => {
-    if (!isJson(data)) {
+    let tarr = arr;
+    tarr[idx] = JSON.parse(data);
+    setArr(tarr);
+    
+    let tnames = names;
+    if (activeStep === 1)
+      tnames[idx] = tarr[idx]._objectname;
+    else if (activeStep === 2)
+      tnames[idx] = tarr[idx].actresid;
+    setNames(tnames);
+
+    let tdata = data;
+    if (activeStep === 1)
+      tdata = JSON.stringify({articles: arr}, null, 4)
+    else if (activeStep === 2)
+      tdata = JSON.stringify({ObjAction: arr}, null, 4)
+
+    if (!isJson(tdata)) {
       setValidated(false);
       setDownloadable(false);
       toast({
@@ -575,61 +624,25 @@ const ProjectPageContent = ({
     }
     setDisplayErrors([]);
     errors = [];
-    var myjson = JSON.parse(data);
-    // console.log(myjson);
-
-    // try {
-    //   if (activeStep == 2) {
-    //     try {
-    //       {
-    //         rules = myjson.objlist;
-    //         var a = myjson.ObjAction;
-    //         //console.log(a[0]);
-    //         //alert(a[0]);
-    //         for (let i = 0; i < a.length; i++) {
-    //           var c = a[i].actresid;
-    //           //  console.log(c);
-    //           flag = true;
-    //           rules.push(c);
-    //         }
-    //       }
-    //     }
-    //     catch (e) {
-    //       console.log(e);
-    //       setValidated(false);
-    //       setDownloadable(false);
-    //     }
-    //   }
-    // }
-    // catch {
-    //   console.log(e);
-    // }
-    // if (grammarDataArray.length === 0) {
-    //   await getfiles();
-    //   //var temp=Object.keys(grammarDataArray);
-    //   // console.log(grammarDataArray);
-    // }
-
-    // console.log(grammarDataArray[0]);
+    var myjson = JSON.parse(tdata);
+    
     try {
       var mygrm = "";
-      if (activeStep == 0) mygrm = JSON.parse(grammarDataArray[0]);
-      else if (activeStep == 1) mygrm = JSON.parse(grammarDataArray[1]);
-      else if (activeStep == 2) mygrm = JSON.parse(grammarDataArray[2]);
-      else if (activeStep == 3) mygrm = JSON.parse(grammarDataArray[3]);
-      else if (activeStep == 4) mygrm = JSON.parse(grammarDataArray[4]);
+      if (activeStep === 0) mygrm = JSON.parse(grammarDataArray[0]);
+      else if (activeStep === 1) mygrm = JSON.parse(grammarDataArray[1]);
+      else if (activeStep === 2) mygrm = JSON.parse(grammarDataArray[2]);
+      else if (activeStep === 3) mygrm = JSON.parse(grammarDataArray[3]);
+      else if (activeStep === 4) mygrm = JSON.parse(grammarDataArray[4]);
+      // console.log(typeof errors);
 
     } catch (e) {
       console.log(e);
     }
 
     try {
-      // console.log("I am trying:", activeStep);
-      if (activeStep == 2) {
+      if (activeStep === 2) {
         try {
           {
-            // console.log("Shambhaviiiiiiiiiiii");
-
             let all_object_ids = [];
             const myobjs = JSON.parse(asset);
 
@@ -637,9 +650,7 @@ const ProjectPageContent = ({
               all_object_ids.push(c._sid);
             })
 
-            // console.log(all_object_ids);
             var a = myjson.ObjAction;
-            
             for (let i = 0; i < a.length; i++) {
               var c = a[i].actresid;
               flag = true;
@@ -654,7 +665,7 @@ const ProjectPageContent = ({
           setDownloadable(false);
           toast({
             title:
-              "There are errors in the entered JSON, please check them out! Caught error",
+              "There are errors in the specification. Please review the error message",
             status: "warning",
             duration: 5000,
             isClosable: true,
@@ -662,15 +673,12 @@ const ProjectPageContent = ({
           });
           return;
         }
-      } else if (activeStep == 1) {
+      } else if (activeStep === 1) {
         try {
           {
             var a = myjson.articles;
-            //console.log(a[0]);
-            //alert(a[0]);
             for (let i = 0; i < a.length; i++) {
               var c = a[i]._objectname;
-              //  console.log(c);
               flag = true;
               if (c) {
                 rules.push(c);
@@ -683,7 +691,7 @@ const ProjectPageContent = ({
           setDownloadable(false);
           toast({
             title:
-              "There are errors in the entered JSON, please check them out!",
+              "There are errors in the specification. Please review the error message",
             status: "warning",
             duration: 5000,
             isClosable: true,
@@ -702,11 +710,11 @@ const ProjectPageContent = ({
 
     try {
       let mygrm = "";
-      if (activeStep == 0) mygrm = JSON.parse(grammarDataArray[0]);
-      else if (activeStep == 1) mygrm = JSON.parse(grammarDataArray[1]);
-      else if (activeStep == 2) mygrm = JSON.parse(grammarDataArray[2]);
-      else if (activeStep == 3) mygrm = JSON.parse(grammarDataArray[3]);
-      else if (activeStep == 4) mygrm = JSON.parse(grammarDataArray[4]);
+      if (activeStep === 0) mygrm = JSON.parse(grammarDataArray[0]);
+      else if (activeStep === 1) mygrm = JSON.parse(grammarDataArray[1]);
+      else if (activeStep === 2) mygrm = JSON.parse(grammarDataArray[2]);
+      else if (activeStep === 3) mygrm = JSON.parse(grammarDataArray[3]);
+      else if (activeStep === 4) mygrm = JSON.parse(grammarDataArray[4]);
 
 
       if (!jsonValidator(mygrm, myjson)) {
@@ -718,15 +726,13 @@ const ProjectPageContent = ({
           myobjs.articles.map((c,i)=>{
             all_object_ids.push(c._sid);
           })
-          // console.log(all_object_ids);
 
           const ret_asset = assetValidator(myjson.ObjAction, all_object_ids);
-          // console.log(ret_asset);
           if(!ret_asset)
           {
             console.log(errors);
             toast({
-              title: "There are errors in the entered JSON, please check them out!",
+              title: "There are errors in the specification. Please review the error message",
               status: "warning",
               duration: 5000,
               isClosable: true,
@@ -738,7 +744,7 @@ const ProjectPageContent = ({
             setValidated(true);
             setDownloadable(true);
             toast({
-              title: "JSON Validated Successfully",
+              title: "Validation Successful",
               status: "success",
               duration: 5000,
               isClosable: true,
@@ -750,7 +756,7 @@ const ProjectPageContent = ({
           setValidated(true);
           setDownloadable(true);
           toast({
-            title: "JSON Validated Successfully",
+            title: "Validation Successful",
             status: "success",
             duration: 5000,
             isClosable: true,
@@ -760,20 +766,19 @@ const ProjectPageContent = ({
       } else {
         console.log(errors);
         toast({
-          title: "There are errors in the entered JSON, please check them out!",
+          title: "There are errors in the specification. Please review the error message",
           status: "warning",
           duration: 5000,
           isClosable: true,
           position: "top-right",
         });
       }
-      // console.log(typeof errors);
       setDisplayErrors(errors);
     }
     catch (e) {
       console.log(e);
       toast({
-        title: "There are errors in the entered JSON, please check them out!",
+        title: "There are errors in the specification. Please review the error message",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -1047,7 +1052,12 @@ const ProjectPageContent = ({
   }
 
   const onNextStep = async () => {
-    console.log(data);
+    let tdata = data;
+    if (activeStep === 1)
+      tdata = JSON.stringify({articles: arr}, null, 4)
+    else if (activeStep === 2)
+      tdata = JSON.stringify({ObjAction: arr}, null, 4)
+
     if (!isJson(data) && activeStep !== 3) {
       setValidated(false);
       toast({
@@ -1075,7 +1085,7 @@ const ProjectPageContent = ({
       const requestOptions = {
         headers: { "Content-Type": "application/json", token: jwttoken },
       };
-      const res = await Axios.patch(url, { data }, requestOptions);
+      const res = await Axios.patch(url, { data:tdata }, requestOptions);
 
       toast({
         title: res.data.message,
@@ -1086,7 +1096,7 @@ const ProjectPageContent = ({
       });
     } catch (error) {
       toast({
-        title: "Something went wrong 3",
+        title: "Something wents wrong",
         status: "error",
         duration: 10000,
         isClosable: true,
@@ -1104,6 +1114,17 @@ const ProjectPageContent = ({
 
   const handel_description = (e) => {
     setDescription(e.target.value);
+  };
+
+  const AddNewObj = () => {
+    setIdx(arr.length)
+    let tnames = names;
+    tnames.push('');
+    setNames(tnames);
+    let tarr = arr;
+    tarr.push('');
+    setArr(tarr);
+    setdata('');
   };
 
   const onFinish = async () => {
@@ -1252,6 +1273,20 @@ const ProjectPageContent = ({
                   height="40em"
                   width={"40em"}
                 />
+                <Stack marginLeft={10} py={4} direction="column">
+                  {names.map((name, id) => (
+                    <>
+                      <Button
+                        colorScheme="blue"
+                        onClick={ () => {setIdx(id);
+                          if (name === '')
+                            setdata('')
+                          else
+                            setdata(JSON.stringify(arr[id], null, '\t'))} }
+                      >{name}</Button>
+                    </>
+                  ))}
+                </Stack>
               </Flex>
               <Stack py={4} direction="row">
                 <Button
@@ -1269,6 +1304,15 @@ const ProjectPageContent = ({
                 >
                   Download File
                 </Button>
+                {activeStep === 1 | activeStep === 2 ? (
+                  <Button
+                    colorScheme="yellow"
+                    disabled={!data}
+                    onClick={AddNewObj}
+                  >
+                    New
+                  </Button>
+                ): (<></>)}
               </Stack>
 
               {activeStep === stepslen ? (
@@ -1417,7 +1461,7 @@ const ProjectPageContent = ({
                 <Box textAlign="center" py={10} px={6}>
                   <CheckCircleIcon boxSize={"50px"} color={"green.500"} />
                   <Heading as="h2" size="xl" mt={6} mb={2}>
-                    JSON Validation Successful!
+                    Your specification are successful saved!
                   </Heading>
                   <Text color={"gray.500"}>
                     We have made sure that your data is free from any data-types
@@ -1826,8 +1870,8 @@ const ProjectPageContent = ({
                                 }}
                                 mode="json"
                                 theme="terminal"
-                                // value={(rule.data_name != null ? atob(rule.data_name) : rule.data_name)}
-                                value={logic}
+                                value={(rule.data_name != null ? atob(rule.data_name) : rule.data_name)}
+                                // value={logic}
                                 name="grammar-editor"
                                 wrapEnabled
                                 height={"28em"}

@@ -12,7 +12,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input,
   Radio,
   RadioGroup,
   Spinner,
@@ -133,27 +132,27 @@ const EditFile = () => {
   const handleGrammar = (value) => {
     setflag(false);
     setGrammarfor(value);
-    if (value == "scene") setdata(scenedata);
-    if (value == "asset") setdata(assetdata);
-    if (value == "action") setdata(actiondata);
-    if (value == "timeline") setdata(timelinedata);
+    if (value === "scene") setdata(scenedata);
+    if (value === "asset") setdata(assetdata);
+    if (value === "action") setdata(actiondata);
+    if (value === "timeline") setdata(timelinedata);
   }
 
   const handleSwitch = () => {
     setSaved(false);
     if (!flag) {
-      if (grammarfor == "scene") setdata(scenedef);
-      if (grammarfor == "asset") setdata(assetdef);
-      if (grammarfor == "action") setdata(actiondef);
-      if (grammarfor == "timeline") setdata(timelinedef);
+      if (grammarfor === "scene") setdata(scenedef);
+      if (grammarfor === "asset") setdata(assetdef);
+      if (grammarfor === "action") setdata(actiondef);
+      if (grammarfor === "timeline") setdata(timelinedef);
       setflag(true)
     }
     else {
       // setdata("");
-      if (grammarfor == "scene") setdata(scenedata);
-      if (grammarfor == "asset") setdata(assetdata);
-      if (grammarfor == "action") setdata(actiondata);
-      if (grammarfor == "timeline") setdata(timelinedata);
+      if (grammarfor === "scene") setdata(scenedata);
+      if (grammarfor === "asset") setdata(assetdata);
+      if (grammarfor === "action") setdata(actiondata);
+      if (grammarfor === "timeline") setdata(timelinedata);
       setflag(false)
     }
   }
@@ -179,19 +178,19 @@ const EditFile = () => {
       };
 
       let url = backend;
-      if (grammarfor == "scene") {
+      if (grammarfor === "scene") {
         url = url + `/api/json/${fileid}/scene`;
         setSceneData(data);
       }
-      if (grammarfor == "action") {
+      if (grammarfor === "action") {
         url = url + `/api/json/${fileid}/action`;
         setActionData(data);
       }
-      if (grammarfor == "asset") {
+      if (grammarfor === "asset") {
         url = url + `/api/json/${fileid}/asset`;
         setAssetData(data);
       }
-      if (grammarfor == "timeline") {
+      if (grammarfor === "timeline") {
         url = url + `/api/json/${fileid}/timeline`;
         setTimelineData(data);
       }

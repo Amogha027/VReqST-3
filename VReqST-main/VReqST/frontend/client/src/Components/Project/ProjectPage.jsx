@@ -18,11 +18,11 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const steps = [
-  { label: "Step 1", description: "Scene Model Template" },
-  { label: "Step 2", description: "Article Model Template" },
-  { label: "Step 3", description: "Action-Response Model Template" },
-  { label: "Step 4", description: "Custom Behaviour Editor" },
-  { label: "Step 5", description: "Timeline Model Template" },
+  { label: "Step 1", description: "Scene(s)" },
+  { label: "Step 2", description: "Article(s)" },
+  { label: "Step 3", description: "Action-Response(s)" },
+  { label: "Step 4", description: "Behaviour(s)" },
+  { label: "Step 5", description: "Timeline" },
 ];
 
 const ProjectPage = () => {
@@ -49,7 +49,7 @@ const ProjectPage = () => {
       );
 
       setcurrProject(res.data);
-      setStep(res.data.step);
+      // setStep(res.data.step);
       // console.log(res.data.stModel Template
     } catch (error) {
       toast({
@@ -65,6 +65,16 @@ const ProjectPage = () => {
 
   const handleStep = (step) => {
     if (step <= activeStep) {
+      const f = async () => {
+        try {
+          setLoading(true);
+          await getProject();
+          setLoading(false);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      f();
       setStep(step);
     }
   }

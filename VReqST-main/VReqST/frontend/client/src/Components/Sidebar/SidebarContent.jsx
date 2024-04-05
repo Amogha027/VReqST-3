@@ -63,7 +63,7 @@ const SidebarContent = (props) => (
         </>
       )}
       <NavItem icon={MdHelp} to="/help" color="white">
-        Help
+        Documentation
       </NavItem>
     </Flex>
   </Box>

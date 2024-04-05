@@ -107,7 +107,7 @@ Router.patch("/:projectid/scene", authenticate, async (req, res) => {
       });
     }
 
-    return res.status(200).send({ message: "Scene JSON added successfully" });
+    return res.status(200).send({ message: "Scene specification added successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Cannot fetch the project" });
@@ -173,7 +173,7 @@ Router.patch("/:projectid/asset", authenticate, async (req, res) => {
       });
     }
 
-    return res.status(200).send({ message: "Asset JSON added successfully" });
+    return res.status(200).send({ message: "Asset specification added successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Cannot fetch the project" });
@@ -219,7 +219,7 @@ Router.patch("/:projectid/action", authenticate, async (req, res) => {
       });
     }
 
-    return res.status(200).send({ message: "Action JSON added successfully" });
+    return res.status(200).send({ message: "Action specification added successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Cannot fetch the project" });
@@ -265,7 +265,7 @@ Router.patch("/:projectid/custom", authenticate, async (req, res) => {
       });
     }
 
-    return res.status(200).send({ message: "Custom JSON added successfully" });
+    return res.status(200).send({ message: "Custom specification added successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Cannot fetch the project" });
@@ -312,7 +312,7 @@ Router.patch("/:projectid/timeline", authenticate, async (req, res) => {
       });
     }
 
-    return res.status(200).send({ message: "Action JSON added successfully" });
+    return res.status(200).send({ message: "Action specification added successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Cannot fetch the project" });
