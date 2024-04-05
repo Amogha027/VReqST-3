@@ -8,7 +8,7 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "predeploy": "npm run dev",
-    "deploy": "gh-pages -d client",
+    "deploy": "gh-pages -d dev",
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
