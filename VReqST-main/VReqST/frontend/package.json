@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "predeploy": "npm rund dev",
+    "predeploy": "npm run dev",
     "deploy": "gh-pages -d build",
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client",
