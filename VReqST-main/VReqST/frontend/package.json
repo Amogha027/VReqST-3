@@ -1,14 +1,11 @@
 {
   "name": "jsonvalidator",
   "version": "1.0.0",
-  "homepage": "https://amogha027.github.io/vreqst",
   "description": "Validates JSON using grammar",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "predeploy": "npm run dev",
-    "deploy": "gh-pages -d dev",
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -32,6 +29,7 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "nodemon": "^2.0.2"
   },
   "engines": {
