@@ -1,0 +1,64 @@
+{
+	"setvalues":
+	{
+	"custom_variables":"$greet, $moveVehicle, $trashCollection",
+	"custom_functions":"#ask, #answer, #move, #stop",
+    "_anyVehicle": "_vehicle1, _vehicle2, _vehicle3, _vehicle4, _vehicle5, _vehicle6, _vehicle7, _vehicle8, _vehicle9, _vehicle10",
+    "_anyPedestrian": "_pedestrian1, _pedestrian2, _pedestrian3, _pedestrian4, _pedestrian5",
+	"rObjList":[
+     	  "_vehicle1", "_vehicle2", "_vehicle3", "_vehicle4", "_vehicle5", "_vehicle6", "_vehicle7", 
+          "_vehicle8", "_vehicle9", "_vehicle10", "_query", "_money","_shop", "_pedestrian1", 
+          "_pedestrian2", "_pedestrian3", "_pedestrian4", "_pedestrian5", "_trafficLight", 
+          "_streetLight", "_anyvehicle", "_trashCan", "_trashCollectingVan"
+		]
+	},
+	
+	"rules":[
+	{
+		"rid":"greet",
+		"Rtitle":"greet the user if the user greets a pedestrian",
+		"logic":"aWYgKHskaXNlbnRlcmluZyA9IHRydWV9IEFORCB7X2VudGVyZWQgPSBmYWxzZX0pCnRoZW4gJGdyZWV0ID0gdHJ1ZQo="
+	},
+    {
+		"rid":"addressQuery",
+		"Rtitle":"Avatar responds with the appropriate answer when queried by the user",
+		"logic":"aWYoJGFzayhfcXVlcnkpID0gdHJ1ZSkKJGFuc3dlcihfcXVlcnkpCg=="
+	},
+    {
+		"rid":"shopClose",
+		"Rtitle":"Close shops at night",
+		"logic":"aWYgKF9uaWdodCA9IHRydWUpCnNob3AgPSBjbG9zZQplbHNlCnNob3AgPSBvcGVu"
+	},
+    {
+		"rid":"streetLightControl",
+		"Rtitle":"If it is daytime, turn off the street lights. Turn on the street light during nighttime.",
+		"logic":"aWYgKF9uaWdodCA9IHRydWUpCnN0cmVldGxpZ2h0ID0gb2ZmCmVsc2UKc3RyZWV0bGlnaHQgPSBvbg=="
+	},
+    {
+		"rid":"carStop",
+		"Rtitle":"Cars and other vehicles move along the streets, with some stopping at traffic lights.",
+		"logic":"aWYgKHtfdHJhZmZpY2xpZ2h0ID0gcmVkfSBBTkQgeyRtb3ZlKF9hbnl2ZWhpY2xlKSA9IHRydWV9KQp0aGVuICRzdG9wKF9hbnl2ZWhpY2xlKQ=="
+	},
+    {
+		"rid":"carStart",
+		"Rtitle":"Cars and other vehicles start moving when traffic light turns green",
+		"logic":"aWYgKHtfdHJhZmZpY2xpZ2h0ID0gZ3JlZW59IEFORCB7JHN0b3AoX2FueXZlaGljbGUpID0gdHJ1ZX0pCnRoZW4gJG1vdmUoX2FueXZlaGljbGUp"
+	},
+    {
+		"rid":"cleaningByTrucks",
+		"Rtitle":"Trash cans and recycling bins fill up and get emptied by garbage trucks.",
+		"logic":"aWYgKF90aW1lID0gNjAwKQp0cmFzaGNvbGxlY3Rpbmd2YW4gPSBhcHBlYXI="
+	},
+
+    {
+		"rid":"emptyingTheCans",
+		"Rtitle":"Empty the trash cans when trash collecting vans appear",
+		"logic":"aWYgKHskdHJhc2hjb2xsZWN0aW9uID0gdHJ1ZX0gQU5EIHt0cmFzaGNvbGxlY3Rpbmd2YW4gPSBhcHBlYXJ9KQp0aGVuIAp0cmFzaGNhbnMgPSBlbXB0eQp0cmFzaGNvbGxlY3Rpbmd2YW4gPSBkaXNhcHBlYXI="
+	}
+	],
+	
+	"ruleorder":{
+		"ordertype":"asc",
+		"rorder":["carStop", "greet", "addressQuery", "cleaningByTrucks", "emptyingTheCans", "streetLightControl", "carStart", "shopClose"]
+	}
+}

@@ -1,0 +1,45 @@
+{
+	"setvalues":
+	{
+	"custom_variables":"$provideMoney, $provideTicket, $giveChange, $stopTrain",
+	"custom_functions":"#ask, #answer, #move, #stop",
+    "_anyTrain": "_train1, _train2, _train3, _train4, _train5",
+    "_anyPassenger": "_passenger1, _passenger2, _passenger3, _passenger4, _passenger5",
+	"rObjList":[
+     	  "_ticketCounterPerson", "_train1", "_train2", "_train3", "_train4", "_train5", "_query", "_money", "_ticket", "_train", "_passenger1", "_passenger2", "_passenger3", "_passenger4", "_passenger5", "_trashCan"
+		]
+	},
+	
+	"rules":[
+    {
+		"rid":"addressQuery",
+		"Rtitle":"Ticket counter person responds with the appropriate answer when queried by the user (address or train to catch)",
+		"logic":"aWYoJGFzayhfcXVlcnkpID0gdHJ1ZSkKJGFuc3dlcihfcXVlcnkpCg=="
+	},
+    {
+		"rid":"provideTrainTicket",
+		"Rtitle":"Provide a train ticket when the user gives sufficient money",
+		"logic":"aWYoeyRwcm92aWRlTW9uZXkgPSB0cnVlfSBBTkQge19tb25leSA9IF90aWNrZXRQcmljZX0pCnRoZW4gJHByb3ZpZGVUaWNrZXQgPSB0cnVlCmVsc2UgaWYgKHskcHJvdmlkZU1vbmV5ID0gdHJ1ZX0gQU5EIHtfbW9uZXkgPiBfdGlja2V0UHJpY2V9KQp0aGVuIAokcHJvdmlkZVRpY2tldCA9IHRydWUKJGdpdmVDaGFuZ2UgPSB0cnVlCmVsc2UgCiRwcm92aWRlVGlja2V0ID0gZmFsc2U="
+	},
+    {
+		"rid":"moveTrain",
+		"Rtitle":"A train leaves when its time on the platform is up",
+		"logic":"aWYgKHskc3RvcChfdHJhaW4pID0gdHJ1ZX0gQU5EIHtfdGltZVdhaXRlZCA+PSBfd2FpdFRpbWV9KQp0aGVuCiRtb3ZlKF90cmFpbikKX3RpbWVXYWl0ZWQgPSAw"
+	},
+    {
+		"rid":"stopTrain",
+		"Rtitle":"Stop train on reaching the platform",
+		"logic":"aWYgKHtfdHJhZmZpY2xpZ2h0ID0gcmVkfSBBTkQgeyRtb3ZlKF9hbnl2ZWhpY2xlKSA9IHRydWV9KQp0aGVuICRzdG9wKF9hbnl2ZWhpY2xlKQ=="
+	},
+    {
+		"rid":"emptyingTheCans",
+		"Rtitle":"Empty the trash cans when full or every 24 hours",
+		"logic":"aWYgKHskdHJhc2hjb2xsZWN0aW9uID0gdHJ1ZX0gQU5EIHt0cmFzaGNvbGxlY3Rpbmd2YW4gPSBhcHBlYXJ9KQp0aGVuIAp0cmFzaGNhbnMgPSBlbXB0eQp0cmFzaGNvbGxlY3Rpbmd2YW4gPSBkaXNhcHBlYXI="
+	}
+	],
+	
+	"ruleorder":{
+		"ordertype":"asc",
+		"rorder":["stopTrain", "moveTrain", "addressQuery", "provideTrainTicket", "emptyingTheCans"]
+	}
+}

@@ -1,0 +1,25 @@
+{
+    
+	"animate_trigSync":{
+                   	"tsyncid":11,
+		"tsOntrigger":true, "SyncObjList":["_waiter1", "_waiter2", "_waiter3", "_waiter4" ], "tSyncNote":"All these change their state upon trigger by an entering customer"
+       	},
+ 	"animate_nontrigSync":{
+                   	"ntsyncid":12,
+                   	"ntsOntrigger":false, "ntSyncObjList":[ ], "ntSyncNote":"this statement is blank"
+       	},
+ 	"animate_trigAsync":{
+                   	"tasyncid":13,
+                   	"taOntrigger":true,
+                   	"AsyncObjList":["_food"],
+                   	"tAsyncNote":"State changes upon trigger by eating"
+       	},
+ 	"animate_nontrigAsync":{
+                   	"ntasyncid":14,
+                   	"ntaOntrigger":false, "ntAsyncObjList":[ ], "ntAsyncNote":"this statement is blank"
+       	},
+
+  	 
+  	"routine": [{ "routeid":1, "starttime": "", "endtime":"", "order":[]}
+          	] 
+}

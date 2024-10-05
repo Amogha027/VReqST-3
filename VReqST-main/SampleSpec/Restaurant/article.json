@@ -1,0 +1,613 @@
+{
+	"articles": [
+		{
+			"_objectname": "Table",
+			"_sid": "_table",
+			"_slabel": "Tables are sat at by customers in the retaurant. There are a limited number of tables.",
+			"_IsHidden": 0,
+			"_enumcount": 4,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "table like structure, placed on the ground, with a square on top of four thin cylinders",
+			"dimension": {
+				"dradii": "null",
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "2.5"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "0",
+				"#y_initialpos": "1",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "20",
+				"dragfriction": "20",
+				"angulardrag": "20",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Cutlery",
+			"_sid": "_cutlery",
+			"_slabel": "Cutlery is kept on the table in front of user.",
+			"_IsHidden": 0,
+			"_enumcount": 4,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "has fork and spoon shaped objects on the side composed of rectangles and an oval, with a circular plate in the center.",
+			"dimension": {
+				"dradii": "null",
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "null"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "1",
+				"#y_initialpos": "1",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "1",
+				"dragfriction": "1",
+				"angulardrag": "1",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Chair",
+			"_sid": "_chair",
+			"_slabel": "Chairs are sat on by customers. There are two chairs per table.",
+			"_IsHidden": 0,
+			"_enumcount": 8,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "chair like structure, composed of two rectangles at right angle, supported on four cylinders",
+			"dimension": {
+				"dradii": "null",
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "3"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "0",
+				"#y_initialpos": "5",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "0",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "3",
+				"dragfriction": "3",
+				"angulardrag": "3",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Menu",
+			"_sid": "_menu",
+			"_slabel": "Menu is used by the user to look at items available.",
+			"_IsHidden": 0,
+			"_enumcount": 4,
+			"_Is3DObject": 0,
+			"HasChild": 0,
+			"shape": "rectangular structure with food items listed on it.",
+			"dimension": {
+				"dradii": "null",
+				"dvolumn": "null",
+				"dlength": "0.9",
+				"dbreadth": "0.9",
+				"dheigth": "null"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "1",
+				"#y_initialpos": "2",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "1",
+				"dragfriction": "1",
+				"angulardrag": "1",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Waiter",
+			"_sid": "_waiter",
+			"_slabel": "Waiter approaches customer to take their order.",
+			"_IsHidden": 0,
+			"_enumcount": 1,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "person shaped avatar",
+			"dimension": {
+				"dradii": "null",
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "5.5"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "4",
+				"#y_initialpos": "4",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "5",
+				"mass": "40",
+				"dragfriction": "40",
+				"angulardrag": "40",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "1",
+			"aud_type": "mp4",
+			"aud_src": "/src",
+			"aud_volume": "7",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "1",
+			"aud_Dopplerlevel": "0.9",
+			"aud_spread": "null",
+			"aud_mindist": "2",
+			"aud_maxdist": "50",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Glass",
+			"_sid": "_glass",
+			"_slabel": "Glass is kept on each table next to cutlery.",
+			"_IsHidden": 0,
+			"_enumcount": 4,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "a cylinder open from one end.",
+			"dimension": {
+				"dradii": "",
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "0.5"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "0.5",
+				"#y_initialpos": "0.5",
+				"#z_initialpos": "3"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "1",
+				"dragfriction": "1",
+				"angulardrag": "1",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Customer",
+			"_sid": "_customer",
+			"_slabel": "Multiple customers are present, some sitting and some standing. There is possibility for interaction between user and customer.",
+			"_IsHidden": 0,
+			"_enumcount": 10,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "person shaped avatar",
+			"dimension": {
+				"dradii": "null",
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "5.5"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "7",
+				"#y_initialpos": "7",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "40",
+				"dragfriction": "40",
+				"angulardrag": "40",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "1",
+			"aud_type": "mp4",
+			"aud_src": "/src",
+			"aud_volume": "5",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "1",
+			"aud_Dopplerlevel": "0.9",
+			"aud_spread": "null",
+			"aud_mindist": "5",
+			"aud_maxdist": "50",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		}
+	]
+}

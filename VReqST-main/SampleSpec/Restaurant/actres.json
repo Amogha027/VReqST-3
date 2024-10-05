@@ -1,0 +1,54 @@
+{
+	"ObjAction": [
+	{
+	"actresid":"guest_item",
+	"sourceObj":"guest1",
+    "targetObj":"_cutlery",	          
+	"IsCollision":true,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+	"repeatactionfor":"_glass, _guest2, _guest3, _guest4, _guest5"
+	},
+    {
+    "actresid":"guest_order",
+    "sourceObj":"_guest1",
+    "targetObj":"_waiter1",	          
+    "IsCollision":false,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"_guest2, _guest3, _guest4, _guest5, _waiter2, _waiter3"
+    },
+    {
+    "actresid":"glass_spill",
+    "sourceObj":"_waiter1",
+    "targetObj":"_glass",	          
+    "IsCollision":true,
+    "response":"natural",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"_guest1, _guest2, _guest3, _guest4, _guest5, _waiter2, _waiter3"
+    },
+    {
+    "actresid":"cutlery_noise",
+    "sourceObj":"_guest1",
+    "targetObj":"_cutlery",	          
+    "IsCollision":"tre",
+    "response":"natural",
+    "comment":"<freetxt>",
+    "Syncronous":true,
+    "repeatactionfor":"_waiter1, _guest2, _guest3, _guest4, _guest5, _waiter2, _waiter3"
+    },
+    {
+    "actresid":"conversation",
+    "sourceObj":"_guest1",
+    "targetObj":"_waiter1",	          
+    "IsCollision":"",
+    "response":"",
+    "comment":"",
+    "Syncronous":"",
+    "repeatactionfor":"_guest2, _guest3, _guest4, _guest5, _waiter2, _waiter3"
+    }
+	]
+}	

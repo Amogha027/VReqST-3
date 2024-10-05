@@ -1,0 +1,23 @@
+{ 
+	"animate_trigSync":{
+                   	"tsyncid":21,
+                   	"tsOntrigger":true,
+                   	"SyncObjList":["_bookingClerk, _ticket, _money"],
+                   	"tSyncNote":"All these change their state upon trigger by an entering customer"
+       	},
+ 	"animate_nontrigSync":{
+                   	"ntsyncid":22,
+                   	"ntsOntrigger":false, "ntSyncObjList":[ ], "ntSyncNote":"this statement is blank"
+       	},
+ 	"animate_trigAsync":{
+                   	"tasyncid":23,
+                   	"taOntrigger":true, "AsyncObjList":[ ], "tAsyncNote":"this statement is blank"
+       	},
+ 	"animate_nontrigAsync":{
+                   	"ntasyncid":24,
+                   	"ntaOntrigger":false, "ntAsyncObjList":["_train"], "ntAsyncNote":"the train will leave the platform when the wait time is over"
+       	},
+
+  	"routine": [{ "routeid":2, "starttime":"", "endtime":"", "order": []}
+          	] 
+}

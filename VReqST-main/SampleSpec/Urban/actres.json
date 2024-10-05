@@ -1,0 +1,44 @@
+{
+	"ObjAction": [
+	{
+	"actresid":"pedestrian_collision",
+	"sourceObj":"_pedestrian1",
+    "targetObj":"_pedestrian2",	          
+	"IsCollision":true,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+	"repeatactionfor":"_vehicle, _trashcollectingvehicle, _trashcan"
+	},
+    {
+    "actresid":"trashcan_pickup",
+    "sourceObj":"_trashcollectingvehicle",
+    "targetObj":"_trashcan",	          
+    "IsCollision":true,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"null"
+    },
+    {
+    "actresid":"intersection",
+    "sourceObj":"_trafficlight",
+    "targetObj":"_vehicle",	          
+    "IsCollision":false,
+    "response":"custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"_trashcollectingvehicle, pedestrian"
+    },
+    {
+    "actresid":"traffic",
+    "sourceObj":"_vehicle1",
+    "targetObj":"_vehicle2",	          
+    "IsCollision":true,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"_trashcollectingvehicle, pedestrian"
+    }
+    ]
+}	

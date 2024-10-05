@@ -1,0 +1,352 @@
+{
+	"articles": [
+		{
+			"_objectname": "Train seat",
+			"_sid": "_seat",
+			"_slabel": "Train seats are used by passengers to sit whie travelling, there are limited number of seats in a compartment and a lot of space is kept empty for standing",
+			"_IsHidden": 0,
+			"_enumcount": 50,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "seat like structure attached to the walls of train couch, consisting of two square surfaces attached to each other at right angle",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "null"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "0",
+				"#y_initialpos": "5",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "5",
+				"dragfriction": "5",
+				"angulardrag": "5",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Train window",
+			"_sid": "_window",
+			"_slabel": "Train windows provide a view of the outer world",
+			"_IsHidden": 0,
+			"_enumcount": 10,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "Rectangular frame",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "6",
+				"dbreadth": "4",
+				"dheigth": "null"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "0",
+				"#y_initialpos": "5",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "0",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "5",
+				"dragfriction": "5",
+				"angulardrag": "5",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Train pole",
+			"_sid": "_pole",
+			"_slabel": "Poles in trains are used for holding taking support by passengers to avoid falling while travelling",
+			"_IsHidden": 0,
+			"_enumcount": 10,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "a cylindrical rod like structure which has its one end attached to the floor and other end attached to the roof of the train coach",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "8"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "1"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "5",
+				"#y_initialpos": "10",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "5",
+				"dragfriction": "5",
+				"angulardrag": "5",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Passenger",
+			"_sid": "_passenger",
+			"_slabel": "This is a person travelling along with the user in the same train. The user may have to interact with one or more of them as a part of therapy task",
+			"_IsHidden": 0,
+			"_enumcount": 60,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "a person shaped avatar",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "5.5"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "10",
+				"#y_initialpos": "8",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "0",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "1",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "5",
+				"mass": "40",
+				"dragfriction": "2",
+				"angulardrag": "2",
+				"Isgravityenable": "true",
+				"IsKinematic": "1",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "1",
+			"aud_type": "mp4",
+			"aud_src": "/src",
+			"aud_volume": "10",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "1",
+			"aud_Dopplerlevel": "0.9",
+			"aud_spread": "null",
+			"aud_mindist": "5",
+			"aud_maxdist": "50",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		}
+	]
+}

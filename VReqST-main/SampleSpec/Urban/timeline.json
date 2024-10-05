@@ -1,0 +1,22 @@
+{
+	"animate_trigSync":{
+                   	"tsyncid":31,
+                   	"tsOntrigger":true,
+                   	"SyncObjList":[ ],
+                   	"tSyncNote":""
+       	},
+ 	"animate_nontrigSync":{
+                   	"ntsyncid":32,
+                   	"ntsOntrigger":false, "ntSyncObjList":["_streetlight, _shop"], "ntSyncNote":"Turn on street lights and close shops at night."
+       	},
+ 	"animate_trigAsync":{
+                   	"tasyncid":33,
+                   	"taOntrigger":true, "AsyncObjList":[ ], "tAsyncNote":""
+       	},
+ 	"animate_nontrigAsync":{
+                   	"ntasyncid":34,
+                   	"ntaOntrigger":false, "ntAsyncObjList":["_trafficlight"], "ntAsyncNote":"traffic light stays red for 2 minutes before turning green for 3 minutes"
+       	},
+
+  	"routine": [{ "routeid":3,    "starttime":"",   "endtime":"",  "order":[] }] 
+}

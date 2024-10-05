@@ -1,0 +1,174 @@
+{
+	"ObjAction": [
+		{
+			"actresid": "1",
+			"sourceObj": "Player",
+			"targetObj": "briefcase",
+			"IsCollision": true,
+			"response": "briefcase is picked up",
+			"comment": "The player picks up the briefcase to store important documents.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "2",
+			"sourceObj": "Player",
+			"targetObj": "water bottle",
+			"IsCollision": true,
+			"response": "water bottle is picked up",
+			"comment": "The player picks up the water bottle to have a drink.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "3",
+			"sourceObj": "Interviewer1",
+			"targetObj": "Player",
+			"IsCollision": false,
+			"response": "the interview starts",
+			"comment": "The player is ready for the interview.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "4",
+			"sourceObj": "Interviewer1",
+			"targetObj": "notebook",
+			"IsCollision": true,
+			"response": "notebook is picked up",
+			"comment": "The interviewer picks up the notebook to take notes.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+    {
+      "actresid": "5",
+      "sourceObj": "Interviewer1",
+      "targetObj": "pen",
+      "IsCollision": true,
+      "response": "pen is picked up",
+      "comment": "The other interviewer picks up the pen to take notes.",
+      "Syncronous": true,
+      "repeatactionfor": ""
+    },
+		{
+			"actresid": "6",
+			"sourceObj": "Interviewer1",
+			"targetObj": "Player",
+			"IsCollision": false,
+			"response": "Interviewer1 asks the first question",
+			"comment": "The first interviewer asks the player the first question.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "7",
+			"sourceObj": "Interviewer2",
+			"targetObj": "laptop",
+			"IsCollision": true,
+			"response": "Interviewer1 opens the laptop",
+			"comment": "The interviewer opens the laptop to answer the question.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "8",
+			"sourceObj": "Interviewer1",
+			"targetObj": "Notebook",
+			"IsCollision": false,
+			"response": "Picks up the notebook and writes notes.",
+			"comment": "The interviewer takes notes during the interview.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "9",
+			"sourceObj": "Interviewer 2",
+			"targetObj": "Pen",
+			"IsCollision": false,
+			"response": "Picks up the pen and writes notes.",
+			"comment": "The other interviewer takes notes during the interview.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "10",
+			"sourceObj": "Player",
+			"targetObj": "Briefcase",
+			"IsCollision": false,
+			"response": "Opens the briefcase and takes out a document.",
+			"comment": "The player retrieves a document from their briefcase.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "11",
+			"sourceObj": "Player",
+			"targetObj": "Water bottle",
+			"IsCollision": false,
+			"response": "Takes a sip of water.",
+			"comment": "The player takes a break and drinks water.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+		{
+			"actresid": "12",
+			"sourceObj": "Interviewer1",
+			"targetObj": "Laptop",
+			"IsCollision": false,
+			"response": "Opens the laptop and types notes.",
+			"comment": "One of the interviewers uses their laptop to type notes.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+    {
+			"actresid": "13",
+			"sourceObj": "Player",
+			"targetObj": "Interviewer1, Interviewer2",
+			"IsCollision": false,
+			"response": "Good",
+			"comment": "Player makes a good response",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+    {
+			"actresid": "14",
+			"sourceObj": "Player",
+			"targetObj": "Interviewer1, Interviewer2",
+			"IsCollision": false,
+			"response": "Bad - suggestion",
+			"comment": "Player makes a bad response and the interviewers suggest a better response.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+    {
+			"actresid": "15",
+			"sourceObj": "Player",
+			"targetObj": "Interviewer1, Interviewer2",
+			"IsCollision": false,
+			"response": "Elaborate",
+			"comment": "Player makes an unclear response and the interviewers ask for more information.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+    {
+			"actresid": "16",
+			"sourceObj": "Interviewer2",
+			"targetObj": "Player",
+			"IsCollision": false,
+			"response": "Player makes a response",
+			"comment": "Interviewer2 asks a question and the player makes a response.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		},
+    {
+			"actresid": "17",
+			"sourceObj": "Interviewer1",
+			"targetObj": "Player",
+			"IsCollision": false,
+			"response": "Player makes a response",
+			"comment": "Interviewer1 asks a question and the player makes a response.",
+			"Syncronous": true,
+			"repeatactionfor": ""
+		}
+	]
+}

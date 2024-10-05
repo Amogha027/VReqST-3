@@ -1,0 +1,54 @@
+{
+	"ObjAction": [
+	{
+	"actresid":"passenger_collision",
+	"sourceObj":"_passenger1",
+    "targetObj":"_passenger2",	          
+	"IsCollision":true,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+	"repeatactionfor":"_passenger3, _passenger4, _passenger5"
+	},
+    {
+    "actresid":"passenger_sit",
+    "sourceObj":"_passenger1",
+    "targetObj":"_trainSeat",	          
+    "IsCollision":true,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"_passenger2, _passenger3, _passenger4, _passenger5"
+    },
+    {
+    "actresid":"passenger_hold_pole",
+    "sourceObj":"_trafficlight",
+    "targetObj":"_trainPole",	          
+    "IsCollision":true,
+    "response":"custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"_passenger2, _passenger3, _passenger4, _passenger5"
+    },
+    {
+    "actresid":"give_ticket",
+    "sourceObj":"_ticketCounterPerson",
+    "targetObj":"_ticket",	          
+    "IsCollision":true,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"null"
+    },
+    {
+    "actresid":"give_money",
+    "sourceObj":"_passenger1",
+    "targetObj":"_money",	          
+    "IsCollision":true,
+    "response":"natural/custom",
+    "comment":"<freetext>",
+    "Syncronous":true,
+    "repeatactionfor":"_passenger2, _passenger3, _passenger4, _passenger5"
+    }
+    ]
+}	

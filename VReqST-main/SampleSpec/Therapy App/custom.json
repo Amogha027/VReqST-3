@@ -1,0 +1,18 @@
+{
+	"behavior":[
+	{
+		"bid":"player_response",
+		"bname":"behavior for interviewer2 response to player",
+		"bdescription":"when player makes a response, the interviewer2 responds accordingly",
+		"articlesused":"interviewer2",
+		"logic":"SWYjX3BsYXllciAkbWFrZXNfcmVzcG9uc2UjOgpTd2l0Y2gjX3BsYXllcl9yZXNwb25zZSM6CmNhc2UjX2dvb2QjOl9pbnRlcnZpZXdlcjEgJGlzX3NhdGlzZmllZApjYXNlI19iYWQjOl9pbnRlcnZpZXdlcjEgJGlzX3Vuc2F0aXNmaWVkICRtYWtlc19yZXNwb25zZQpkZWZhdWx0Ol9pbnRlcnZpZXdlcjEgJHJlcXVlc3RzX2VsYWJvcmF0aW9uCiE="
+	},
+	{
+		"bid":"interviewer1_question",
+		"bname":"behavior of interviewer1",
+		"bdescription":"interviewer1 has a question for the player",
+		"articlesused":"interviewer1, interviewer2",
+		"logic":"SWYjX2ludGVydmlld2VyMSAkaGFzX3F1ZXN0aW9uIzoKV2hpbGUjX2ludGVydmlld2VyMiAkaXNfdGFsa2luZyB8fCBfcGxheWVyICRpc190YWxraW5nIzoKX2ludGVydmlld2VyMSAkd2FpdHMhCl9pbnRlcnZpZXdlcjEgJGFza3NfcXVlc3Rpb24KIQ=="
+	}
+	]
+}

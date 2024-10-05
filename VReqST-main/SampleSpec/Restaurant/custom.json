@@ -1,0 +1,55 @@
+{
+	"setvalues":
+	{
+	"custom_variables":"$isentering, $greet, $calledByUser, $appraochUser, $consumeFood, $provideMoney, $giveChange",
+	"custom_functions":"#ask, #answer, #thankUser",
+    "_anyGuest": "_guest1, _guest2, _guest3, _guest4, _guest5",
+    "_anyWaiter": "_waiter1, _waiter2, _waiter3, _waiter4",
+	"rObjList":[
+     	  "_food", "_query", "_money", "_waiter1", "_waiter2", "_waiter3", "_waiter4", "_guest1", "_guest2", "_guest3", "_guest4", "_guest5", "_trashCan"
+		]
+	},
+	
+	"rules":[
+	{
+		"rid":"greet",
+		"Rtitle":"greet the user on entering the restaurant for the first time",
+		"logic":"aWYgKHskaXNlbnRlcmluZyA9IHRydWV9IEFORCB7X2VudGVyZWQgPSBmYWxzZX0pCnRoZW4gJGdyZWV0ID0gdHJ1ZQo="
+	},
+    {
+		"rid":"approach",
+		"Rtitle":"approach the user when called by him or her",
+		"logic":"aWYoJGNhbGxlZEJ5VXNlciA9IHRydWUpCiRhcHByb2FjaFVzZXIgPSB0cnVl"
+	},
+    {
+		"rid":"foodConsume",
+		"Rtitle":"When the user performs an eating action, the amount of food in the cutlery should reduce",
+		"logic":"aWYoJGNvbnN1bWVGb29kID0gdHJ1ZSkKX2Zvb2RBbW91bnQgPSBfZm9vZEFtb3VudCAtIDU="
+	},
+    {
+		"rid":"addressQuery",
+		"Rtitle":"Waiter responds with the appropriate answer when queried by the user about menu etc.",
+		"logic":"aWYoJGFzayhfcXVlcnkpID0gdHJ1ZSkKJGFuc3dlcihfcXVlcnkpCg=="
+	},
+    {
+		"rid":"serveFood",
+		"Rtitle":"Serve food after the user gives order",
+		"logic":"aWYoeyRwcm92aWRlTW9uZXkgPSB0cnVlfSBBTkQge19tb25leSA9IF90aWNrZXRQcmljZX0pCnRoZW4gJHByb3ZpZGVUaWNrZXQgPSB0cnVlCmVsc2UgaWYgKHskcHJvdmlkZU1vbmV5ID0gdHJ1ZX0gQU5EIHtfbW9uZXkgPiBfdGlja2V0UHJpY2V9KQp0aGVuIAokcHJvdmlkZVRpY2tldCA9IHRydWUKJGdpdmVDaGFuZ2UgPSB0cnVlCmVsc2UgCiRwcm92aWRlVGlja2V0ID0gZmFsc2U="
+	},
+    {
+		"rid":"paymentMade",
+		"Rtitle":"Thank the user when payment is made",
+		"logic":"aWYoJHBheW1lbnRNYWRlID0gdHJ1ZSkKI3RoYW5rVXNlcgo="
+	},
+    {
+		"rid":"emptyingTheCans",
+		"Rtitle":"Empty the trash cans when full or every 6 hours",
+		"logic":"aWYgKHskdHJhc2hjb2xsZWN0aW9uID0gdHJ1ZX0gQU5EIHt0cmFzaGNvbGxlY3Rpbmd2YW4gPSBhcHBlYXJ9KQp0aGVuIAp0cmFzaGNhbnMgPSBlbXB0eQp0cmFzaGNvbGxlY3Rpbmd2YW4gPSBkaXNhcHBlYXI="
+	}
+	],
+	
+	"ruleorder":{
+		"ordertype":"asc",
+		"rorder":["greet", "approach", "foodConsume", "addressQuery", "serveFood", "emptyingTheCans", "paymentMade"]
+	}
+}

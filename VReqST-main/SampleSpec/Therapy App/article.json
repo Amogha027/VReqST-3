@@ -1,0 +1,614 @@
+{
+    "articles": 
+    [
+        {
+            "_objectname": "Laptop",
+            "_sid": "laptop",
+            "_slabel": "Laptop",
+            "_IsHidden": 0,
+            "_enumcount": 1,
+            "_Is3DObject": 1,
+            "HasChild": 0,
+            "shape": "cube",
+            "dimension": {
+                "dradii": 0,
+                "dvolumn": "",
+                "dlength": "0.3",
+                "dbreadth": "0.6",
+                "dheigth": "0.02"
+            },
+            "IsText": false,
+            "IsText3D": false,
+            "lighting": {
+                "CastShadow": "true",
+                "ReceiveShadow": "true",
+                "ContributeGlobalIlumination": "false"
+            },
+            "IsIlluminate": true,
+            "Transform_initialpos": {
+                "#x_initialpos": "0.6",
+                "#y_initialpos": "0.8",
+                "#z_initialpos": "-0.4"
+            },
+            "Transform_initialrotation": {
+                "#x_initialrotation": "0",
+                "#y_initialrotation": "90",
+                "#z_initialrotation": "0"
+            },
+            "Transform_objectscale": {
+                "#x_objectscale": "1",
+                "#y_objectscale": "1",
+                "#z_objectscale": "1"
+            },
+            "repeattransfrom": {
+                "distfactorx": "",
+                "distfactory": "",
+                "distfactorz": ""
+            },
+            "Interaction": {
+                "XRGrabInteractable": "true",
+                "XRInteractionMaskLayer": "true",
+                "TrackPosition": "true",
+                "TrackRotation": "true",
+                "Throw_Detach": "true",
+                "forcegravity": "",
+                "velocity": "",
+                "angularvelocity": ""
+            },
+            "Smoothing": "",
+            "Smoothing_duration": "",
+            "attachtransform": {
+                "#rotate_x": "",
+                "#rotate_y": "",
+                "#rotate_z": "",
+                "#pos_x": "",
+                "#pos_y": "",
+                "#pos_z": ""
+            },
+            "XRRigidObject": {
+                "value": "true",
+                "mass": "1",
+                "dragfriction": "0.3",
+                "angulardrag": "0.5",
+                "Isgravityenable": "true",
+                "IsKinematic": "false",
+                "CanInterpolate": "true",
+                "CollisionPolling": "true"
+            },
+            "aud_hasaudio": "false",
+            "aud_type": "",
+            "aud_src": "",
+            "aud_volume": "",
+            "aud_PlayInloop": "",
+            "aud_IsSurround": "",
+            "aud_Dopplerlevel": "",
+            "aud_spread": "",
+            "aud_mindist": "",
+            "aud_maxdist": "",
+            "_Opttxt1": "",
+            "@context_img_source": ""
+        },
+        {
+            "_objectname": "Notebook",
+            "_sid": "notebook01",
+            "_slabel": "Notebook",
+            "_IsHidden": 0,
+            "_enumcount": 1,
+            "_Is3DObject": 1,
+            "HasChild": 0,
+            "shape": "cuboid",
+            "dimension": {
+                "dradii": 0,
+                "dvolumn": "",
+                "dlength": "0.3",
+                "dbreadth": "0.2",
+                "dheigth": "0.03"
+            },
+            "IsText": false,
+            "IsText3D": false,
+            "lighting": {
+                "CastShadow": "true",
+                "ReceiveShadow": "true",
+                "ContributeGlobalIlumination": ""
+            },
+            "IsIlluminate": true,
+            "Transform_initialpos": {
+                "#x_initialpos": "-0.5",
+                "#y_initialpos": "0.8",
+                "#z_initialpos": "1.2"
+            },
+            "Transform_initialrotation": {
+                "#x_initialrotation": "0",
+                "#y_initialrotation": "60",
+                "#z_initialrotation": "0"
+            },
+            "Transform_objectscale": {
+                "#x_objectscale": "1",
+                "#y_objectscale": "1",
+                "#z_objectscale": "1"
+            },
+            "repeattransfrom": {
+                "distfactorx": "",
+                "distfactory": "",
+                "distfactorz": ""
+            },
+            "Interaction": {
+                "XRGrabInteractable": "true",
+                "XRInteractionMaskLayer": "",
+                "TrackPosition": "true",
+                "TrackRotation": "true",
+                "Throw_Detach": "true",
+                "forcegravity": "",
+                "velocity": "",
+                "angularvelocity": ""
+            },
+            "Smoothing": "",
+            "Smoothing_duration": "",
+            "attachtransform": {
+                "#rotate_x": "0",
+                "#rotate_y": "0",
+                "#rotate_z": "0",
+                "#pos_x": "0",
+                "#pos_y": "0",
+                "#pos_z": "0"
+            },
+            "XRRigidObject": {
+                "value": "true",
+                "mass": "0.2",
+                "dragfriction": "",
+                "angulardrag": "",
+                "Isgravityenable": "true",
+                "IsKinematic": "",
+                "CanInterpolate": "",
+                "CollisionPolling": ""
+            },
+            "aud_hasaudio": "",
+            "aud_type": "",
+            "aud_src": "",
+            "aud_volume": "",
+            "aud_PlayInloop": "",
+            "aud_IsSurround": "",
+            "aud_Dopplerlevel": "",
+            "aud_spread": "",
+            "aud_mindist": "",
+            "aud_maxdist": "",
+            "_Opttxt1": "",
+            "@context_img_source": ""
+        },
+        {
+            "_objectname": "pen",
+            "_sid": "pen_001",
+            "_slabel": "Pen",
+            "_IsHidden": 0,
+            "_enumcount": 1,
+            "_Is3DObject": 1,
+            "HasChild": 0,
+            "shape": "cylinder",
+            "dimension": {
+                "dradii": 0,
+                "dvolumn": "",
+                "dlength": "15",
+                "dbreadth": "",
+                "dheigth": ""
+            },
+            "IsText": false,
+            "IsText3D": false,
+            "lighting": {
+                "CastShadow": "true",
+                "ReceiveShadow": "true",
+                "ContributeGlobalIlumination": "false"
+            },
+            "IsIlluminate": true,
+            "Transform_initialpos": {
+                "#x_initialpos": "-0.2",
+                "#y_initialpos": "1.5",
+                "#z_initialpos": "-0.5"
+            },
+            "Transform_initialrotation": {
+                "#x_initialrotation": "0",
+                "#y_initialrotation": "0",
+                "#z_initialrotation": "0"
+            },
+            "Transform_objectscale": {
+                "#x_objectscale": "0.5",
+                "#y_objectscale": "0.5",
+                "#z_objectscale": "0.5"
+            },
+            "repeattransfrom": {
+                "distfactorx": "0",
+                "distfactory": "0",
+                "distfactorz": "0"
+            },
+            "Interaction": {
+                "XRGrabInteractable": "true",
+                "XRInteractionMaskLayer": "",
+                "TrackPosition": "true",
+                "TrackRotation": "true",
+                "Throw_Detach": "true",
+                "forcegravity": "false",
+                "velocity": "",
+                "angularvelocity": ""
+            },
+            "Smoothing": "false",
+            "Smoothing_duration": "",
+            "attachtransform": {
+                "#rotate_x": "0",
+                "#rotate_y": "0",
+                "#rotate_z": "0",
+                "#pos_x": "0",
+                "#pos_y": "0",
+                "#pos_z": "0"
+            },
+            "XRRigidObject": {
+                "value": "dynamic",
+                "mass": "0.1",
+                "dragfriction": "0.1",
+                "angulardrag": "0.05",
+                "Isgravityenable": "true",
+                "IsKinematic": "false",
+                "CanInterpolate": "false",
+                "CollisionPolling": "continuous"
+            },
+            "aud_hasaudio": "false",
+            "aud_type": "",
+            "aud_src": "",
+            "aud_volume": "",
+            "aud_PlayInloop": "",
+            "aud_IsSurround": "",
+            "aud_Dopplerlevel": "",
+            "aud_spread": "",
+            "aud_mindist": "",
+            "aud_maxdist": "",
+            "_Opttxt1": "",
+            "@context_img_source": ""
+        },
+        {
+            "_objectname": "interviewer",
+            "_sid": "interviewer1",
+            "_slabel": "Interviewer",
+            "_IsHidden": 0,
+            "_enumcount": 1,
+            "_Is3DObject": 1,
+            "HasChild": 0,
+            "shape": "humanoid",
+            "dimension": {
+                "dradii": 0,
+                "dvolumn": "",
+                "dlength": "1.8",
+                "dbreadth": "0.8",
+                "dheigth": "1.8"
+            },
+            "IsText": false,
+            "IsText3D": false,
+            "lighting": {
+                "CastShadow": "true",
+                "ReceiveShadow": "true",
+                "ContributeGlobalIlumination": "true"
+            },
+            "IsIlluminate": true,
+            "Transform_initialpos": {
+                "#x_initialpos": "0",
+                "#y_initialpos": "0",
+                "#z_initialpos": "0"
+            },
+            "Transform_initialrotation": {
+                "#x_initialrotation": "0",
+                "#y_initialrotation": "180",
+                "#z_initialrotation": "0"
+            },
+            "Transform_objectscale": {
+                "#x_objectscale": "1",
+                "#y_objectscale": "1",
+                "#z_objectscale": "1"
+            },
+            "repeattransfrom": {
+                "distfactorx": "",
+                "distfactory": "",
+                "distfactorz": ""
+            },
+            "Interaction": {
+                "XRGrabInteractable": "false",
+                "XRInteractionMaskLayer": "",
+                "TrackPosition": "true",
+                "TrackRotation": "true",
+                "Throw_Detach": "",
+                "forcegravity": "",
+                "velocity": "",
+                "angularvelocity": ""
+            },
+            "Smoothing": "",
+            "Smoothing_duration": "",
+            "attachtransform": {
+                "#rotate_x": "",
+                "#rotate_y": "",
+                "#rotate_z": "",
+                "#pos_x": "",
+                "#pos_y": "",
+                "#pos_z": ""
+            },
+            "XRRigidObject": {
+                "value": "",
+                "mass": "80",
+                "dragfriction": "0.5",
+                "angulardrag": "0.5",
+                "Isgravityenable": "true",
+                "IsKinematic": "false",
+                "CanInterpolate": "true",
+                "CollisionPolling": ""
+            },
+            "aud_hasaudio": "true",
+            "aud_type": "voice",
+            "aud_src": "",
+            "aud_volume": "0.8",
+            "aud_PlayInloop": "",
+            "aud_IsSurround": "",
+            "aud_Dopplerlevel": "",
+            "aud_spread": "",
+            "aud_mindist": "",
+            "aud_maxdist": "",
+            "_Opttxt1": "",
+            "@context_img_source": ""
+        },
+        {
+            "_objectname": "interviewer",
+            "_sid": "interviewer2",
+            "_slabel": "Interviewer",
+            "_IsHidden": 0,
+            "_enumcount": 1,
+            "_Is3DObject": 1,
+            "HasChild": 0,
+            "shape": "humanoid",
+            "dimension": {
+                "dradii": 0,
+                "dvolumn": "",
+                "dlength": "1.6",
+                "dbreadth": "0.4",
+                "dheigth": "1.6"
+            },
+            "IsText": false,
+            "IsText3D": false,
+            "lighting": {
+                "CastShadow": "true",
+                "ReceiveShadow": "true",
+                "ContributeGlobalIlumination": "true"
+            },
+            "IsIlluminate": true,
+            "Transform_initialpos": {
+                "#x_initialpos": "0",
+                "#y_initialpos": "0",
+                "#z_initialpos": "0"
+            },
+            "Transform_initialrotation": {
+                "#x_initialrotation": "0",
+                "#y_initialrotation": "180",
+                "#z_initialrotation": "0"
+            },
+            "Transform_objectscale": {
+                "#x_objectscale": "1",
+                "#y_objectscale": "1",
+                "#z_objectscale": "1"
+            },
+            "repeattransfrom": {
+                "distfactorx": "",
+                "distfactory": "",
+                "distfactorz": ""
+            },
+            "Interaction": {
+                "XRGrabInteractable": "false",
+                "XRInteractionMaskLayer": "",
+                "TrackPosition": "true",
+                "TrackRotation": "true",
+                "Throw_Detach": "",
+                "forcegravity": "",
+                "velocity": "",
+                "angularvelocity": ""
+            },
+            "Smoothing": "1",
+            "Smoothing_duration": "0.5",
+            "attachtransform": {
+                "#rotate_x": "",
+                "#rotate_y": "",
+                "#rotate_z": "",
+                "#pos_x": "",
+                "#pos_y": "",
+                "#pos_z": ""
+            },
+            "XRRigidObject": {
+                "value": "",
+                "mass": "80",
+                "dragfriction": "0.5",
+                "angulardrag": "0.5",
+                "Isgravityenable": "true",
+                "IsKinematic": "false",
+                "CanInterpolate": "true",
+                "CollisionPolling": ""
+            },
+            "aud_hasaudio": "true",
+            "aud_type": "voice",
+            "aud_src": "",
+            "aud_volume": "0.8",
+            "aud_PlayInloop": "",
+            "aud_IsSurround": "",
+            "aud_Dopplerlevel": "",
+            "aud_spread": "",
+            "aud_mindist": "",
+            "aud_maxdist": "",
+            "_Opttxt1": "",
+            "@context_img_source": ""
+        },
+        {
+            "_objectname": "Briefcase",
+            "_sid": "1001",
+            "_slabel": "briefcase",
+            "_IsHidden": 0,
+            "_enumcount": 1,
+            "_Is3DObject": 1,
+            "HasChild": 0,
+            "shape": "Box",
+            "dimension": {
+                "dradii": 0,
+                "dvolumn": "",
+                "dlength": "0.5",
+                "dbreadth": "0.35",
+                "dheigth": "0.1"
+            },
+            "IsText": false,
+            "IsText3D": false,
+            "lighting": {
+                "CastShadow": "True",
+                "ReceiveShadow": "True",
+                "ContributeGlobalIlumination": "True"
+            },
+            "IsIlluminate": true,
+            "Transform_initialpos": {
+                "#x_initialpos": "2",
+                "#y_initialpos": "0.25",
+                "#z_initialpos": "1"
+            },
+            "Transform_initialrotation": {
+                "#x_initialrotation": "0",
+                "#y_initialrotation": "45",
+                "#z_initialrotation": "0"
+            },
+            "Transform_objectscale": {
+                "#x_objectscale": "1",
+                "#y_objectscale": "1",
+                "#z_objectscale": "1"
+            },
+            "repeattransfrom": {
+                "distfactorx": "",
+                "distfactory": "",
+                "distfactorz": ""
+            },
+            "Interaction": {
+                "XRGrabInteractable": "True",
+                "XRInteractionMaskLayer": "1",
+                "TrackPosition": "True",
+                "TrackRotation": "True",
+                "Throw_Detach": "False",
+                "forcegravity": "True",
+                "velocity": "",
+                "angularvelocity": ""
+            },
+            "Smoothing": "False",
+            "Smoothing_duration": "",
+            "attachtransform": {
+                "#rotate_x": "0",
+                "#rotate_y": "0",
+                "#rotate_z": "0",
+                "#pos_x": "0",
+                "#pos_y": "0",
+                "#pos_z": "0"
+            },
+            "XRRigidObject": {
+                "value": "True",
+                "mass": "5",
+                "dragfriction": "0.1",
+                "angulardrag": "0.05",
+                "Isgravityenable": "True",
+                "IsKinematic": "False",
+                "CanInterpolate": "True",
+                "CollisionPolling": "True"
+            },
+            "aud_hasaudio": "False",
+            "aud_type": "",
+            "aud_src": "",
+            "aud_volume": "",
+            "aud_PlayInloop": "",
+            "aud_IsSurround": "",
+            "aud_Dopplerlevel": "",
+            "aud_spread": "",
+            "aud_mindist": "",
+            "aud_maxdist": "",
+            "_Opttxt1": "",
+            "@context_img_source": ""
+        },
+        {
+            "_objectname": "WaterBottle",
+            "_sid": "WaterBottle_001",
+            "_slabel": "Water Bottle",
+            "_IsHidden": 0,
+            "_enumcount": 1,
+            "_Is3DObject": 1,
+            "HasChild": 0,
+            "shape": "Cylinder",
+            "dimension": {
+                "dradii": 0,
+                "dvolumn": "0.5",
+                "dlength": "",
+                "dbreadth": "",
+                "dheigth": ""
+            },
+            "IsText": false,
+            "IsText3D": false,
+            "lighting": {
+                "CastShadow": "True",
+                "ReceiveShadow": "True",
+                "ContributeGlobalIlumination": "False"
+            },
+            "IsIlluminate": true,
+            "Transform_initialpos": {
+                "#x_initialpos": "-1.2",
+                "#y_initialpos": "0.8",
+                "#z_initialpos": "0"
+            },
+            "Transform_initialrotation": {
+                "#x_initialrotation": "0",
+                "#y_initialrotation": "0",
+                "#z_initialrotation": "0"
+            },
+            "Transform_objectscale": {
+                "#x_objectscale": "1",
+                "#y_objectscale": "1",
+                "#z_objectscale": "1"
+            },
+            "repeattransfrom": {
+                "distfactorx": "",
+                "distfactory": "",
+                "distfactorz": ""
+            },
+            "Interaction": {
+                "XRGrabInteractable": "True",
+                "XRInteractionMaskLayer": "",
+                "TrackPosition": "True",
+                "TrackRotation": "True",
+                "Throw_Detach": "True",
+                "forcegravity": "",
+                "velocity": "",
+                "angularvelocity": ""
+            },
+            "Smoothing": "True",
+            "Smoothing_duration": "0.1",
+            "attachtransform": {
+                "#rotate_x": "0",
+                "#rotate_y": "0",
+                "#rotate_z": "0",
+                "#pos_x": "0",
+                "#pos_y": "0",
+                "#pos_z": "0"
+            },
+            "XRRigidObject": {
+                "value": "True",
+                "mass": "0.2",
+                "dragfriction": "0.1",
+                "angulardrag": "0.05",
+                "Isgravityenable": "True",
+                "IsKinematic": "False",
+                "CanInterpolate": "True",
+                "CollisionPolling": "True"
+            },
+            "aud_hasaudio": "False",
+            "aud_type": "",
+            "aud_src": "",
+            "aud_volume": "",
+            "aud_PlayInloop": "False",
+            "aud_IsSurround": "False",
+            "aud_Dopplerlevel": "",
+            "aud_spread": "",
+            "aud_mindist": "",
+            "aud_maxdist": "",
+            "_Opttxt1": "",
+            "@context_img_source": ""
+        }
+    ]
+}

@@ -1,0 +1,82 @@
+{
+	"animate_trigSync":{
+		"tsyncid": "1",
+		"tsOntrigger": "true",
+		"SyncObjList": [
+				{
+						"sourceObj": "Interviewer1",
+						"targetObj": "Player",
+						"response": "Interviewer1 asks the first question",
+						"comment": "The first interviewer asks the player the first question."
+				}
+		],
+		"tSyncNote": ""
+	},
+	"animate_nontrigSync":{
+		"ntsyncid":1,
+		"ntsOntrigger":true,
+		"ntSyncObjList":[ 
+			{
+				"objid":"briefcase",
+				"animation":"pick_up",
+				"duration":"1.5s",
+				"trigger":""
+			},
+			{
+				"objid":"document",
+				"animation":"appear",
+				"duration":"1s",
+				"trigger":""
+			}
+		], 
+		"ntSyncNote":"Animate briefcase pick-up and document appear"
+	},
+	"animate_trigAsync":{
+		"tasyncid":1,
+		"taOntrigger":true, 
+		"tAsyncObjList":[], 
+		"tAsyncNote":"",
+    "AsyncObjList":[]
+	},
+	"animate_nontrigAsync":{
+		"ntasyncid":1,
+		"ntaOntrigger":false, 
+		"ntAsyncObjList":[], 
+		"ntAsyncNote":"",
+    "AsyncObjList":[]
+	},
+	"routine": [
+		{
+			"routeid":1,
+			"starttime":"00:02",
+			"endtime":"00:04",
+			"order":[
+				{
+					"objid":"briefcase",
+					"animation":"pick_up",
+					"duration":"1.5s",
+					 "trigger":""
+				},
+				{
+					"objid":"document",
+					"animation":"appear",
+					"duration":"1s",
+					 "trigger":""
+				}
+			]
+		},
+		{
+			"routeid": "1",
+			"starttime": "00:20",
+			"endtime": "00:30",
+			"order":[
+				{
+					"objid":"interviewer1",
+					"animation":"speak",
+					"duration":"15s",
+					 "trigger":"question_sync"
+				}
+			]
+	}
+	]
+}

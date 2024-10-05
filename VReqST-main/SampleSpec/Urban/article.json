@@ -1,0 +1,526 @@
+{
+	"articles": [
+		{
+			"_objectname": "Pedestrian",
+			"_sid": "_pedestrian",
+			"_slabel": "Pedestrians walk around the scene and cross the road.",
+			"_IsHidden": 0,
+			"_enumcount": 50,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "human shaped avatar",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "5.5"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "3",
+				"#y_initialpos": "3",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "5",
+				"mass": "40",
+				"dragfriction": "40",
+				"angulardrag": "40",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "1",
+			"aud_type": "mp4",
+			"aud_src": "/src",
+			"aud_volume": "7",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "1",
+			"aud_Dopplerlevel": "0.9",
+			"aud_spread": "null",
+			"aud_mindist": "5",
+			"aud_maxdist": "50",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Vehicle",
+			"_sid": "_vehicle",
+			"_slabel": "Vehicles moving along the road.",
+			"_IsHidden": 0,
+			"_enumcount": 10,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "A vehicle shaped object composed of cuboids and circles",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "6",
+				"dbreadth": "4",
+				"dheigth": "null"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "10",
+				"#y_initialpos": "5",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "100",
+				"dragfriction": "100",
+				"angulardrag": "100",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "1",
+			"aud_type": "mp4",
+			"aud_src": "/src",
+			"aud_volume": "6",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "1",
+			"aud_Dopplerlevel": "0.9",
+			"aud_spread": "null",
+			"aud_mindist": "5",
+			"aud_maxdist": "50",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Trash can",
+			"_sid": "_trashcan",
+			"_slabel": "Trash cans placed around the scene filled with trash.",
+			"_IsHidden": 0,
+			"_enumcount": 3,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "a cylinder open on the top end",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "3"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "1"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "10",
+				"#y_initialpos": "10",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "0",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "2",
+				"dragfriction": "2",
+				"angulardrag": "2",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Trash Collecting Vehicle",
+			"_sid": "_trashcollectingvehicle",
+			"_slabel": "This is a vehicle specifically moving around to collect trash.",
+			"_IsHidden": 0,
+			"_enumcount": 1,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "a vehicle shaped object composed of cuboids and circles",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "7",
+				"dbreadth": "15",
+				"dheigth": "10"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "8",
+				"#y_initialpos": "10",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "1",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "1",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "5",
+				"mass": "200",
+				"dragfriction": "200",
+				"angulardrag": "200",
+				"Isgravityenable": "true",
+				"IsKinematic": "1",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "1",
+			"aud_type": "mp4",
+			"aud_src": "/src",
+			"aud_volume": "3",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "1",
+			"aud_Dopplerlevel": "0.9",
+			"aud_spread": "null",
+			"aud_mindist": "5",
+			"aud_maxdist": "50",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Traffic Light",
+			"_sid": "_trafficlight",
+			"_slabel": "A traffic light with red, green and yellow lights to signal.",
+			"_IsHidden": 0,
+			"_enumcount": 1,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "composed of a cuboid on top of a cylinderical pole, with three circles on it.",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "10"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "3",
+				"#y_initialpos": "1",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "0",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "1",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "20",
+				"dragfriction": "20",
+				"angulardrag": "20",
+				"Isgravityenable": "true",
+				"IsKinematic": "1",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		},
+		{
+			"_objectname": "Building",
+			"_sid": "_building",
+			"_slabel": "A building which may house a shop.",
+			"_IsHidden": 0,
+			"_enumcount": 5,
+			"_Is3DObject": 1,
+			"HasChild": 0,
+			"shape": "composed of a cuboid with rectangle windows and doors.",
+			"dimension": {
+				"dradii": 0,
+				"dvolumn": "null",
+				"dlength": "null",
+				"dbreadth": "null",
+				"dheigth": "50"
+			},
+			"IsText": false,
+			"IsText3D": false,
+			"lighting": {
+				"CastShadow": "1",
+				"ReceiveShadow": "1",
+				"ContributeGlobalIlumination": "0"
+			},
+			"IsIlluminate": false,
+			"Transform_initialpos": {
+				"#x_initialpos": "10",
+				"#y_initialpos": "0",
+				"#z_initialpos": "0"
+			},
+			"Transform_initialrotation": {
+				"#x_initialrotation": "0",
+				"#y_initialrotation": "0",
+				"#z_initialrotation": "0"
+			},
+			"Transform_objectscale": {
+				"#x_objectscale": "0",
+				"#y_objectscale": "0",
+				"#z_objectscale": "0"
+			},
+			"repeattransfrom": {
+				"distfactorx": "null",
+				"distfactory": "null",
+				"distfactorz": "null"
+			},
+			"Interaction": {
+				"XRGrabInteractable": "0",
+				"XRInteractionMaskLayer": "nothing/everything/custom",
+				"TrackPosition": "0",
+				"TrackRotation": "0",
+				"Throw_Detach": "0",
+				"forcegravity": "1",
+				"velocity": "1",
+				"angularvelocity": "0"
+			},
+			"Smoothing": "0",
+			"Smoothing_duration": "0",
+			"attachtransform": {
+				"#rotate_x": "null",
+				"#rotate_y": "null",
+				"#rotate_z": "null",
+				"#pos_x": "null",
+				"#pos_y": "null",
+				"#pos_z": "null"
+			},
+			"XRRigidObject": {
+				"value": "10",
+				"mass": "500",
+				"dragfriction": "500",
+				"angulardrag": "500",
+				"Isgravityenable": "true",
+				"IsKinematic": "0",
+				"CanInterpolate": "0",
+				"CollisionPolling": "discreet/continous"
+			},
+			"aud_hasaudio": "0",
+			"aud_type": "null",
+			"aud_src": "null",
+			"aud_volume": "0",
+			"aud_PlayInloop": "0",
+			"aud_IsSurround": "0",
+			"aud_Dopplerlevel": "0",
+			"aud_spread": "null",
+			"aud_mindist": "null",
+			"aud_maxdist": "null",
+			"_Opttxt1": "null",
+			"@context_img_source": "blank"
+		}
+	]
+}
