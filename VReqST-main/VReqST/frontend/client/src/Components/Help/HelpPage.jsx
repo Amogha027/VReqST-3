@@ -1,4 +1,4 @@
-import { Stack, Grid } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import React from "react";
 
 import HelpItem from "./HelpItem";

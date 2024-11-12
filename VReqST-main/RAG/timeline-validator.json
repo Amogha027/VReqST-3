@@ -1,0 +1,164 @@
+{
+    "tsyncid":{
+      "root": "animate_trigSync",
+       "req":"mandatory",
+       "typeof":"number",
+       "repeat":"notallow",
+       "%comment%":"Unique Identifier for animating scene synchronously based on a trigger"
+    },
+   "tsOntrigger":{
+      "root": "animate_trigSync",
+       "req":"optional",
+       "typeof":"boolean",
+      "repeat":"notallow",
+       "%comment%":"True or false flag if this is a triggered animation based an action"
+    },
+    "SyncObjList":{
+      "root": "animate_trigSync",
+       "req":"optional",
+       "typeof":"object",
+       "repeat":"notallow",
+       "%comment%":"List of objects are animated in a timeline that are triggered Synchronously"
+    },
+   "tSyncNote":{
+      "root": "animate_trigSync",
+       "req":"optional",
+       "typeof":"string",
+      "repeat":"notallow",
+       "%comment%":"place holder for additional notes for Sync object"
+    },
+   
+     "ntsyncid":{
+      "root": "animate_nontrigSync",
+       "req":"mandatory",
+       "typeof":"number",
+        "repeat":"notallow",
+       "%comment%":"Unique Identifier for animating scene synchronously based on a non trigger"
+    },
+   "ntsOntrigger":{
+      "root": "animate_nontrigSync",
+       "req":"optional",
+       "typeof":"boolean",
+      "repeat":"notallow",
+       "%comment%":"True or false flag if this is a non triggered animation based an action"
+    },
+    "ntSyncObjList":{
+      "root": "animate_nontrigSync",
+       "req":"optional",
+       "typeof":"object",
+       "repeat":"notallow",
+       "%comment%":"List of objects are animated in a timeline that are non triggered ASynchronously"
+    },
+   "ntSyncNote":{
+      "root": "animate_nontrigSync",
+       "req":"optional",
+       "typeof":"string",
+      "repeat":"notallow",
+       "%comment%":"place holder for additional notes for Sync object"
+    },
+   
+   
+  
+      "tasyncid":{
+      "root": "animate_trigAsync",
+       "req":"mandatory",
+       "typeof":"number",
+         "repeat":"notallow",
+       "%comment%":"Unique Identifier for animating scene asynchronously based on a trigger"
+    },
+   "taOntrigger":{
+      "root": "animate_trigAsync",
+       "req":"optional",
+       "typeof":"boolean",
+      "repeat":"notallow",
+       "%comment%":"True or false flag if this is a triggered animation based an action"
+    },
+    "tAsyncObjList":{
+      "root": "animate_trigAsync",
+       "req":"optional",
+       "typeof":"object",
+       "repeat":"notallow",
+       "%comment%":"List of objects are animated in a timeline that are triggered ASynchronously"
+    },
+   "tAsyncNote":{
+      "root": "animate_trigAsync",
+       "req":"optional",
+       "typeof":"string",
+      "repeat":"notallow",
+       "%comment%":"place holder for additional notes for ASync object"
+    },
+   
+     "ntasyncid":{
+      "root": "animate_nontrigAsync",
+       "req":"mandatory",
+       "typeof":"number",
+        "repeat":"notallow",
+       "%comment%":"Unique Identifier for animating scene asynchronously based on a non trigger"
+    },
+   "ntaOntrigger":{
+      "root": "animate_nontrigAsync",
+       "req":"optional",
+       "typeof":"boolean",
+      "repeat":"notallow",
+       "%comment%":"True or false flag if this is a non triggered animation based an action"
+    },
+    "ntAsyncObjList":{
+      "root": "animate_nontrigAsync",
+       "req":"optional",
+       "typeof":"object",
+       "repeat":"notallow",
+       "%comment%":"List of objects are animated in a timeline that are non triggered ASynchronously"
+    },
+   "ntAsyncNote":{
+      "root": "animate_nontrigAsync",
+       "req":"optional",
+       "typeof":"string",
+      "repeat":"notallow",
+       "%comment%":"place holder for additional notes for ASync object"
+    },
+    
+    "routine":{
+       "repeat":"notallow",
+       "req":"mandatory",
+      "typeof":"object",
+        "%comment%":"To mention a repeated routine of timeline actions"
+    },
+    
+   
+   "routeid":{
+     "root": "routine",
+     "req":"mandatory",
+     "typeof":"number",
+      "repeat":"allow",
+      "%comment%":"Unique identifier of a routine"
+     
+   },
+    "starttime":{
+     "root": "routine",
+     "req":"optional",
+     "typeof":"string",
+       "repeat":"allow",
+      "%comment%":"Start Timestamps of routine"
+     
+   },
+    "endtime":{
+     "root": "routine",
+     "req":"optional",
+     "typeof":"string",
+       "repeat":"allow",
+      "%comment%":"End Timestamps of routine"
+     
+   },
+     "order":{
+     "root": "routine",
+     "req":"optional",
+     "typeof":"object",
+        "repeat":"allow",
+      "%comment%":"Order of items in a routine, mention the routine ids in a sequence to understand the order of events."
+     
+   }
+   
+   
+ }
+ 
+ 

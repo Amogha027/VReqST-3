@@ -7,7 +7,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import JSZip from "jszip";
 import { BiDownload } from "react-icons/bi";
 
@@ -65,8 +65,11 @@ function ProjectRow(props) {
       <Flex justify="space-between" w="100%">
         <Flex direction="column" maxWidth="70%">
           <Text
-            as={Link}
-            to={`/projects/${projid}`}
+            as={RouterLink}
+            to={{
+              pathname: `/projects/${projid}`,
+              state: { owner: owner }
+            }}
             color={nameColor}
             fontSize="md"
             fontWeight="bold"

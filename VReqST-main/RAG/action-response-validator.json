@@ -1,0 +1,80 @@
+{
+
+    "ObjAction":{
+        "req":"mandatory",
+        "typeof":"object",
+         "repeat":"notallow",
+         "%comment%":"Collection of Objects that are set for action and corresponding response"
+        },
+        
+    "actresid":{
+        "req":"mandatory",
+         "root":"ObjAction",
+        "typeof":"string",
+         "repeat":"allow",
+         "%comment%":"Unique Identifier for a given action and response"
+        },	
+        
+    "sourceObj":{
+        "req":"mandatory",
+        "root":"ObjAction",
+        "typeof":"string",
+         "repeat":"allow",
+         "%comment%":"Source object where the action is applied or originated"
+        },	
+    
+    "targetObj":{
+        "req":"mandatory",
+        "root":"ObjAction",
+        "typeof":"string",
+         "repeat":"allow",
+         "%comment%":"Target object where the action's response is made visible"
+        },	
+    
+    
+    "IsCollision":{
+        "req":"mandatory",
+        "root":"ObjAction",
+        "typeof":"boolean",
+         "repeat":"allow",
+         "%comment%":"Flag to determine if the action is based on collision"
+        },	
+    
+    "response":{
+        "req":"mandatory",
+        "root":"ObjAction",
+        "typeof":"string",
+         "repeat":"allow",
+         "%comment%":"Defines the type of response, i,e, natural law based response or a customized response"
+        },		
+        
+        "comment":{
+        "req":"mandatory",
+            "root":"ObjAction",
+        "typeof":"string",
+         "repeat":"allow",
+         "%comment%":"Illustrate in words the course of response and its journey"
+        },
+    
+    "Syncronous":{
+        "req":"mandatory",
+        "root":"ObjAction",
+        "typeof":"boolean",
+         "repeat":"allow",
+         "%comment%":"Defines if the response is Syncronous to action or has any delay or Asyncronous to other objects"
+        },
+        
+        "repeatactionfor":{
+        "req":"mandatory",
+            "root":"ObjAction",
+        "typeof":"string",
+         "repeat":"allow",
+         "%comment%":"Flag to use or repeat the same action for other objects. Metion the targetobjects ids or names"
+        }
+        
+        
+    
+    
+    }	
+        
+        

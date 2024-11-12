@@ -26,7 +26,9 @@ import NotFound from "./Components/NotFound/NotFound";
 import Profile from "./Components/Profile/Profile";
 import Project from "./Components/Project/Project";
 import ProjectPage from "./Components/Project/ProjectPage";
+import ChatPage from "./Components/Project/ChatPage";
 import Sidebar from "./Components/Sidebar/Sidebar";
+import Sample from "./Components/Sample/sample";
 
 import "./App.css";
 import HelpPage from "./Components/Help/HelpPage";
@@ -77,9 +79,14 @@ function App() {
                   <PrivateRoute exact path="/myfiles/new" component={AddFile} />
                   <PrivateRoute exact path="/projects" component={Project} />
                   <PrivateRoute path="/myfiles/:fileid" component={EditFile} />
-                  <PrivateRoute
+                  <PrivateRoute exact path="/sample" component={Sample} />
+                  {/* <PrivateRoute
                     path="/projects/:projectid"
                     component={ProjectPage}
+                  /> */}
+                  <PrivateRoute
+                    path="/projects/:projectid"
+                    component={ChatPage}
                   />
                   <Route path="*" component={NotFound} />
                 </Switch>

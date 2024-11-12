@@ -10,10 +10,8 @@ import {
   useBreakpointValue,
   useColorModeValue,
   useToast,
-  VStack,
   Link as CLink,
   Image,
-  Center,
 } from "@chakra-ui/react";
 import ProjectRow from "../Project/ProjectRow";
 import { connect } from "react-redux";
@@ -23,9 +21,9 @@ import { Link } from "react-router-dom";
 import { backend } from "../../server_urls";
 
 const Dashboard = ({ auth }) => {
-  const date = new Date();
-  let hours = date.getHours();
-  let greet = { message: "", image: "" };
+  // const date = new Date();
+  // let hours = date.getHours();
+  // let greet = { message: "", image: "" };
 
   // if (hours < 12) {
   //   greet.message = " Good Morning, " + auth.user.name.split(" ")[0];

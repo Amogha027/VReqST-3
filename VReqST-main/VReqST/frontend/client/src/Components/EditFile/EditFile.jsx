@@ -28,7 +28,7 @@ import { useHistory, useParams, Link } from "react-router-dom";
 import { backend } from "../../server_urls";
 
 import isJson from "../../utils/checkjson";
-import { check } from "express-validator";
+// import { check } from "express-validator";
 
 const scenefile = require("../default/scene.txt")
 const assetfile = require("../default/asset.txt")
